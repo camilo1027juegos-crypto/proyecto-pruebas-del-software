@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Configuración de PHPUnit (herramienta xUnit para PHP).
+  Ejecutar:  composer test      |  phpunit
+  Cobertura: composer test:cobertura   (requiere la extensión pcov o xdebug)
+  Una sola clase de prueba: phpunit con la opción filter y el nombre (ej. NitTest);
+  un grupo de regresión: phpunit con la opción group (ej. MR-001).
+-->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd"
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         cacheResultFile=".phpunit.cache/test-results"
+         executionOrder="depends,defects"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutTodoAnnotatedTests="true"
+         failOnRisky="true"
+         failOnWarning="true">
+    <testsuites>
+        <testsuite name="unitarias">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="regresion">
+            <directory>tests/Regression</directory>
+        </testsuite>
+    </testsuites>
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">src</directory>
+            <directory suffix=".php">tools</directory>
+        </include>
+    </coverage>
+</phpunit>

@@ -1,0 +1,29 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "PHP: escuchar Xdebug (panel en php -S)",
+            "type": "php",
+            "request": "launch",
+            "port": 9003,
+            "pathMappings": { "${workspaceFolder}": "${workspaceFolder}" }
+        },
+        {
+            "name": "PHP: depurar el script abierto",
+            "type": "php",
+            "request": "launch",
+            "program": "${file}",
+            "cwd": "${fileDirname}",
+            "port": 9003
+        },
+        {
+            "name": "PHPUnit: depurar la prueba abierta",
+            "type": "php",
+            "request": "launch",
+            "program": "${workspaceFolder}/vendor/bin/phpunit",
+            "args": ["${file}"],
+            "cwd": "${workspaceFolder}",
+            "port": 9003
+        }
+    ]
+}

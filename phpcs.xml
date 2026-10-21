@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+  Linter de estilo: PHP_CodeSniffer con el estándar PSR-12 (equivalente en PHP
+  de PEP 8 + flake8). Ejecutar:  composer lint   |  phpcs
+  Corregir lo automático:        composer lint:corregir   |  phpcbf
+-->
+<ruleset name="Rubicam">
+    <description>PSR-12 aplicado al código propio del proyecto Rubicam.</description>
+
+    <arg name="extensions" value="php"/>
+    <arg name="colors"/>
+    <arg value="sp"/>
+
+    <file>src</file>
+    <file>config</file>
+    <file>handlers</file>
+    <file>panel</file>
+    <file>tests</file>
+    <file>tools</file>
+    <file>index.php</file>
+
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <exclude-pattern>*/assets/*</exclude-pattern>
+
+    <rule ref="PSR12"/>
+
+    <!--
+      Las plantillas HTML (vistas) llevan largas listas de clases utilitarias de
+      Tailwind en una sola línea; el límite de 120 caracteres solo se exige al
+      código PHP puro.
+    -->
+    <rule ref="Generic.Files.LineLength">
+        <exclude-pattern>*/vistas/*</exclude-pattern>
+        <exclude-pattern>index.php</exclude-pattern>
+    </rule>
+</ruleset>

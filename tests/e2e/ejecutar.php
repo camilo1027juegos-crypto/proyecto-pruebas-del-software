@@ -22,6 +22,8 @@
 
 declare(strict_types=1);
 
+use Rubicam\Tests\E2e\ClienteHttp;
+
 require __DIR__ . '/ClienteHttp.php';
 
 const PUERTO_APP = 8099;

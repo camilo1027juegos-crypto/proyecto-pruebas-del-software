@@ -1,7 +1,18 @@
 /node_modules/
+/vendor/
 /logs/*.log
 /logs/ratelimit/
 !/logs/.gitkeep
 
 /uploads/*
 !/uploads/.htaccess
+
+# Herramientas de calidad
+/.phpunit.cache/
+/.phpunit.result.cache
+/coverage/
+/build/
+
+# Configuración local (nunca se versiona)
+.env
+.env.local
