@@ -1,0 +1,38 @@
+[PASS] E2E-01 Dashboard sin sesión redirige al login
+[PASS] E2E-02 Endpoint listar sin sesión responde 401 JSON
+[PASS] E2E-03 Login con clave incorrecta muestra mensaje genérico
+[PASS] E2E-04 Login vacío pide usuario y contraseña
+[PASS] E2E-05 Login correcto redirige al dashboard
+[PASS] E2E-06 Dashboard autenticado entrega configuración con CSRF y permiso de edición
+[PASS] E2E-07 Listar devuelve los 4 DOs de la semilla con su semáforo
+[PASS] E2E-08 Crear DO sin token CSRF responde 403
+[PASS] E2E-09 Crear DO con datos inválidos responde 422 con un error por campo
+[PASS] E2E-10 Crear DO válido (10 días) responde 201, "En trámite", semáforo al_dia y NIT con dígito de verificación
+[PASS] E2E-11 Crear DO con código duplicado responde 409
+[PASS] E2E-12 Semáforo: 40 días = seguimiento, 80 días = crítico, vencimiento pasado = "Vencido"
+[PASS] E2E-13 Webhook: sin CSRF=403, estado inválido=422, DO inexistente=404, código distinto=409, sin cambios=422
+[PASS] E2E-14 Cambio de estado válido responde 200, guarda bitácora y notifica a n8n con el payload esperado
+[PASS] E2E-15 La bitácora del DO registra la observación y el usuario de la sesión
+[PASS] E2E-16 Carga rechazada: sin archivo=422, .exe=415, PDF falso=415, >10 MB=413, tipo inválido=422, DO inexistente=404, sin CSRF=403
+[PASS] E2E-17 Carga válida de PDF, PNG y DOCX responde 201 y renombra el archivo de forma segura
+[PASS] E2E-18 El legajo lista los 3 documentos subidos
+[PASS] E2E-19 Descarga segura: attachment, vista inline y 404 para documento inexistente
+[PASS] E2E-20 Un DO Finalizada pasa a semáforo "cerrado" (sin alerta DIAN)
+[PASS] E2E-21 Rol consulta: no puede crear/cambiar estado/subir (403) pero sí listar y descargar (200)
+[PASS] E2E-22 Logout redirige (303) al login
+[PASS] E2E-23 Tras el logout la sesión ya no es válida (401)
+[PASS] E2E-24 La landing responde 200 con cabeceras de seguridad y token CSRF
+[PASS] E2E-25 Cotizador: sin CSRF=419 y honeypot lleno = éxito falso (200) sin enviar nada
+[PASS] E2E-26 Cotizador: correo inválido=422 y operación fuera de lista=422
+[PASS] E2E-27 Cotizador válido responde 200 ok=true
+[PASS] E2E-28 Límite de tasa: 5 envíos por ventana (5º=200) y el 6º responde 429
+[PASS] E2E-34 MR-001/003: origen > 120 caracteres, destino > 120 y valor CIF 1e999 responden 422
+[PASS] E2E-35 MR-002: alta de DO con teléfono sin dígitos responde 422 con error en "telefono"
+[PASS] E2E-29 MR-006: tras 5 fallos seguidos, ni la clave correcta entra (200 con aviso, sin redirigir)
+[PASS] E2E-30 MR-006: un inicio de sesión correcto reinicia el contador (4 fallos + éxito + 1 fallo no bloquea)
+[PASS] E2E-33 MR-009: el panel envía CSP con script-src 'self' y no contiene scripts en línea; el acceso no permite scripts
+[PASS] E2E-31 MR-010: el CSV se descarga como adjunto UTF-8 con BOM, encabezado y los DOs de la semilla
+[PASS] E2E-32 MR-010: el rol consulta puede exportar JSON (total correcto); formato inválido=422; sin sesión=401
+[PASS] E2E-36 MR-008: los archivos subidos se guardan en UPLOAD_DIR y no ensucian uploads/ del repositorio
+
+Resultado E2E: 36 correctas, 0 con fallos.

@@ -1,0 +1,102 @@
+$ phpmd (rulesets codesize,unusedcode,naming,design,cleancode) con los umbrales POR DEFECTO — misma configuración que la línea base
+/home/claude/work/proj/rubicam-redesign/src/Dominio/SemaforoDo.php:54              StaticAccess     Avoid using static access to class 'Rubicam\Dominio\Catalogos' in method 'calcular'.
+/home/claude/work/proj/rubicam-redesign/src/Dominio/SemaforoDo.php:98              StaticAccess     Avoid using static access to class '\DateTimeImmutable' in method 'fecha'.
+/home/claude/work/proj/rubicam-redesign/src/Dominio/ValidadorNuevoDo.php:97        StaticAccess     Avoid using static access to class 'Rubicam\Dominio\Nit' in method 'validarNit'.
+/home/claude/work/proj/rubicam-redesign/src/Dominio/ValidadorNuevoDo.php:148       StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\Sanitizador' in method 'validarContacto'.
+/home/claude/work/proj/rubicam-redesign/src/Dominio/ValidadorNuevoDo.php:151       StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\Sanitizador' in method 'validarContacto'.
+/home/claude/work/proj/rubicam-redesign/src/Dominio/ValidadorNuevoDo.php:181       StaticAccess     Avoid using static access to class '\DateTimeImmutable' in method 'fechaValida'.
+/home/claude/work/proj/rubicam-redesign/src/Http/Ejecutor.php:30                   StaticAccess     Avoid using static access to class 'Rubicam\Http\Respuesta' in method 'resolver'.
+/home/claude/work/proj/rubicam-redesign/src/Http/Ejecutor.php:32                   StaticAccess     Avoid using static access to class 'Rubicam\Http\Respuesta' in method 'resolver'.
+/home/claude/work/proj/rubicam-redesign/src/Http/Ejecutor.php:36                   StaticAccess     Avoid using static access to class 'Rubicam\Http\Respuesta' in method 'resolver'.
+/home/claude/work/proj/rubicam-redesign/src/Http/Ejecutor.php:46                   StaticAccess     Avoid using static access to class 'Rubicam\Http\Respuesta' in method 'resolver'.
+/home/claude/work/proj/rubicam-redesign/src/Http/Solicitud.php:110                 StaticAccess     Avoid using static access to class 'Rubicam\Http\SolicitudJson' in method 'json'.
+/home/claude/work/proj/rubicam-redesign/src/Infraestructura/Conexion.php:29        StaticAccess     Avoid using static access to class 'Rubicam\Infraestructura\Configuracion' in method 'obtener'.
+/home/claude/work/proj/rubicam-redesign/src/Infraestructura/Conexion.php:30        StaticAccess     Avoid using static access to class 'Rubicam\Infraestructura\Configuracion' in method 'obtener'.
+/home/claude/work/proj/rubicam-redesign/src/Infraestructura/Conexion.php:31        StaticAccess     Avoid using static access to class 'Rubicam\Infraestructura\Configuracion' in method 'obtener'.
+/home/claude/work/proj/rubicam-redesign/src/Infraestructura/Conexion.php:35        StaticAccess     Avoid using static access to class 'Rubicam\Infraestructura\Configuracion' in method 'obtener'.
+/home/claude/work/proj/rubicam-redesign/src/Infraestructura/Conexion.php:35        StaticAccess     Avoid using static access to class 'Rubicam\Infraestructura\Configuracion' in method 'obtener'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDo.php:30             StaticAccess     Avoid using static access to class '\Rubicam\Http\Respuesta' in method 'listar'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDo.php:51             StaticAccess     Avoid using static access to class 'Rubicam\Panel\ExportadorDo' in method 'exportar'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDo.php:58             StaticAccess     Avoid using static access to class '\Rubicam\Http\Respuesta' in method 'exportar'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDo.php:59             StaticAccess     Avoid using static access to class 'Rubicam\Panel\ExportadorDo' in method 'exportar'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDo.php:61             StaticAccess     Avoid using static access to class 'Rubicam\Panel\ExportadorDo' in method 'exportar'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDo.php:63             StaticAccess     Avoid using static access to class '\Rubicam\Http\Respuesta' in method 'exportar'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDo.php:64             StaticAccess     Avoid using static access to class 'Rubicam\Panel\ExportadorDo' in method 'exportar'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDo.php:66             StaticAccess     Avoid using static access to class 'Rubicam\Panel\ExportadorDo' in method 'exportar'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDo.php:72             StaticAccess     Avoid using static access to class 'Rubicam\Panel\Guardia' in method 'crear'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDo.php:74             StaticAccess     Avoid using static access to class '\Rubicam\Dominio\ValidadorNuevoDo' in method 'crear'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDo.php:83             StaticAccess     Avoid using static access to class 'Rubicam\Panel\RepositorioDo' in method 'crear'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDo.php:86             StaticAccess     Avoid using static access to class '\Rubicam\Dominio\Bitacora' in method 'crear'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDo.php:89             StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\SesionPanel' in method 'crear'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDo.php:92             ShortVariable    Avoid variables with short names like $id. Configured minimum length is 3.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDo.php:94             StaticAccess     Avoid using static access to class '\Rubicam\Http\Respuesta' in method 'crear'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDocumentos.php:40     StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\Sanitizador' in method 'listar'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDocumentos.php:50     StaticAccess     Avoid using static access to class '\Rubicam\Http\Respuesta' in method 'listar'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDocumentos.php:63     StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\Sanitizador' in method 'descargar'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDocumentos.php:79     StaticAccess     Avoid using static access to class '\Rubicam\Archivos\PoliticaArchivos' in method 'descargar'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDocumentos.php:85     StaticAccess     Avoid using static access to class '\Rubicam\Http\Respuesta' in method 'descargar'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDocumentos.php:86     StaticAccess     Avoid using static access to class '\Rubicam\Archivos\PoliticaArchivos' in method 'descargar'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDocumentos.php:100    StaticAccess     Avoid using static access to class 'Rubicam\Panel\Guardia' in method 'subir'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDocumentos.php:107    StaticAccess     Avoid using static access to class 'Rubicam\Panel\Guardia' in method 'subir'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDocumentos.php:108    StaticAccess     Avoid using static access to class 'Rubicam\Panel\Guardia' in method 'subir'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDocumentos.php:110    StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\Sanitizador' in method 'subir'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDocumentos.php:125    StaticAccess     Avoid using static access to class '\Rubicam\Archivos\PoliticaArchivos' in method 'subir'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDocumentos.php:136    StaticAccess     Avoid using static access to class '\Rubicam\Http\Respuesta' in method 'subir'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDocumentos.php:207    StaticAccess     Avoid using static access to class '\Rubicam\Archivos\PoliticaArchivos' in method 'rutaConfinada'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDocumentos.php:236    StaticAccess     Avoid using static access to class '\Rubicam\Archivos\PoliticaArchivos' in method 'describir'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDocumentos.php:244    StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\Sanitizador' in method 'paginaError'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorDocumentos.php:246    StaticAccess     Avoid using static access to class '\Rubicam\Http\Respuesta' in method 'paginaError'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorEstado.php:39         StaticAccess     Avoid using static access to class 'Rubicam\Panel\Guardia' in method 'cambiar'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorEstado.php:45         StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\Sanitizador' in method 'cambiar'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorEstado.php:59         StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\SesionPanel' in method 'cambiar'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorEstado.php:68         StaticAccess     Avoid using static access to class '\Rubicam\Dominio\SemaforoDo' in method 'cambiar'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorEstado.php:94         StaticAccess     Avoid using static access to class '\Rubicam\Http\Respuesta' in method 'cambiar'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ControladorEstado.php:126        StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\SesionPanel' in method 'carga'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/Despachador.php:35               StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\SesionPanel' in method 'atenderAccion'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/Despachador.php:36               StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\SesionPanel' in method 'atenderAccion'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/Despachador.php:37               StaticAccess     Avoid using static access to class '\Rubicam\Http\Respuesta' in method 'atenderAccion'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/Despachador.php:39               StaticAccess     Avoid using static access to class 'Rubicam\Panel\Guardia' in method 'atenderAccion'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/Despachador.php:56               StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\SesionPanel' in method 'cambiarEstado'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/Despachador.php:57               StaticAccess     Avoid using static access to class 'Rubicam\Panel\Guardia' in method 'cambiarEstado'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/Despachador.php:67               StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\SesionPanel' in method 'subirDocumento'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/Despachador.php:68               StaticAccess     Avoid using static access to class 'Rubicam\Panel\Guardia' in method 'subirDocumento'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/Ensamblador.php:25               StaticAccess     Avoid using static access to class '\Rubicam\Infraestructura\Conexion' in method 'controladorDo'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/Ensamblador.php:31               StaticAccess     Avoid using static access to class '\Rubicam\Infraestructura\Configuracion' in method 'controladorEstado'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/Ensamblador.php:32               StaticAccess     Avoid using static access to class '\Rubicam\Infraestructura\Configuracion' in method 'controladorEstado'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/Ensamblador.php:33               StaticAccess     Avoid using static access to class '\Rubicam\Infraestructura\Configuracion' in method 'controladorEstado'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/Ensamblador.php:36               StaticAccess     Avoid using static access to class '\Rubicam\Infraestructura\Conexion' in method 'controladorEstado'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/Ensamblador.php:42               StaticAccess     Avoid using static access to class '\Rubicam\Infraestructura\Configuracion' in method 'autenticador'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/Ensamblador.php:61               StaticAccess     Avoid using static access to class '\Rubicam\Infraestructura\Conexion' in method 'paginaDashboard'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/Ensamblador.php:66               StaticAccess     Avoid using static access to class '\Rubicam\Infraestructura\Conexion' in method 'controladorDocumentos'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/Ensamblador.php:71               StaticAccess     Avoid using static access to class '\Rubicam\Infraestructura\Configuracion' in method 'controladorDocumentos'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/Guardia.php:25                   StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\SesionPanel' in method 'sesion'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/Guardia.php:51                   StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\SesionPanel' in method 'rolDeEdicion'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/PaginaDashboard.php:56           StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\SesionPanel' in method 'datos'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/PaginaDashboard.php:57           StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\SesionPanel' in method 'datos'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/PaginaDashboard.php:68           StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\SesionPanel' in method 'datos'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/RepositorioDo.php:53             ShortVariable    Avoid variables with short names like $id. Configured minimum length is 3.
+/home/claude/work/proj/rubicam-redesign/src/Panel/RepositorioDo.php:65             ShortVariable    Avoid variables with short names like $id. Configured minimum length is 3.
+/home/claude/work/proj/rubicam-redesign/src/Panel/RepositorioDo.php:134            ShortVariable    Avoid variables with short names like $id. Configured minimum length is 3.
+/home/claude/work/proj/rubicam-redesign/src/Panel/RepositorioDo.php:161            StaticAccess     Avoid using static access to class '\Rubicam\Dominio\Bitacora' in method 'cambiarEstado'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/RepositorioDo.php:212            StaticAccess     Avoid using static access to class '\Rubicam\Dominio\Bitacora' in method 'formatear'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/RepositorioDo.php:228            StaticAccess     Avoid using static access to class '\Rubicam\Dominio\SemaforoDo' in method 'formatear'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ValidadorCargaDocumento.php:36   StaticAccess     Avoid using static access to class '\Rubicam\Archivos\PoliticaArchivos' in method 'validar'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ValidadorCargaDocumento.php:55   StaticAccess     Avoid using static access to class '\Rubicam\Archivos\PoliticaArchivos' in method 'validarCarga'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ValidadorCargaDocumento.php:69   StaticAccess     Avoid using static access to class '\Rubicam\Archivos\PoliticaArchivos' in method 'validarContenido'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ValidadorCargaDocumento.php:72   StaticAccess     Avoid using static access to class '\Rubicam\Archivos\PoliticaArchivos' in method 'validarContenido'.
+/home/claude/work/proj/rubicam-redesign/src/Panel/ValidadorCargaDocumento.php:75   StaticAccess     Avoid using static access to class '\Rubicam\Archivos\PoliticaArchivos' in method 'validarContenido'.
+/home/claude/work/proj/rubicam-redesign/src/Publico/ControladorCotizacion.php:81   StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\Sanitizador' in method 'leerCampos'.
+/home/claude/work/proj/rubicam-redesign/src/Publico/ControladorCotizacion.php:83   StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\Sanitizador' in method 'leerCampos'.
+/home/claude/work/proj/rubicam-redesign/src/Publico/ControladorCotizacion.php:84   StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\Sanitizador' in method 'leerCampos'.
+/home/claude/work/proj/rubicam-redesign/src/Publico/ControladorCotizacion.php:85   StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\Sanitizador' in method 'leerCampos'.
+/home/claude/work/proj/rubicam-redesign/src/Publico/ControladorCotizacion.php:86   StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\Sanitizador' in method 'leerCampos'.
+/home/claude/work/proj/rubicam-redesign/src/Publico/ControladorCotizacion.php:87   StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\Sanitizador' in method 'leerCampos'.
+/home/claude/work/proj/rubicam-redesign/src/Publico/ControladorCotizacion.php:88   StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\Sanitizador' in method 'leerCampos'.
+/home/claude/work/proj/rubicam-redesign/src/Publico/ControladorCotizacion.php:196  StaticAccess     Avoid using static access to class '\Rubicam\Http\Respuesta' in method 'respuesta'.
+/home/claude/work/proj/rubicam-redesign/src/Seguridad/SesionPanel.php:88           StaticAccess     Avoid using static access to class '\Rubicam\Dominio\Catalogos' in method 'puedeEditar'.
+/home/claude/work/proj/rubicam-redesign/src/Vistas/ayudantes.php:16                ShortMethodName  Avoid using short method names like ::h(). The configured minimum method name length is 3.
+/home/claude/work/proj/rubicam-redesign/src/Vistas/ayudantes.php:18                StaticAccess     Avoid using static access to class '\Rubicam\Seguridad\Sanitizador' in method 'h'.
+/home/claude/work/proj/rubicam-redesign/src/Vistas/ayudantes.php:24                StaticAccess     Avoid using static access to class '\Rubicam\Vistas\Iconos' in method 'icono'.
+
+$ phpmd con phpmd.xml del proyecto (excepciones documentadas: $id, $e, h())
+sin hallazgos

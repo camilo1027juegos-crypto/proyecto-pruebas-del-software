@@ -29,5 +29,9 @@
             <directory suffix=".php">src</directory>
             <directory suffix=".php">tools</directory>
         </include>
+        <exclude>
+            <!-- Script de línea de comandos: se prueba ejecutándolo (ver docs/evidencias/seguridad-escaner.txt). -->
+            <file>tools/escanear_seguridad.php</file>
+        </exclude>
     </coverage>
 </phpunit>

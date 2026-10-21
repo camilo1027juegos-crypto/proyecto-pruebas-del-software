@@ -1,0 +1,21 @@
+
+PHP CODE SNIFFER VIOLATION SOURCE SUMMARY
+----------------------------------------------------------------------
+    STANDARD  CATEGORY            SNIFF                          COUNT
+----------------------------------------------------------------------
+[ ] Generic   Files               Line length too long           242
+[x] PSR12     Files               File header spacing after blo  22
+[x] Squiz     Control structures  Control signature space after  16
+[x] Generic   Control structures  Inline control structure not   13
+[ ] PSR1      Files               Side effects found with symbo  7
+[x] Generic   White space         Scope indent incorrect         3
+[x] Generic   Files               Line endings invalid EOLChar   1
+[x] Generic   White space         Scope indent incorrect exact   1
+----------------------------------------------------------------------
+A TOTAL OF 305 SNIFF VIOLATIONS WERE FOUND IN 8 SOURCES
+----------------------------------------------------------------------
+PHPCBF CAN FIX THE 6 MARKED SOURCES AUTOMATICALLY (56 VIOLATIONS IN TOTAL)
+----------------------------------------------------------------------
+
+Time: 311ms; Memory: 12MB
+

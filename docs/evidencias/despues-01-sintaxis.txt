@@ -1,0 +1,2 @@
+== php -l (todos los .php del proyecto, sin tests) ==
+Archivos revisados: 56 — sin errores de sintaxis si no hay líneas arriba.

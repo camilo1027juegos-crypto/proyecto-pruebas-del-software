@@ -1,0 +1,11 @@
+== php -l (sintaxis) ==
+No syntax errors detected in config/config.php
+No syntax errors detected in config/config_db.php
+No syntax errors detected in config/security.php
+No syntax errors detected in handlers/quote-handler.php
+No syntax errors detected in handlers/upload_documento.php
+No syntax errors detected in handlers/webhook_trigger.php
+No syntax errors detected in index.php
+No syntax errors detected in panel/dashboard.php
+No syntax errors detected in panel/index.php
+No syntax errors detected in panel/logout.php
