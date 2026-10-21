@@ -1,0 +1,16 @@
+=== MR-008 RED — 2026-10-21 17:04 ===
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Infraestructura/CargadorEntornoTest.php:99
+
+2) Rubicam\Tests\Unit\Infraestructura\CargadorEntornoTest::testLaCarpetaDeCargasSeConfiguraPorEntorno
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'/var/rubicam/cargas'
++'/home/claude/work/proj/rubicam-redesign/uploads'
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Infraestructura/CargadorEntornoTest.php:92
+
+ERRORS!
+Tests: 19, Assertions: 3, Errors: 16, Failures: 2.
