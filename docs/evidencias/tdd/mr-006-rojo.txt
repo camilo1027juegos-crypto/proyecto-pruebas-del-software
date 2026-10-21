@@ -1,0 +1,76 @@
+PHPUnit 9.6.17 by Sebastian Bergmann and contributors.
+
+EEEEEEEEEEE                                                       11 / 11 (100%)
+
+Time: 00:00.017, Memory: 6.00 MB
+
+There were 11 errors:
+
+1) Rubicam\Tests\Unit\Panel\AutenticadorTest::testCamposVaciosNoCuentanComoIntentoFallido
+Error: Class "Rubicam\Panel\Autenticador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/AutenticadorTest.php:61
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/AutenticadorTest.php:93
+
+2) Rubicam\Tests\Unit\Panel\AutenticadorTest::testClaveIncorrectaEsRechazadaConMensajeGenerico
+Error: Class "Rubicam\Panel\Autenticador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/AutenticadorTest.php:61
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/AutenticadorTest.php:103
+
+3) Rubicam\Tests\Unit\Panel\AutenticadorTest::testUnUsuarioInexistenteRecibeElMismoMensajeQueUnaClaveIncorrecta
+Error: Class "Rubicam\Panel\Autenticador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/AutenticadorTest.php:61
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/AutenticadorTest.php:112
+
+4) Rubicam\Tests\Unit\Panel\AutenticadorTest::testConUsuarioInexistenteIgualSeVerificaUnHashParaIgualarLosTiempos
+Error: Class "Rubicam\Panel\Autenticador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/AutenticadorTest.php:61
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/AutenticadorTest.php:122
+
+5) Rubicam\Tests\Unit\Panel\AutenticadorTest::testTrasLosFallosPermitidosSeBloqueaIncluidoLaClaveCorrecta
+Error: Class "Rubicam\Panel\Autenticador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/AutenticadorTest.php:61
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/AutenticadorTest.php:129
+
+6) Rubicam\Tests\Unit\Panel\AutenticadorTest::testElBloqueoNoVerificaLaClaveAsiNoPermiteAdivinarlaDuranteElBloqueo
+Error: Class "Rubicam\Panel\Autenticador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/AutenticadorTest.php:61
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/AutenticadorTest.php:143
+
+7) Rubicam\Tests\Unit\Panel\AutenticadorTest::testElBloqueoExpiraDespuesDeLaVentana
+Error: Class "Rubicam\Panel\Autenticador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/AutenticadorTest.php:61
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/AutenticadorTest.php:156
+
+8) Rubicam\Tests\Unit\Panel\AutenticadorTest::testUnInicioCorrectoReiniciaElContadorDelUsuario
+Error: Class "Rubicam\Panel\Autenticador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/AutenticadorTest.php:61
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/AutenticadorTest.php:168
+
+9) Rubicam\Tests\Unit\Panel\AutenticadorTest::testElContadorEsPorUsuarioYPorOrigenAsiUnAtacanteNoBloqueaAOtraPersona
+Error: Class "Rubicam\Panel\Autenticador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/AutenticadorTest.php:61
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/AutenticadorTest.php:182
+
+10) Rubicam\Tests\Unit\Panel\AutenticadorTest::testUnaMismaIpProbandoMuchosUsuariosTambienSeBloquea
+Error: Class "Rubicam\Panel\Autenticador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/AutenticadorTest.php:61
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/AutenticadorTest.php:196
+
+11) Rubicam\Tests\Unit\Panel\AutenticadorTest::testCredencialesCorrectasAbrenSesion
+Error: Class "Rubicam\Panel\Autenticador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/AutenticadorTest.php:61
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/AutenticadorTest.php:85
+
+ERRORS!
+Tests: 11, Assertions: 0, Errors: 11.
