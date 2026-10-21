@@ -1,0 +1,154 @@
+PHPUnit 9.6.17 by Sebastian Bergmann and contributors.
+
+FFFFFFFFFFFFFFFFF...............FFFFFFF                           39 / 39 (100%)
+
+Time: 00:00.008, Memory: 6.00 MB
+
+There were 24 failures:
+
+1) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testRutaSensibleEstaBloqueada with data set "migración SQL" ('SQL/migracion_panel_v2.sql')
+'SQL/migracion_panel_v2.sql' debería responder 403.
+Failed asserting that false is true.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:38
+
+2) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testRutaSensibleEstaBloqueada with data set "SQL en minúsculas (Windows)" ('sql/rubicam_db.sql')
+'sql/rubicam_db.sql' debería responder 403.
+Failed asserting that false is true.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:38
+
+3) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testRutaSensibleEstaBloqueada with data set "README" ('README.md')
+'README.md' debería responder 403.
+Failed asserting that false is true.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:38
+
+4) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testRutaSensibleEstaBloqueada with data set "documentación" ('docs/INFORME_TECNICO.md')
+'docs/INFORME_TECNICO.md' debería responder 403.
+Failed asserting that false is true.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:38
+
+5) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testRutaSensibleEstaBloqueada with data set "composer.lock" ('composer.lock')
+'composer.lock' debería responder 403.
+Failed asserting that false is true.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:38
+
+6) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testRutaSensibleEstaBloqueada with data set "código fuente" ('src/Dominio/Nit.php')
+'src/Dominio/Nit.php' debería responder 403.
+Failed asserting that false is true.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:38
+
+7) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testRutaSensibleEstaBloqueada with data set "pruebas" ('tests/Unit/NitTest.php')
+'tests/Unit/NitTest.php' debería responder 403.
+Failed asserting that false is true.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:38
+
+8) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testRutaSensibleEstaBloqueada with data set "herramientas" ('tools/escanear_seguridad.php')
+'tools/escanear_seguridad.php' debería responder 403.
+Failed asserting that false is true.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:38
+
+9) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testRutaSensibleEstaBloqueada with data set "dependencias" ('vendor/autoload.php')
+'vendor/autoload.php' debería responder 403.
+Failed asserting that false is true.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:38
+
+10) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testRutaSensibleEstaBloqueada with data set "repositorio git" ('.git/config')
+'.git/config' debería responder 403.
+Failed asserting that false is true.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:38
+
+11) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testRutaSensibleEstaBloqueada with data set "phpunit" ('phpunit.xml.dist')
+'phpunit.xml.dist' debería responder 403.
+Failed asserting that false is true.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:38
+
+12) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testRutaSensibleEstaBloqueada with data set "phpcs" ('phpcs.xml')
+'phpcs.xml' debería responder 403.
+Failed asserting that false is true.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:38
+
+13) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testRutaSensibleEstaBloqueada with data set "phpmd" ('phpmd.xml')
+'phpmd.xml' debería responder 403.
+Failed asserting that false is true.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:38
+
+14) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testRutaSensibleEstaBloqueada with data set "flujo de CI" ('.github/workflows/ci.yml')
+'.github/workflows/ci.yml' debería responder 403.
+Failed asserting that false is true.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:38
+
+15) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testRutaSensibleEstaBloqueada with data set "archivo oculto" ('.gitignore')
+'.gitignore' debería responder 403.
+Failed asserting that false is true.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:38
+
+16) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testRutaSensibleEstaBloqueada with data set "configuración de Tailwind" ('tailwind.config.js')
+'tailwind.config.js' debería responder 403.
+Failed asserting that false is true.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:38
+
+17) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testRutaSensibleEstaBloqueada with data set "volcado SQL" ('SQL/rubicam_db.sql')
+'SQL/rubicam_db.sql' debería responder 403.
+Failed asserting that false is true.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:38
+
+18) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testCarpetaInternaTienePropioBloqueoTotal with data set "scripts SQL" ('SQL')
+Falta SQL/.htaccess
+Failed asserting that file "/home/claude/work/proj/rubicam-redesign/SQL/.htaccess" exists.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:107
+
+19) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testCarpetaInternaTienePropioBloqueoTotal with data set "código fuente" ('src')
+Falta src/.htaccess
+Failed asserting that file "/home/claude/work/proj/rubicam-redesign/src/.htaccess" exists.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:107
+
+20) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testCarpetaInternaTienePropioBloqueoTotal with data set "pruebas" ('tests')
+Falta tests/.htaccess
+Failed asserting that file "/home/claude/work/proj/rubicam-redesign/tests/.htaccess" exists.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:107
+
+21) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testCarpetaInternaTienePropioBloqueoTotal with data set "herramientas" ('tools')
+Falta tools/.htaccess
+Failed asserting that file "/home/claude/work/proj/rubicam-redesign/tools/.htaccess" exists.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:107
+
+22) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testCarpetaInternaTienePropioBloqueoTotal with data set "documentación" ('docs')
+Falta docs/.htaccess
+Failed asserting that file "/home/claude/work/proj/rubicam-redesign/docs/.htaccess" exists.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:107
+
+23) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testCarpetaInternaTienePropioBloqueoTotal with data set "configuración" ('config')
+Falta config/.htaccess
+Failed asserting that file "/home/claude/work/proj/rubicam-redesign/config/.htaccess" exists.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:107
+
+24) Rubicam\Tests\Regression\Mr005ArchivosInternosTest::testCarpetaInternaTienePropioBloqueoTotal with data set "registros" ('logs')
+Falta logs/.htaccess
+Failed asserting that file "/home/claude/work/proj/rubicam-redesign/logs/.htaccess" exists.
+
+/home/claude/work/proj/rubicam-redesign/tests/Regression/Mr005ArchivosInternosTest.php:107
+
+FAILURES!
+Tests: 39, Assertions: 40, Failures: 24.
