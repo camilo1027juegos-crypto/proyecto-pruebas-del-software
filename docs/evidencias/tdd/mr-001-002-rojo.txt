@@ -1,0 +1,159 @@
+PHPUnit 9.6.17 by Sebastian Bergmann and contributors.
+
+Mr001Importe Estricto (Rubicam\Tests\Regression\Mr001ImporteEstricto)
+ ✘ Importe invalido es rechazado with data set "notación científica"
+   │
+   │ El importe '1e3' debía rechazarse.
+   │ Failed asserting that 1000.0 is null.
+   │
+   │ /home/claude/work/proj/rubicam-redesign/tests/Regression/Mr001ImporteEstrictoTest.php:33
+   │
+
+ ✘ Importe invalido es rechazado with data set "infinito por desbordamiento"
+   │
+   │ El importe '1e999' debía rechazarse.
+   │ Failed asserting that INF is null.
+   │
+   │ /home/claude/work/proj/rubicam-redesign/tests/Regression/Mr001ImporteEstrictoTest.php:33
+   │
+
+ ✔ Importe invalido es rechazado with data set "hexadecimal"
+ ✘ Importe invalido es rechazado with data set "sin parte entera"
+   │
+   │ El importe '.5' debía rechazarse.
+   │ Failed asserting that 0.5 is null.
+   │
+   │ /home/claude/work/proj/rubicam-redesign/tests/Regression/Mr001ImporteEstrictoTest.php:33
+   │
+
+ ✘ Importe invalido es rechazado with data set "tres decimales"
+   │
+   │ El importe '12.345' debía rechazarse.
+   │ Failed asserting that 12.345 is null.
+   │
+   │ /home/claude/work/proj/rubicam-redesign/tests/Regression/Mr001ImporteEstrictoTest.php:33
+   │
+
+ ✔ Importe invalido es rechazado with data set "coma decimal"
+ ✔ Importe invalido es rechazado with data set "negativo"
+ ✔ Importe invalido es rechazado with data set "no es número"
+ ✔ Importe invalido es rechazado with data set "vacío"
+ ✘ Importe invalido es rechazado with data set "sobre el máximo"
+   │
+   │ El importe '1000000000000' debía rechazarse.
+   │ Failed asserting that 1000000000000.0 is null.
+   │
+   │ /home/claude/work/proj/rubicam-redesign/tests/Regression/Mr001ImporteEstrictoTest.php:33
+   │
+
+ ✔ Importe valido se convierte a float with data set "con centavos"
+ ✔ Importe valido se convierte a float with data set "cero"
+ ✔ Importe valido se convierte a float with data set "con espacios"
+ ✔ Importe valido se convierte a float with data set "en el máximo"
+ ✔ Importe valido se convierte a float with data set "entero grande"
+
+Mr002Telefono Con Digitos (Rubicam\Tests\Regression\Mr002TelefonoConDigitos)
+ ✘ Telefono invalido es rechazado with data set "solo guiones"
+   │
+   │ El teléfono '-------' debía rechazarse.
+   │ Failed asserting that '-------' is null.
+   │
+   │ /home/claude/work/proj/rubicam-redesign/tests/Regression/Mr002TelefonoConDigitosTest.php:30
+   │
+
+ ✘ Telefono invalido es rechazado with data set "solo paréntesis"
+   │
+   │ El teléfono '()()()()' debía rechazarse.
+   │ Failed asserting that '()()()()' is null.
+   │
+   │ /home/claude/work/proj/rubicam-redesign/tests/Regression/Mr002TelefonoConDigitosTest.php:30
+   │
+
+ ✘ Telefono invalido es rechazado with data set "solo signos más"
+   │
+   │ El teléfono '++++++++' debía rechazarse.
+   │ Failed asserting that '++++++++' is null.
+   │
+   │ /home/claude/work/proj/rubicam-redesign/tests/Regression/Mr002TelefonoConDigitosTest.php:30
+   │
+
+ ✔ Telefono invalido es rechazado with data set "solo espacios"
+ ✔ Telefono invalido es rechazado with data set "seis dígitos"
+ ✔ Telefono invalido es rechazado with data set "siete dígitos y letra"
+ ✔ Telefono invalido es rechazado with data set "más de 20 caracteres"
+ ✔ Telefono valido se conserva with data set "celular"
+ ✔ Telefono valido se conserva with data set "con indicativo y formato"
+ ✔ Telefono valido se conserva with data set "exactamente siete dígitos"
+
+Time: 00:00.015, Memory: 6.00 MB
+
+Summary of non-successful tests:
+
+Mr001Importe Estricto (Rubicam\Tests\Regression\Mr001ImporteEstricto)
+ ✘ Importe invalido es rechazado with data set "notación científica"
+   │
+   │ El importe '1e3' debía rechazarse.
+   │ Failed asserting that 1000.0 is null.
+   │
+   │ /home/claude/work/proj/rubicam-redesign/tests/Regression/Mr001ImporteEstrictoTest.php:33
+   │
+
+ ✘ Importe invalido es rechazado with data set "infinito por desbordamiento"
+   │
+   │ El importe '1e999' debía rechazarse.
+   │ Failed asserting that INF is null.
+   │
+   │ /home/claude/work/proj/rubicam-redesign/tests/Regression/Mr001ImporteEstrictoTest.php:33
+   │
+
+ ✘ Importe invalido es rechazado with data set "sin parte entera"
+   │
+   │ El importe '.5' debía rechazarse.
+   │ Failed asserting that 0.5 is null.
+   │
+   │ /home/claude/work/proj/rubicam-redesign/tests/Regression/Mr001ImporteEstrictoTest.php:33
+   │
+
+ ✘ Importe invalido es rechazado with data set "tres decimales"
+   │
+   │ El importe '12.345' debía rechazarse.
+   │ Failed asserting that 12.345 is null.
+   │
+   │ /home/claude/work/proj/rubicam-redesign/tests/Regression/Mr001ImporteEstrictoTest.php:33
+   │
+
+ ✘ Importe invalido es rechazado with data set "sobre el máximo"
+   │
+   │ El importe '1000000000000' debía rechazarse.
+   │ Failed asserting that 1000000000000.0 is null.
+   │
+   │ /home/claude/work/proj/rubicam-redesign/tests/Regression/Mr001ImporteEstrictoTest.php:33
+   │
+
+Mr002Telefono Con Digitos (Rubicam\Tests\Regression\Mr002TelefonoConDigitos)
+ ✘ Telefono invalido es rechazado with data set "solo guiones"
+   │
+   │ El teléfono '-------' debía rechazarse.
+   │ Failed asserting that '-------' is null.
+   │
+   │ /home/claude/work/proj/rubicam-redesign/tests/Regression/Mr002TelefonoConDigitosTest.php:30
+   │
+
+ ✘ Telefono invalido es rechazado with data set "solo paréntesis"
+   │
+   │ El teléfono '()()()()' debía rechazarse.
+   │ Failed asserting that '()()()()' is null.
+   │
+   │ /home/claude/work/proj/rubicam-redesign/tests/Regression/Mr002TelefonoConDigitosTest.php:30
+   │
+
+ ✘ Telefono invalido es rechazado with data set "solo signos más"
+   │
+   │ El teléfono '++++++++' debía rechazarse.
+   │ Failed asserting that '++++++++' is null.
+   │
+   │ /home/claude/work/proj/rubicam-redesign/tests/Regression/Mr002TelefonoConDigitosTest.php:30
+   │
+
+FAILURES!
+Tests: 25, Assertions: 25, Failures: 8.
