@@ -1,0 +1,23 @@
+
+PHP CODE SNIFFER REPORT SUMMARY
+----------------------------------------------------------------------
+FILE                                                  ERRORS  WARNINGS
+----------------------------------------------------------------------
+/home/claude/work/proj/rubicam-redesign/index.php     7       95
+...aude/work/proj/rubicam-redesign/config/config.php  2       1
+...e/work/proj/rubicam-redesign/config/config_db.php  2       5
+...de/work/proj/rubicam-redesign/config/security.php  11      2
+.../proj/rubicam-redesign/handlers/quote-handler.php  8       1
+...oj/rubicam-redesign/handlers/upload_documento.php  2       6
+...roj/rubicam-redesign/handlers/webhook_trigger.php  2       7
+...de/work/proj/rubicam-redesign/panel/dashboard.php  15      130
+...claude/work/proj/rubicam-redesign/panel/index.php  5       2
+...laude/work/proj/rubicam-redesign/panel/logout.php  2       0
+----------------------------------------------------------------------
+A TOTAL OF 56 ERRORS AND 249 WARNINGS WERE FOUND IN 10 FILES
+----------------------------------------------------------------------
+PHPCBF CAN FIX 56 OF THESE SNIFF VIOLATIONS AUTOMATICALLY
+----------------------------------------------------------------------
+
+Time: 398ms; Memory: 12MB
+

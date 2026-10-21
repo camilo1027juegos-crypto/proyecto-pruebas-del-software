@@ -1,0 +1,15 @@
+$ python3 tests/ui/verificar_panel.py   (Chromium real con Playwright, panel servido con php -S, base de las E2E)
+CSP del acceso: default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'sel
+Filas de DO en la tabla: 8
+Modal 'Nueva operación' abre: True
+Filtro por sucursal: 8 -> 1 filas
+CSV descargado: rubicam_dos_20261021-1720.csv · 1317 bytes · BOM=True
+JSON descargado: rubicam_dos_20261021-1720.json · total=8
+Violaciones de CSP en la consola: 0
+Errores de JavaScript (pageerror): 0
+Mensajes de consola tipo error: 3
+  consola error: Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED   <- fuentes/CDN externos: el entorno de pruebas no tiene internet
+  consola error: Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED
+  consola error: Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED
+
+Capturas: docs/evidencias/ui/01_login.png · 02_dashboard.png · 03_modal_nuevo.png

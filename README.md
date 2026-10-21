@@ -1,153 +1,152 @@
-# Rubicam — Propuesta de Rediseño (Landing Page)
+# Rubicam — Landing y panel operativo de Órdenes de Operación (DO)
 
-Código propietario: HTML5 semántico + Tailwind CSS (CDN) + JavaScript nativo modular
-+ PHP 8.2+/8.3 nativo. Sin maquetadores (WPBakery, Elementor, etc.).
+Sitio público y **panel privado** de *Agencia de Aduanas Rubicam S.A.S.* PHP 8.2+ nativo (sin frameworks), MySQL/MariaDB,
+Tailwind CSS compilado y webhook a n8n. Versión **2.1.0**.
 
-## Cómo probarlo
+Este repositorio es además el trabajo final de **Codificación y Pruebas del Software** (FESC, Ingeniería de Software): sobre un
+sistema existente se aplicaron documentación y pruebas previas, TDD, refactor modular, codificación defensiva, linters,
+análisis estático, mantenimiento según ISO/IEC/IEEE 14764 y buenas prácticas de despliegue. El recorrido completo está en
+[`docs/INFORME_TECNICO.md`](docs/INFORME_TECNICO.md).
+
+## Requisitos
+
+* PHP **8.2 o superior** con `curl`, `fileinfo`, `mbstring`, `pdo_mysql` (y `zip` para validar `.docx`).
+* MySQL 5.7+ / MariaDB 10.4+.
+* Apache con `mod_rewrite` y `mod_headers` (XAMPP sirve) — las reglas de seguridad están en `.htaccess`.
+* Solo para desarrollo: PHPUnit 9.6, PHP_CodeSniffer 3.7, PHPMD 2.15 (`composer install`) y, para cobertura, la extensión `pcov`.
+
+## Puesta en marcha (XAMPP)
 
 ```bash
+# 1) Base de datos: importar SQL/rubicam_db.sql en phpMyAdmin
+#    (si la base ya existe de una versión anterior a la v2: ejecutar una vez SQL/migracion_panel_v2.sql)
+
+# 2) Configuración local
+cp .env.example .env        # y completar DB_USER / DB_PASS, etc.
+
+# 3) Ver el sitio con el servidor embebido (ignora .htaccess; para desarrollo)
 php -S localhost:8000
+#   http://localhost:8000/         → landing
+#   http://localhost:8000/panel/   → panel (login)
 ```
-Abre `http://localhost:8000/`.
+
+Despliegue en un servidor real, variables de entorno y reversión: [`docs/05_DESPLIEGUE.md`](docs/05_DESPLIEGUE.md).
 
 ## Estructura
 
 ```
 rubicam-redesign/
+├── index.php                  # Landing (punto de entrada delgado + HTML)
+├── panel/                     # Entradas del panel: index.php (login), dashboard.php, logout.php, vistas/
+├── handlers/                  # Entradas AJAX: quote-handler, upload_documento, webhook_trigger
 ├── config/
-│   ├── config.php      # Datos corporativos, constantes (editar aquí NIT, sedes, teléfonos, etc.)
-│   └── security.php     # CSRF, sanitización, rate limiting, cabeceras seguras
-├── handlers/
-│   └── quote-handler.php # Backend del cotizador (mismo estándar de seguridad ya validado)
-├── assets/
-│   ├── css/custom.css   # Complementa Tailwind (patrón de fondo, focos, etc.)
-│   └── js/app.js        # Menú móvil, modales, validación, tracking demo, chat Rubi
-├── logs/
-├── .htaccess
-└── index.php             # Landing page completa
+│   ├── arranque.php           # Autocargador, .env, zona horaria y política de errores (lo incluye toda entrada)
+│   └── config.php             # Constantes del sitio público (identidad, sedes, enlaces)
+├── src/                       # Lógica de la aplicación (namespace Rubicam\, PSR-4)
+│   ├── Dominio/               # Reglas puras, sin I/O: Nit, SemaforoDo, Bitacora, ValidadorNuevoDo, Catalogos
+│   ├── Seguridad/             # Sanitizador, LimitadorTasa, TokenCsrf, SesionPanel, CabecerasSeguras
+│   ├── Http/                  # Solicitud, Respuesta, ErrorHttp, Ejecutor, SolicitudJson
+│   ├── Archivos/              # PoliticaArchivos (extensión, MIME real, firma, nombre seguro)
+│   ├── Infraestructura/       # Conexion (PDO), ClienteN8n, Configuracion, CargadorEntorno
+│   ├── Panel/                 # Controladores, repositorios, Guardia, Despachador, ExportadorDo
+│   └── Publico/               # ControladorCotizacion
+├── assets/                    # css/ (Tailwind compilado) y js/ (app.js del sitio, panel.js del panel)
+├── SQL/                       # Esquema y migración
+├── tests/                     # Unit/, Regression/, e2e/, apache/
+├── tools/                     # Escáner de seguridad estático
+├── docs/                      # Especificación, casos de prueba, auditoría, mantenimiento, despliegue, informe, evidencias
+├── .github/workflows/ci.yml   # Integración continua
+└── .htaccess                  # Niega por defecto todo lo interno (MR-005)
 ```
 
-## 0. Corrección importante: Tailwind ya NO depende de un CDN
+**Regla de dependencia:** `Dominio` no conoce sesión, base de datos, HTTP ni reloj (recibe la fecha por parámetro). Los controladores
+devuelven un objeto `Respuesta`; solo el punto de entrada la envía. Ninguna clase llama `exit`.
 
-**Qué pasó:** la primera versión cargaba Tailwind vía `<script src="https://cdn.tailwindcss.com">`
-(el "Play CDN"), pensado solo para prototipos rápidos, no para producción. Si el navegador
-no tenía salida a internet o el CDN estaba bloqueado, ninguna clase de Tailwind se aplicaba,
-y los íconos SVG (que dependían de clases como `w-4 h-4` para su tamaño) se renderizaban a
-su tamaño por defecto del navegador — hasta 300×150px — produciendo un bloque negro gigante
-cubriendo la página.
-
-**Solución aplicada:**
-1. Tailwind ahora se **compila localmente** a un archivo CSS estático
-   (`assets/css/tailwind.build.css`, ~25 KB minificado) — cero dependencias de red en
-   tiempo de ejecución, tal como corresponde a "código listo para producción".
-2. Se agregó una **red de seguridad CSS inline** (`<style>svg{width:1.25em;...}</style>`)
-   en el `<head>`, con menor especificidad que las clases de Tailwind, así que nunca
-   interfiere cuando el CSS carga bien — pero si algún día el archivo compilado no se
-   sube o su ruta se rompe, los íconos quedan en un tamaño razonable en vez de gigante.
-
-### Compilar Tailwind (tras editar clases en `index.php` o `assets/js/app.js`)
+## Calidad y pruebas
 
 ```bash
-npm install                 # una sola vez (instala tailwindcss)
-npm run build:css           # recompila assets/css/tailwind.build.css
+composer install            # herramientas de desarrollo (en producción no hace falta)
+composer lint               # PSR-12 con PHP_CodeSniffer         → 0 errores, 0 advertencias
+composer analizar           # PHP Mess Detector (complejidad, código muerto, diseño)
+composer seguridad          # escáner de seguridad estático propio (equivalente a bandit)
+composer test               # PHPUnit: 424 pruebas unitarias y de regresión
+composer test:cobertura     # ídem con cobertura (requiere pcov)
+composer e2e                # 36 pruebas de extremo a extremo (necesita MySQL/MariaDB)
+composer check              # lint + analizar + seguridad + test
+bash tests/apache/verificar_htaccess.sh   # reglas de .htaccess contra un Apache real
+
+phpunit --group MR-006      # solo la regresión de una solicitud de modificación
 ```
 
-Si agregas una clase nueva de Tailwind al HTML/JS y no la ves en el sitio, es casi
-seguro que falta recompilar con el comando de arriba — el archivo `.build.css` es
-estático, no se genera en tiempo real como con el CDN.
+La suite E2E crea y borra su propia base `rubicam_e2e`: variables `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASS` (por defecto `root` sin clave).
+Las cargas de la prueba van a una carpeta temporal (`UPLOAD_DIR`), no a `uploads/`.
 
-## 1. Componentes interactivos — especificación técnica
+## Configuración por entorno
 
-### Cotizador (`#quote-form` + `assets/js/app.js`)
-- **Validación en cliente**: operación requerida, valor CIF numérico (regex `^\d+(\.\d{1,2})?$`),
-  nombre no vacío, email con regex RFC-simplificado, teléfono `^[0-9+\-\s()]{7,20}$`.
-  Errores se muestran inline por campo (`.quote-error`), sin alerts bloqueantes.
-- **Envío**: `fetch()` con `FormData`, header `X-Requested-With`, respuesta JSON.
-  Doble validación: cliente (UX) + servidor (`handlers/quote-handler.php`, autoritativa).
-- **Backend**: CSRF (`hash_equals`), honeypot invisible (`name="website"`), rate limiting
-  (5 envíos / 10 min por IP), sanitización estricta de cada campo, envío de correo con
-  `From:` fijo del dominio propio y `Reply-To:` del usuario (previene spoofing).
+Las variables se leen del servidor y, si existe, del archivo `.env` (no versionado; lo definido en el servidor tiene prioridad).
+Lista completa en [`.env.example`](.env.example): `APP_ENV`, `APP_BASE_URL`, `DB_*`, `N8N_WEBHOOK_URL`, `N8N_WEBHOOK_SECRET`,
+`N8N_CA_BUNDLE`, `RUBI_WEBHOOK_URL`, `UPLOAD_DIR`.
 
-### Tracking de DO (`#tracking-modal` + `#tracking-form`)
-- **Estado actual: DEMO en el front-end.** Genera un estado determinístico a partir del
-  radicado ingresado (hash simple) para simular la experiencia visual. **No consulta una
-  base de datos real** — eso requiere el sistema Lobby completo (ver Roadmap abajo).
+## Panel operativo (`/panel`)
 
-### Chat "Rubi" (`#rubi-panel` + `assets/js/app.js`)
-- UI de chat completa (burbujas, scroll, input) funcionando en el cliente.
-- Si `CHAT_WEBHOOK_URL` (variable de entorno, en `config/config.php`) está configurada,
-  cada mensaje del usuario se envía por `POST` JSON `{message, source}` al webhook de n8n
-  y se muestra `data.reply` como respuesta. Si no está configurada, responde con un
-  mensaje de cortesía local para no romper la demo.
-- **Pendiente de producción**: configurar `RUBI_WEBHOOK_URL` en el servidor y decidir el
-  formato de respuesta esperado del flujo n8n (aquí se asume `{ "reply": "texto" }`).
-
-## 2. Roadmap — Ecosistema interno (Lobby / DO / MySQL)
-
-Este entregable cubre la **landing page pública**. El panel privado ("Lobby") con control
-real de Órdenes de Operación, semáforo de vencimientos a 3 meses y autenticación de
-usuarios es un sistema aparte que requiere:
-- Esquema MySQL (tabla `ordenes_operacion` con radicado, estado, fecha_vencimiento, cliente_id…)
-- Autenticación (sesiones PHP + hashing `password_hash()`/`password_verify()`)
-- CRUD de DOs + lógica de semáforo (verde/amarillo/rojo según días a vencimiento)
-- El botón "Ingreso / Lobby" en el navbar y footer ya apunta a `/lobby/` (constante
-  `LOBBY_URL` en `config/config.php`) — listo para conectar cuando ese sistema exista.
-
-Puedo construir el Lobby como una segunda fase si quieres que continúe con eso.
-
-## 3. Notas de diseño
-
-- Paleta aplicada estrictamente: `#082d42`/`#0b3954` (azul), `#065f46`/`#047857` (verde),
-  `#f97316` (naranja), fondos `#f8fafc`/`#f1f5f9`, texto `#1e293b`.
-- Tipografía: Plus Jakarta Sans (headings/UI) vía Google Fonts.
-- Tailwind se carga vía CDN (`cdn.tailwindcss.com`) para desarrollo rápido sin build step;
-  para producción de alto tráfico se recomienda migrar a Tailwind CLI/PostCSS compilado
-  (reduce el peso de página al eliminar clases no usadas).
-- Accesibilidad: skip-link, `aria-label`/`aria-expanded` en menú y modales, foco visible,
-  `role="dialog"` + cierre con `Esc`.
-
-## 4. Panel operativo de DOs (`/panel`)
-
-### Instalación (XAMPP)
-1. Importar `SQL/rubicam_db.sql` (instalación nueva) **o**, si la base ya existe,
-   ejecutar una sola vez `SQL/migracion_panel_v2.sql` (actualiza los tipos de documento
-   del legajo: Declaración de Importación, Factura Comercial, Lista de Empaque, RUT,
-   BL/Guía aérea, Otro).
-2. La configuración vive en `config/config_db.php` (BD, `N8N_WEBHOOK_URL`, `UPLOAD_DIR`).
-   Ya **no** existe `panel/config_db.php`: si quedó una copia antigua, bórrela.
-3. Si agrega clases de Tailwind al panel: `npm run build:css`
-   (`tailwind.config.js` ya incluye `./panel/**/*.php`).
-
-### Archivos
 | Archivo | Función |
 |---|---|
-| `panel/index.php` | Login (sesión segura, `session_regenerate_id`). |
-| `panel/dashboard.php` | Tabla de DOs, semáforo, KPIs, filtros y 3 modales. Endpoints AJAX internos: `?action=listar`, `crear` (POST), `documentos`, `descargar`. |
-| `panel/logout.php` | Cierre de sesión (vacía sesión, borra cookie, `session_destroy`, redirige a `index.php`). |
-| `handlers/webhook_trigger.php` | POST JSON → actualiza `procesos_do` (estado + bitácora) y alerta a n8n por cURL. Responde siempre `{status, message}`. |
-| `handlers/upload_documento.php` | POST multipart (`documento`) → valida extensión, MIME real, firma y tamaño (10 MB), guarda en `/uploads` y registra en `documentos_do`. |
+| `panel/index.php` | Login: sesión segura, `session_regenerate_id`, 5 intentos fallidos por ventana, respuesta uniforme (no revela si el usuario existe). |
+| `panel/dashboard.php` | Tabla de DO, semáforo, KPI, filtros y modales. Acciones AJAX: `?action=listar`, `crear` (POST), `documentos`, `descargar`, **`exportar`** (`&formato=csv\|json` y filtros `sucursal`, `regimen`, `nivel`). |
+| `panel/logout.php` | Cierra la sesión (vacía datos, borra la cookie, destruye la sesión). |
+| `handlers/webhook_trigger.php` | POST JSON → cambia el estado del DO (con bloqueo de fila), anota la bitácora y avisa a n8n. |
+| `handlers/upload_documento.php` | POST multipart → valida tamaño (10 MB), extensión, MIME real y firma; guarda con nombre seguro. |
 
-### Semáforo DIAN (días transcurridos desde la apertura)
-- Verde «Al día»: menos de 30 días.
-- Naranja «Seguimiento»: de 30 a 75 días.
-- Rojo «Crítico»: más de 75 días, **o** fecha de vencimiento ya superada («Vencido»).
-- Neutro «Cerrado»: estados Finalizada, Nacionalizado o Cerrado sin facturar (no generan alerta).
+**Semáforo DIAN** (días desde la apertura): verde «Al día» < 30 · naranja «Seguimiento» 30–75 · rojo «Crítico» > 75 **o** vencimiento superado
+(«Vencido») · neutro «Cerrado» (Finalizada, Nacionalizado, Cerrado sin facturar). Plazo por defecto: 90 días.
 
-### Roles
-`admin` y `operador` pueden crear DOs, cambiar estados y subir documentos.
-`consulta` solo ve la tabla, la bitácora y descarga documentos.
+**Roles:** `admin` y `operador` crean DO, cambian estados y suben documentos; `consulta` solo lee, descarga y exporta.
 
-### n8n
-- El payload incluye `evento`, `do_id`, `do_codigo`, `cliente`, `email`, `estado_anterior`,
-  `nuevo_estado`, `observaciones`, `dias_transcurridos`, `nivel_alerta`, `usuario`, `fecha_evento`.
-- Si n8n falla, el estado **sí** queda guardado y el panel muestra un aviso naranja con el motivo.
-- URL `/webhook/...` exige el workflow **activo**; `/webhook-test/...` solo con "Listen for test event".
-- XAMPP en Windows: si aparece «falló la verificación SSL», descargue `cacert.pem`
-  (https://curl.se/ca/cacert.pem) y en `php.ini` configure `curl.cainfo` y `openssl.cafile`
-  con su ruta (o defina `N8N_CA_BUNDLE`). Reinicie Apache.
+**Exportar (MR-010):** los botones «Exportar CSV» y «JSON» descargan las operaciones con los filtros activos. El CSV va en UTF-8 con BOM y
+separador `;` (Excel en español) y neutraliza la inyección de fórmulas (`= + - @`).
 
-### Seguridad
-- Todas las acciones de escritura exigen sesión, rol y token CSRF (cabecera `X-CSRF-Token`).
-- `/uploads` tiene `.htaccess` con `Require all denied`: los archivos solo se descargan por
-  `dashboard.php?action=descargar` (con sesión).
-- Errores se registran en `logs/php-error.log` (bloqueado por `.htaccess`).
+**n8n:** el payload incluye `evento`, `do_id`, `do_codigo`, `cliente`, `email`, `estado_anterior`, `nuevo_estado`, `observaciones`,
+`dias_transcurridos`, `nivel_alerta`, `usuario`, `fecha_evento`. Si n8n falla, el estado **sí** queda guardado y el panel avisa el motivo.
+La URL `/webhook/…` exige el workflow activo; `/webhook-test/…` solo con «Listen for test event». En XAMPP/Windows, si aparece «falló la
+verificación SSL», descargue `cacert.pem` (https://curl.se/ca/cacert.pem) y configure `curl.cainfo`/`openssl.cafile` en `php.ini`
+(o `N8N_CA_BUNDLE`).
+
+## Seguridad (resumen)
+
+* Escrituras del panel: sesión + rol + token CSRF (`X-CSRF-Token`), en ese orden (`Guardia`).
+* Entradas validadas en el servidor (`Sanitizador`, `ValidadorNuevoDo`); consultas preparadas; salida escapada.
+* Cabeceras: CSP estricta en el panel (`script-src 'self'`), `nosniff`, `X-Frame-Options`, `Referrer-Policy`.
+* `.htaccess` niega `SQL/`, `src/`, `tests/`, `tools/`, `docs/`, `config/`, `logs/`, `.git/`, archivos `.env/.json/.md/.sql/…` y `uploads/`
+  (los documentos solo se descargan por el panel con sesión).
+* Errores 500 genéricos hacia el usuario; el detalle va a `logs/php-error.log`.
+
+## Sitio público
+
+* **Cotizador** (`#quote-form` + `assets/js/app.js`): validación en cliente (UX) y en servidor (autoritativa, `ControladorCotizacion`): CSRF,
+  honeypot, límite de 5 envíos / 10 min por IP, sanitización estricta, correo con `From:` fijo y `Reply-To:` del usuario.
+* **Tracking de DO:** demostración en el front-end (no consulta la base de datos).
+* **Chat «Rubi»:** si `RUBI_WEBHOOK_URL` está definida envía cada mensaje por POST JSON `{message, source}` y muestra `data.reply`.
+
+### Tailwind (compilado, sin CDN)
+
+El CSS se compila localmente a `assets/css/tailwind.build.css`. Si agrega clases nuevas en `index.php`, `panel/` o los `.js`:
+
+```bash
+npm install          # una sola vez
+npm run build:css    # recompila el CSS
+```
+
+## Documentación
+
+| Documento | Contenido |
+|---|---|
+| [`docs/01_ESPECIFICACION.md`](docs/01_ESPECIFICACION.md) | Documentación previa: arquitectura, especificación de módulos, estándares, requisitos de calidad, desviaciones |
+| [`docs/02_CASOS_DE_PRUEBA.md`](docs/02_CASOS_DE_PRUEBA.md) | Pruebas previas: plan y casos (entrada → resultado esperado), regresión, E2E, Apache |
+| [`docs/03_AUDITORIA_CODIGO.md`](docs/03_AUDITORIA_CODIGO.md) | Auditoría del código heredado: 19 hallazgos con tipo de error y característica ISO 25010 |
+| [`docs/04_PLAN_DE_MANTENIMIENTO.md`](docs/04_PLAN_DE_MANTENIMIENTO.md) | ISO/IEC/IEEE 14764: registro MR/PR, análisis de impacto, trazabilidad |
+| [`docs/05_DESPLIEGUE.md`](docs/05_DESPLIEGUE.md) | Git, ramas, Conventional Commits, CI, entornos, despliegue y reversión |
+| [`docs/INFORME_TECNICO.md`](docs/INFORME_TECNICO.md) | **Informe técnico** (también en PDF): antes/después, evidencias, TDD, depuración, declaración de uso de IA |
+| [`CHANGELOG.md`](CHANGELOG.md) | Cambios por versión |
+| `docs/evidencias/` | Salidas reales de las herramientas (antes, después y ciclo rojo → verde de cada MR) |
+
+Historial: `git log --oneline --graph --decorate` (cada MR es una rama con su commit `[RED]` y su commit `[GREEN]`).

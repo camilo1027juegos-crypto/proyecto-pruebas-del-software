@@ -25,7 +25,7 @@ login, exportación, herramientas de calidad, pruebas y despliegue.
                    └───────────────┬────────────────────────────────────┘
                                    │ Solicitud ─► Controlador ─► Respuesta
                    ┌───────────────▼────────────────────────────────────┐
-                   │ Aplicación  src/Panel · src/Cotizador              │  orquesta casos de uso
+                   │ Aplicación  src/Panel · src/Publico               │  orquesta casos de uso
                    └───────┬───────────────────────┬────────────────────┘
           ┌────────────────▼───────┐   ┌───────────▼────────────────────┐
           │ Dominio (PURO, sin I/O)│   │ Infraestructura                │
@@ -196,12 +196,12 @@ Endpoint:  panel/dashboard.php?action=exportar&formato=json|csv  (requiere sesi�
 
 | Característica | Requisito | Métrica / verificación |
 |---|---|---|
-| Mantenibilidad — modularidad | Ningún archivo de punto de entrada > 120 líneas de PHP; lógica en clases con una responsabilidad | `phploc`, conteo de clases |
+| Mantenibilidad — modularidad | Puntos de entrada delgados (`panel/dashboard.php` 49 líneas; `handlers/*.php` ≤ 40); lógica en clases con una responsabilidad | `phploc`, conteo de clases |
 | Mantenibilidad — analizabilidad | CC ≤ 10 y NPath ≤ 200 en todo método | PHPMD: 0 incumplimientos |
-| Mantenibilidad — capacidad de ser probado | Dominio y seguridad cubiertos ≥ 90 % de líneas | `phpunit --coverage-text` |
+| Mantenibilidad — capacidad de ser probado | Lógica pura (`Dominio`, `Publico`) ≥ 90 % de líneas con pruebas unitarias; el código que toca BD, sesión real y cabeceras HTTP se verifica con E2E | `phpunit --coverage-text` + E2E |
 | Fiabilidad — tolerancia a fallos | Una falla de n8n o del correo no pierde datos ni rompe el panel | E2E-14, E2E-27 |
 | Seguridad — integridad / confidencialidad | Validación estricta, CSRF, cargas verificadas, archivos internos no expuestos | pruebas unitarias, E2E y CP-SEG-xx |
-| Seguridad — autenticidad | Límite de intentos y respuesta uniforme en el login | CP-LOG-xx |
+| Seguridad — autenticidad | Límite de intentos y respuesta uniforme en el login | `AutenticadorTest`, E2E-29/30 |
 | Adecuación funcional | El comportamiento observable no cambia tras el refactor | 28 casos E2E en verde antes y después |
 | Portabilidad — adaptabilidad | Mismo código en desarrollo, pruebas y producción vía variables de entorno | `.env.example`, `docs/05_DESPLIEGUE.md` |
 
@@ -222,3 +222,16 @@ Endpoint:  panel/dashboard.php?action=exportar&formato=json|csv  (requiere sesi�
 | `Respuesta` en lugar de `exit` | Permite probar controladores sin terminar el proceso de PHPUnit y centraliza las cabeceras de seguridad. |
 | Separar `assets/js/panel.js` de la vista | Un JS estático se puede versionar, cachear y analizar; además permite una CSP sin `'unsafe-inline'` en scripts. |
 | No cambiar el esquema de BD ni los formatos JSON existentes | El refactor no debe romper el cliente JavaScript ni los datos en producción. |
+
+## 8. Desviaciones entre el diseño previo y la implementación
+
+Este documento se escribió **antes** de codificar. Al implementar con TDD hubo ajustes; se registran aquí para que el diseño y el código no se contradigan en silencio.
+
+| Diseño previo | Implementación final | Motivo |
+|---|---|---|
+| Carpeta `src/Cotizador` | `src/Publico` (`ControladorCotizacion`) | El espacio público del sitio (cotizador y futuros formularios) es más amplio que una sola función. |
+| `Rubicam\Exportacion\ExportadorDo` | `Rubicam\Panel\ExportadorDo` | Solo lo usa el panel; una carpeta con una clase era sobre-ingeniería. Se agregaron `filtrar()` y `nombreArchivo()`. |
+| `Respuesta::estado()` / `redirigir()` / `emitir()` y `ErrorHttp::aRespuesta()` | `Respuesta::json()` / `datos()` / `redireccion()` / `html()` / `archivo()` / `descarga()` / `enviar()`, y `Ejecutor` que convierte `ErrorHttp` y excepciones en respuestas | Centralizar el manejo de errores en un solo lugar (`Ejecutor`) y no filtrar detalles internos en errores 500. |
+| Entorno `testing` con `APP_ENV` | Solo `development` es especial (muestra errores); cualquier otro valor es «producción» | Regla más simple y segura: ante la duda, ocultar errores. |
+| Cobertura ≥ 90 % en Dominio **y Seguridad** | Dominio 100 %, Publico 100 %, escáner de seguridad 99 %; Seguridad 75 % | Lo no cubierto de `Seguridad` son las llamadas reales a `session_start()`/`header()` (`SesionPanel::iniciar/abrir/cerrar`), que solo existen con un servidor web: las cubre el E2E. |
+| CI ejecuta las pruebas | Escrito (`ci.yml`) pero **no ejecutado** | El entorno de desarrollo no tenía acceso a Packagist/GitHub; las mismas compuertas se ejecutaron a mano. |

@@ -1,0 +1,6 @@
+$ phpunit   (suite completa)
+..............................................                  424 / 424 (100%)
+
+Time: 00:01.447, Memory: 8.00 MB
+
+OK (424 tests, 743 assertions)

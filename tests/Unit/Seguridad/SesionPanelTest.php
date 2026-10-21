@@ -73,4 +73,31 @@ final class SesionPanelTest extends TestCase
         $_SESSION['nombre_completo'] = 'Ana Gómez';
         $this->assertSame('Ana Gómez', SesionPanel::nombreUsuario());
     }
+
+    public function testLosDatosDelUsuarioSalenDeLaSesion(): void
+    {
+        $_SESSION = [
+            'usuario'         => 'aperez',
+            'nombre_completo' => 'Ana Pérez',
+            'rol'             => 'operador',
+            'sucursal'        => 'Cúcuta',
+        ];
+
+        $this->assertSame('Ana Pérez', SesionPanel::nombreUsuario());
+        $this->assertSame('aperez', SesionPanel::usuarioLogin());
+        $this->assertSame('operador', SesionPanel::rol());
+        $this->assertSame('Cúcuta', SesionPanel::sucursal());
+    }
+
+    public function testSinNombreCompletoSeUsaElUsuarioYSinNadaUnNombreGenerico(): void
+    {
+        $_SESSION = ['usuario' => 'aperez'];
+        $this->assertSame('aperez', SesionPanel::nombreUsuario());
+
+        $_SESSION = [];
+        $this->assertSame('Usuario', SesionPanel::nombreUsuario());
+        $this->assertSame('', SesionPanel::rol());
+        $this->assertSame('', SesionPanel::usuarioLogin());
+        $this->assertSame('', SesionPanel::sucursal());
+    }
 }

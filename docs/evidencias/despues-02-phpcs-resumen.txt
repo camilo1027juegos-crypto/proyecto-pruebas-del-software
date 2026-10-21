@@ -1,0 +1,9 @@
+$ phpcs --report=summary   (PSR-12 + límite de 120 columnas; incluye src, config, handlers, panel, tests, tools, index.php)
+............................................................ 60 / 87 (69%)
+...........................                                  87 / 87 (100%)
+
+
+Time: 1.26 secs; Memory: 14MB
+
+
+(código de salida: 0)
