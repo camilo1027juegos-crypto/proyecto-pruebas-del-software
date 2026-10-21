@@ -34,23 +34,10 @@ use RecursiveIteratorIterator;
 
 final class EscanerSeguridad
 {
-    private const ORDEN_SEVERIDAD = ['bajo' => 1, 'medio' => 2, 'alto' => 3];
-
-    private const FUNCIONES_EVAL      = ['create_function'];
-    private const FUNCIONES_COMANDO   = ['exec', 'shell_exec', 'system', 'passthru', 'popen', 'proc_open', 'pcntl_exec'];
-    private const METODOS_SQL         = ['query', 'exec', 'prepare'];
-    private const FUNCIONES_DEBILES   = ['md5', 'sha1', 'rand', 'mt_rand'];
-    private const OPCIONES_SSL        = ['CURLOPT_SSL_VERIFYPEER', 'CURLOPT_SSL_VERIFYHOST'];
-    private const ENTRADAS            = ['$_GET', '$_POST', '$_REQUEST', '$_COOKIE', '$_FILES'];
-    private const NOMBRE_SECRETO      = '/(pass(word|wd)?|secret|token|api[_-]?key|clave|credential)/i';
-    private const MARCA_SUPRESION     = '/seguridad:ignorar\s+(SEG-\d{3})/';
-    private const CARPETAS_IGNORADAS  = ['/vendor/', '/node_modules/', '/.git/'];
-
-    /** Reglas que se evalúan sobre cada token, en este orden. */
-    private const REGLAS = [
-        'reglaEval', 'reglaComandos', 'reglaComillasInvertidas', 'reglaUnserialize', 'reglaSql',
-        'reglaCredenciales', 'reglaSsl', 'reglaInclusion', 'reglaFuncionesDebiles',
-    ];
+    private const ORDEN_SEVERIDAD   = ['bajo' => 1, 'medio' => 2, 'alto' => 3];
+    private const ENTRADAS           = ['$_GET', '$_POST', '$_REQUEST', '$_COOKIE', '$_FILES'];
+    private const MARCA_SUPRESION    = '/seguridad:ignorar\s+(SEG-\d{3})/';
+    private const CARPETAS_IGNORADAS = ['/vendor/', '/node_modules/', '/.git/'];
 
     /**
      * @param list<string> $archivosConEntradas archivos autorizados a leer $_GET/$_POST (p. ej. Solicitud.php)
@@ -58,14 +45,16 @@ final class EscanerSeguridad
      */
     public static function escanearCodigo(string $codigo, string $archivo, array $archivosConEntradas = []): array
     {
-        $todos        = PhpToken::tokenize($codigo);
-        $significados = array_values(array_filter($todos, static fn (PhpToken $t): bool => !$t->isIgnorable()));
-        $suprimidos   = self::lineasSuprimidas($todos);
+        $todos           = PhpToken::tokenize($codigo);
+        $significativos  = array_values(
+            array_filter($todos, static fn (PhpToken $token): bool => !$token->isIgnorable())
+        );
+        $suprimidos      = self::lineasSuprimidas($todos);
         $permiteEntradas = self::terminaEnAlguno($archivo, $archivosConEntradas);
 
         $hallazgos = [];
-        foreach ($significados as $posicion => $token) {
-            $encontrados = self::reglasDelToken($significados, $posicion);
+        foreach ($significativos as $posicion => $token) {
+            $encontrados = self::reglasDelToken($significativos, $posicion);
             if (!$permiteEntradas && self::esEntradaDelUsuario($token)) {
                 $encontrados[] = ['SEG-009', 'medio', 'Lectura directa de ' . $token->text . ': use Solicitud.'];
             }
@@ -76,7 +65,11 @@ final class EscanerSeguridad
             }
         }
 
-        usort($hallazgos, static fn (Hallazgo $a, Hallazgo $b): int => [$a->linea, $a->regla] <=> [$b->linea, $b->regla]);
+        usort(
+            $hallazgos,
+            static fn (Hallazgo $primero, Hallazgo $segundo): int => [$primero->linea, $primero->regla]
+                <=> [$segundo->linea, $segundo->regla]
+        );
 
         return $hallazgos;
     }
@@ -146,210 +139,24 @@ final class EscanerSeguridad
     }
 
     // ------------------------------------------------------------------
-    // Reglas (cada una recibe los tokens y la posición actual)
+    // Utilidades
     // ------------------------------------------------------------------
 
     /**
-     * @param list<PhpToken> $t
+     * @param list<PhpToken> $tokens
      * @return list<array{string, string, string}>
      */
-    private static function reglasDelToken(array $t, int $i): array
+    private static function reglasDelToken(array $tokens, int $posicion): array
     {
-        $encontrados = [];
-        foreach (self::REGLAS as $regla) {
-            $resultado = self::$regla($t, $i);
-            if ($resultado !== null) {
-                $encontrados[] = $resultado;
-            }
-        }
-
-        return $encontrados;
+        return array_merge(
+            ReglasPeligrosas::evaluar($tokens, $posicion),
+            ReglasDeDatos::evaluar($tokens, $posicion)
+        );
     }
-
-    /** @param list<PhpToken> $t */
-    private static function reglaEval(array $t, int $i): ?array
-    {
-        if ($t[$i]->id === T_EVAL || self::esLlamada($t, $i, self::FUNCIONES_EVAL)) {
-            return ['SEG-001', 'alto', 'Ejecución de código dinámico (eval / create_function).'];
-        }
-
-        return null;
-    }
-
-    /** @param list<PhpToken> $t */
-    private static function reglaComandos(array $t, int $i): ?array
-    {
-        return self::esLlamada($t, $i, self::FUNCIONES_COMANDO)
-            ? ['SEG-002', 'alto', 'Ejecución de comandos del sistema: ' . $t[$i]->text . '().']
-            : null;
-    }
-
-    /** @param list<PhpToken> $t */
-    private static function reglaComillasInvertidas(array $t, int $i): ?array
-    {
-        if ($t[$i]->text !== '`') {
-            return null;
-        }
-        $previas = count(array_filter(array_slice($t, 0, $i), static fn (PhpToken $x): bool => $x->text === '`'));
-
-        return $previas % 2 === 0 ? ['SEG-002', 'alto', 'Ejecución de comandos con comillas invertidas.'] : null;
-    }
-
-    /** @param list<PhpToken> $t */
-    private static function reglaUnserialize(array $t, int $i): ?array
-    {
-        return self::esLlamada($t, $i, ['unserialize'])
-            ? ['SEG-003', 'medio', 'unserialize() con datos no confiables permite inyección de objetos; use JSON.']
-            : null;
-    }
-
-    /** @param list<PhpToken> $t */
-    private static function reglaSql(array $t, int $i): ?array
-    {
-        $esMetodo = $t[$i]->id === T_STRING
-            && in_array(strtolower($t[$i]->text), self::METODOS_SQL, true)
-            && in_array($t[max(0, $i - 1)]->text, ['->', '?->'], true)
-            && ($t[$i + 1]->text ?? '') === '(';
-        if (!$esMetodo) {
-            return null;
-        }
-
-        $argumentos = self::argumentos($t, $i + 1);
-        $textos     = array_map(static fn (PhpToken $x): string => $x->text, $argumentos);
-        $concatena  = in_array('.', $textos, true);
-        $variables  = count(array_filter($argumentos, static fn (PhpToken $x): bool => $x->id === T_VARIABLE)) > 0;
-
-        return ($concatena || $variables)
-            ? ['SEG-004', 'medio', 'SQL armado con variables o concatenación: use consultas preparadas con parámetros.']
-            : null;
-    }
-
-    /** @param list<PhpToken> $t */
-    private static function reglaCredenciales(array $t, int $i): ?array
-    {
-        $nombre = self::nombreAsignado($t, $i);
-        if ($nombre === null || preg_match(self::NOMBRE_SECRETO, $nombre) !== 1) {
-            return null;
-        }
-
-        return ['SEG-005', 'alto', 'Credencial escrita en el código («' . $nombre . '»): léala del entorno (.env).'];
-    }
-
-    /** @param list<PhpToken> $t */
-    private static function reglaSsl(array $t, int $i): ?array
-    {
-        if ($t[$i]->id !== T_STRING || !in_array($t[$i]->text, self::OPCIONES_SSL, true)) {
-            return null;
-        }
-        $valor = strtolower($t[$i + 2]->text ?? '');
-
-        return in_array($valor, ['false', '0'], true)
-            ? ['SEG-006', 'alto', 'Verificación SSL desactivada (' . $t[$i]->text . '): expone a ataques de intermediario.']
-            : null;
-    }
-
-    /** @param list<PhpToken> $t */
-    private static function reglaInclusion(array $t, int $i): ?array
-    {
-        if (!in_array($t[$i]->id, [T_INCLUDE, T_INCLUDE_ONCE, T_REQUIRE, T_REQUIRE_ONCE], true)) {
-            return null;
-        }
-        for ($j = $i + 1; $j < count($t) && $t[$j]->text !== ';'; $j++) {
-            if ($t[$j]->id === T_VARIABLE) {
-                return ['SEG-007', 'medio', 'include/require con ruta variable: riesgo de inclusión de archivos.'];
-            }
-        }
-
-        return null;
-    }
-
-    /** @param list<PhpToken> $t */
-    private static function reglaFuncionesDebiles(array $t, int $i): ?array
-    {
-        return self::esLlamada($t, $i, self::FUNCIONES_DEBILES)
-            ? ['SEG-008', 'bajo', $t[$i]->text . '() no es adecuada para contraseñas ni tokens: use password_hash / random_bytes.']
-            : null;
-    }
-
-    // ------------------------------------------------------------------
-    // Utilidades
-    // ------------------------------------------------------------------
 
     private static function esEntradaDelUsuario(PhpToken $token): bool
     {
         return $token->id === T_VARIABLE && in_array($token->text, self::ENTRADAS, true);
-    }
-
-    /**
-     * ¿Es la llamada a una función global (no un método, ni su declaración)?
-     *
-     * @param list<PhpToken> $t
-     * @param list<string>   $nombres
-     */
-    private static function esLlamada(array $t, int $i, array $nombres): bool
-    {
-        if ($t[$i]->id !== T_STRING || !in_array(strtolower($t[$i]->text), $nombres, true)) {
-            return false;
-        }
-        $anterior = $t[max(0, $i - 1)];
-        $esAcceso = in_array($anterior->text, ['->', '?->', '::'], true) || $anterior->id === T_FUNCTION;
-
-        return !$esAcceso && ($t[$i + 1]->text ?? '') === '(';
-    }
-
-    /**
-     * Tokens entre el paréntesis que abre en $abre y su pareja.
-     *
-     * @param list<PhpToken> $t
-     * @return list<PhpToken>
-     */
-    private static function argumentos(array $t, int $abre): array
-    {
-        $profundidad = 0;
-        $dentro      = [];
-        for ($j = $abre; $j < count($t); $j++) {
-            $profundidad += ($t[$j]->text === '(') ? 1 : (($t[$j]->text === ')') ? -1 : 0);
-            if ($profundidad === 0) {
-                break;
-            }
-            if ($j > $abre) {
-                $dentro[] = $t[$j];
-            }
-        }
-
-        return $dentro;
-    }
-
-    /**
-     * Si en la posición hay «nombre = 'literal'», «'nombre' => 'literal'» o
-     * define('NOMBRE', 'literal') con un literal no vacío, devuelve el nombre.
-     *
-     * @param list<PhpToken> $t
-     */
-    private static function nombreAsignado(array $t, int $i): ?string
-    {
-        $actual = $t[$i];
-        $nombre = match (true) {
-            $actual->id === T_VARIABLE && ($t[$i + 1]->text ?? '') === '='        => [ltrim($actual->text, '$'), $i + 2],
-            $actual->id === T_CONSTANT_ENCAPSED_STRING && ($t[$i + 1]->id ?? 0) === T_DOUBLE_ARROW
-                                                                                   => [self::sinComillas($actual->text), $i + 2],
-            self::esLlamada($t, $i, ['define']) && ($t[$i + 3]->text ?? '') === ',' => [self::sinComillas($t[$i + 2]->text ?? ''), $i + 4],
-            default                                                                => null,
-        };
-        if ($nombre === null) {
-            return null;
-        }
-
-        $valor = $t[$nombre[1]] ?? null;
-
-        return ($valor !== null && $valor->id === T_CONSTANT_ENCAPSED_STRING && self::sinComillas($valor->text) !== '')
-            ? $nombre[0]
-            : null;
-    }
-
-    private static function sinComillas(string $literal): string
-    {
-        return strlen($literal) >= 2 ? substr($literal, 1, -1) : $literal;
     }
 
     /**
@@ -360,8 +167,10 @@ final class EscanerSeguridad
     {
         $suprimidas = [];
         foreach ($todos as $token) {
-            if (($token->id !== T_COMMENT && $token->id !== T_DOC_COMMENT)
-                || preg_match_all(self::MARCA_SUPRESION, $token->text, $coincidencias) === 0) {
+            if (
+                ($token->id !== T_COMMENT && $token->id !== T_DOC_COMMENT)
+                || preg_match_all(self::MARCA_SUPRESION, $token->text, $coincidencias) === 0
+            ) {
                 continue;
             }
             $ultimaLinea = $token->line + substr_count(rtrim($token->text), "\n");
@@ -401,7 +210,9 @@ final class EscanerSeguridad
         }
 
         $archivos  = [];
-        $recorrido = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($ruta, RecursiveDirectoryIterator::SKIP_DOTS));
+        $recorrido = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($ruta, RecursiveDirectoryIterator::SKIP_DOTS)
+        );
         foreach ($recorrido as $archivo) {
             $camino = $archivo->getPathname();
             if ($archivo->getExtension() === 'php' && !self::estaIgnorado($camino)) {

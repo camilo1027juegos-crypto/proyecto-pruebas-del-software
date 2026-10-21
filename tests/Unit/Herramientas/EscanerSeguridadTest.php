@@ -93,6 +93,10 @@ final class EscanerSeguridadTest extends TestCase
             'bytes aleatorios seguros'      => ['$t = bin2hex(random_bytes(16));'],
             'texto que menciona eval'       => ['$aviso = "no use eval ni exec";'],
             'comentario con eval'           => ['// eval($x) está prohibido'],
+            'SQL de literales unidos'       => ['$pdo->exec(\'SET a = 1, \' . \'b = 2\');'],
+            'SQL de constante y literal'    => ['$pdo->query(self::SELECT_LISTA . \' ORDER BY id\');'],
+            'clave que arma un nombre'      => ['$clave = \'HTTP_\' . strtoupper($nombre);'],
+            'clave comparada, no asignada'  => ['$ok = $password === \'\';'],
         ];
     }
 
