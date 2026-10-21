@@ -323,9 +323,18 @@ function bitacora_parsear(?string $bitacora, int $limite = 10): array
     return $entradas;
 }
 
-/** Dígito de verificación del NIT según el algoritmo de la DIAN (módulo 11). */
+/**
+ * Dígito de verificación del NIT según el algoritmo de la DIAN (módulo 11).
+ *
+ * @throws InvalidArgumentException si $nitBase no son entre 1 y 15 dígitos (MR-004: antes
+ *         'abc12' devolvía un dígito «inventado» en lugar de fallar).
+ */
 function calcular_dv_nit(string $nitBase): int
 {
+    if (!preg_match('/^\d{1,15}$/', $nitBase)) {
+        throw new InvalidArgumentException('El NIT base debe tener entre 1 y 15 dígitos numéricos.');
+    }
+
     $pesos = [3, 7, 13, 17, 19, 23, 29, 37, 41, 43, 47, 53, 59, 67, 71];
     $digitos = strrev($nitBase);
     $suma = 0;

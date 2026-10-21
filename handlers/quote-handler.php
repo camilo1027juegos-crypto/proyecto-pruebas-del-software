@@ -44,8 +44,13 @@ $name         = clean_string($_POST['name'] ?? '');
 $email        = clean_email($_POST['email'] ?? '');
 $phone        = clean_phone($_POST['phone'] ?? '');
 
+// MR-003: sin tope, un origen de millones de caracteres terminaba en el cuerpo del correo.
+const MAX_ROUTE_LENGTH = 120;
+
 $validOps = ['importacion', 'exportacion', 'zona_franca', 'asesoria'];
 $errors = [];
+if (mb_strlen($origin) > MAX_ROUTE_LENGTH) $errors[] = 'El origen no puede superar ' . MAX_ROUTE_LENGTH . ' caracteres.';
+if (mb_strlen($destination) > MAX_ROUTE_LENGTH) $errors[] = 'El destino no puede superar ' . MAX_ROUTE_LENGTH . ' caracteres.';
 if (!in_array($operation, $validOps, true)) $errors[] = 'Selecciona un tipo de operación válido.';
 if ($cifValueRaw !== '' && $cifValue === null) $errors[] = 'El valor CIF debe ser numérico.';
 if ($name === '' || mb_strlen($name) > 200) $errors[] = 'El nombre es obligatorio.';
