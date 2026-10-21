@@ -464,5 +464,21 @@ if (PHP_OS_FAMILY === 'Windows') {
     $verificar('E2E-28', 'Límite de tasa: 5 envíos por ventana (5º=200) y el 6º responde 429', $quinta === 200 && $sexta === 429, "5º={$quinta} 6º={$sexta}");
 }
 
+// --- MR-002: teléfono sin dígitos en el alta de DO ---------------------
+$admin->postFormulario('/panel/index.php', ['usuario' => 'e2e_admin', 'password' => CLAVE_E2E]);
+$configuracionNueva = $extraerConfiguracion($admin->get('/panel/dashboard.php')['cuerpo']);
+$cabeceraNueva = ['X-CSRF-Token: ' . (string) ($configuracionNueva['csrf'] ?? '')];
+$r = $admin->postJson(
+    '/panel/dashboard.php?action=crear',
+    $datosDo('CUC26IMP9106', $fechaHaceDias(5), ['telefono' => '-------']),
+    $cabeceraNueva
+);
+$verificar(
+    'E2E-35',
+    'MR-002: alta de DO con teléfono sin dígitos responde 422 con error en "telefono"',
+    $r['estado'] === 422 && isset($r['json']['errors']['telefono']),
+    'HTTP ' . $r['estado']
+);
+
 echo "\nResultado E2E: {$resultados['ok']} correctas, {$resultados['fallos']} con fallos.\n";
 exit($resultados['fallos'] === 0 ? 0 : 1);
