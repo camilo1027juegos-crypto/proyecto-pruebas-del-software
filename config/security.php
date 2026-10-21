@@ -60,16 +60,34 @@ function clean_email(?string $value): ?string
     return $value;
 }
 
+/** Mínimo de dígitos reales de un teléfono (MR-002: antes se contaban caracteres, no dígitos). */
+const PHONE_MIN_DIGITS = 7;
+/** Importe máximo aceptado (USD): 999.999.999.999,99. */
+const AMOUNT_MAX = 999999999999.99;
+
 function clean_phone(?string $value): ?string
 {
     $value = trim($value ?? '');
-    return preg_match('/^[0-9+\-\s()]{7,20}$/', $value) ? $value : null;
+    if (!preg_match('/^[0-9+\-\s()]{7,20}$/', $value)) {
+        return null;
+    }
+    // Un teléfono sin dígitos ('-------') cumple el juego de caracteres pero no es un teléfono.
+    return preg_match_all('/\d/', $value) >= PHONE_MIN_DIGITS ? $value : null;
 }
 
+/**
+ * Importe decimal estricto: mismo contrato que valida el navegador
+ * (/^\d+(\.\d{1,2})?$/). Rechaza notación científica, hexadecimal, negativos e
+ * infinito (MR-001: is_numeric('1e999') devolvía INF).
+ */
 function clean_number(?string $value): ?float
 {
     $value = trim($value ?? '');
-    return is_numeric($value) && (float) $value >= 0 ? (float) $value : null;
+    if (!preg_match('/^\d+(\.\d{1,2})?$/', $value)) {
+        return null;
+    }
+    $amount = (float) $value;
+    return $amount <= AMOUNT_MAX ? $amount : null;
 }
 
 function h(?string $value): string

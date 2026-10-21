@@ -1,0 +1,2 @@
+[FAIL] E2E-35 MR-002: alta de DO con teléfono sin dígitos responde 422 con error en "telefono" -> HTTP 201
+Resultado E2E: 28 correctas, 1 con fallos.
