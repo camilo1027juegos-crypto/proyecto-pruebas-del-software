@@ -617,5 +617,22 @@ foreach (glob($limitadorTasa . '/*') ?: [] as $archivoTasa) {
     unlink($archivoTasa);
 }
 
+// --- MR-009: política de seguridad de contenido (CSP) estricta en el panel ---
+$paginaPanel = $admin->get('/panel/dashboard.php');
+$cspPanel = $paginaPanel['cabeceras']['content-security-policy'] ?? '';
+$scriptsEnLinea = preg_match_all(
+    '/<script(?![^>]*\bsrc=)(?![^>]*type="application\/json")[^>]*>/i',
+    $paginaPanel['cuerpo']
+);
+$paginaAcceso = (new ClienteHttp($base))->get('/panel/index.php');
+$verificar(
+    'E2E-33',
+    'MR-009: el panel envía CSP con script-src \'self\' y no contiene scripts en línea; el acceso no permite scripts',
+    str_contains($cspPanel, "script-src 'self';")
+        && $scriptsEnLinea === 0
+        && str_contains($paginaAcceso['cabeceras']['content-security-policy'] ?? '', "script-src 'none'"),
+    'CSP=' . $cspPanel . ' enLinea=' . $scriptsEnLinea
+);
+
 echo "\nResultado E2E: {$resultados['ok']} correctas, {$resultados['fallos']} con fallos.\n";
 exit($resultados['fallos'] === 0 ? 0 : 1);

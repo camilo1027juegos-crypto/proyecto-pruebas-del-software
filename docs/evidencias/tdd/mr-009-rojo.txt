@@ -1,0 +1,34 @@
+PHPUnit 9.6.17 by Sebastian Bergmann and contributors.
+
+FFFE                                                                4 / 4 (100%)
+
+Time: 00:00.006, Memory: 6.00 MB
+
+There was 1 error:
+
+1) Rubicam\Tests\Unit\Seguridad\CabecerasSegurasTest::testLaPantallaDeAccesoNoPermiteNingunScript
+Error: Call to undefined method Rubicam\Seguridad\CabecerasSeguras::acceso()
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/CabecerasSegurasTest.php:80
+
+--
+
+There were 3 failures:
+
+1) Rubicam\Tests\Unit\Seguridad\CabecerasSegurasTest::testElPanelRestringeLosScriptsAlPropioOrigen
+Failed asserting that null is identical to ''self''.
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/CabecerasSegurasTest.php:45
+
+2) Rubicam\Tests\Unit\Seguridad\CabecerasSegurasTest::testElPanelBloqueaObjetosBaseExternaYEnvioDeFormulariosAjenos
+Failed asserting that null is identical to ''none''.
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/CabecerasSegurasTest.php:56
+
+3) Rubicam\Tests\Unit\Seguridad\CabecerasSegurasTest::testElPanelNoSeConectaAOrigenesExternos
+Failed asserting that null is identical to ''self''.
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/CabecerasSegurasTest.php:71
+
+ERRORS!
+Tests: 4, Assertions: 3, Errors: 1, Failures: 3.
