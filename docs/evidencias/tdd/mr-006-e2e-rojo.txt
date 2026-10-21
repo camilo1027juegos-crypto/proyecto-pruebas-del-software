@@ -1,0 +1,3 @@
+[FAIL] E2E-29 MR-006: tras 5 fallos seguidos, ni la clave correcta entra (200 con aviso, sin redirigir) -> HTTP 302
+[PASS] E2E-30 MR-006: un inicio de sesión correcto reinicia el contador (4 fallos + éxito + 1 fallo no bloquea)
+Resultado E2E: 31 correctas, 1 con fallos.

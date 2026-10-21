@@ -56,7 +56,7 @@ $insertarUsuario = $pdo->prepare(
     'INSERT INTO usuarios (usuario, password_hash, rol, nombre_completo, sucursal, activo)
      VALUES (:usuario, :hash, :rol, :nombre, :sucursal, 1)'
 );
-foreach (['e2e_admin' => 'admin', 'e2e_consulta' => 'consulta'] as $usuario => $rol) {
+foreach (['e2e_admin' => 'admin', 'e2e_consulta' => 'consulta', 'e2e_bloqueo' => 'consulta'] as $usuario => $rol) {
     $insertarUsuario->execute([
         'usuario'  => $usuario,
         'hash'     => password_hash(CLAVE_E2E, PASSWORD_DEFAULT),
@@ -567,6 +567,55 @@ $verificar(
     $r['estado'] === 422 && isset($r['json']['errors']['telefono']),
     'HTTP ' . $r['estado']
 );
+
+// --- MR-006: bloqueo del inicio de sesión por intentos fallidos --------
+foreach (glob($limitadorTasa . '/*') ?: [] as $archivoTasa) {
+    unlink($archivoTasa);
+}
+$atacante = new ClienteHttp($base);
+$respuestasLogin = [];
+for ($intento = 1; $intento <= 5; $intento++) {
+    $respuestasLogin[] = $atacante->postFormulario(
+        '/panel/index.php',
+        ['usuario' => 'e2e_bloqueo', 'password' => 'clave-equivocada-' . $intento]
+    );
+}
+$conClaveCorrecta = $atacante->postFormulario(
+    '/panel/index.php',
+    ['usuario' => 'e2e_bloqueo', 'password' => CLAVE_E2E]
+);
+$verificar(
+    'E2E-29',
+    'MR-006: tras 5 fallos seguidos, ni la clave correcta entra (200 con aviso, sin redirigir)',
+    $respuestasLogin[4]['estado'] === 200
+        && $conClaveCorrecta['estado'] === 200
+        && !isset($conClaveCorrecta['cabeceras']['location'])
+        && str_contains($conClaveCorrecta['cuerpo'], 'Demasiados intentos'),
+    'HTTP ' . $conClaveCorrecta['estado']
+);
+
+foreach (glob($limitadorTasa . '/*') ?: [] as $archivoTasa) {
+    unlink($archivoTasa);
+}
+$legitimo = new ClienteHttp($base);
+for ($intento = 1; $intento <= 4; $intento++) {
+    $legitimo->postFormulario('/panel/index.php', ['usuario' => 'e2e_bloqueo', 'password' => 'mal-' . $intento]);
+}
+$exito = $legitimo->postFormulario('/panel/index.php', ['usuario' => 'e2e_bloqueo', 'password' => CLAVE_E2E]);
+$legitimo->get('/panel/logout.php');
+$otraVez = new ClienteHttp($base);
+$ultimoFallo = $otraVez->postFormulario('/panel/index.php', ['usuario' => 'e2e_bloqueo', 'password' => 'mal-otra-vez']);
+$verificar(
+    'E2E-30',
+    'MR-006: un inicio de sesión correcto reinicia el contador (4 fallos + éxito + 1 fallo no bloquea)',
+    $exito['estado'] === 302
+        && $ultimoFallo['estado'] === 200
+        && str_contains($ultimoFallo['cuerpo'], 'Usuario o contraseña incorrectos'),
+    'éxito=' . $exito['estado'] . ' último=' . $ultimoFallo['estado']
+);
+foreach (glob($limitadorTasa . '/*') ?: [] as $archivoTasa) {
+    unlink($archivoTasa);
+}
 
 echo "\nResultado E2E: {$resultados['ok']} correctas, {$resultados['fallos']} con fallos.\n";
 exit($resultados['fallos'] === 0 ? 0 : 1);
