@@ -1,0 +1,2 @@
+[FAIL] E2E-34 MR-001/003: origen > 120 caracteres, destino > 120 y valor CIF 1e999 responden 422 -> 200,200,422
+Resultado E2E: 29 correctas, 1 con fallos.
