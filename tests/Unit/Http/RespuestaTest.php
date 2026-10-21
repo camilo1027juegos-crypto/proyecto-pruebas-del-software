@@ -19,6 +19,19 @@ use Rubicam\Http\Respuesta;
  */
 final class RespuestaTest extends TestCase
 {
+    private string|false $logOriginal;
+
+    protected function setUp(): void
+    {
+        // El Ejecutor registra los errores inesperados: se desvía el log para no ensuciar la salida de la prueba.
+        $this->logOriginal = ini_set('error_log', sys_get_temp_dir() . '/rubicam_prueba_error.log');
+    }
+
+    protected function tearDown(): void
+    {
+        ini_set('error_log', (string) $this->logOriginal);
+    }
+
     public function testJsonTieneEstadoMensajeYDatosExtra(): void
     {
         $respuesta = Respuesta::json('success', 'Listo', 201, ['data' => ['id' => 7]]);
