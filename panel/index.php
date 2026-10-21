@@ -17,7 +17,7 @@ use Rubicam\Panel\ResultadoLogin;
 use Rubicam\Seguridad\CabecerasSeguras;
 use Rubicam\Seguridad\SesionPanel;
 
-require_once dirname(__DIR__) . '/config/config_db.php';
+require_once dirname(__DIR__) . '/config/arranque.php';
 require_once dirname(__DIR__) . '/src/Vistas/ayudantes.php';
 
 CabecerasSeguras::enviar(CabecerasSeguras::acceso());

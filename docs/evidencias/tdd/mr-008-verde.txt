@@ -1,0 +1,40 @@
+=== MR-008 GREEN — 2026-10-21 17:06 ===
+--- phpunit
+
+Time: 00:01.530, Memory: 8.00 MB
+
+OK (330 tests, 517 assertions)
+--- phpunit --group MR-008
+PHPUnit 9.6.17 by Sebastian Bergmann and contributors.
+Cargador Entorno (Rubicam\Tests\Unit\Infraestructura\CargadorEntorno)
+ ✔ Parsear interpreta el formato clave valor with data set "clave simple"
+ ✔ Parsear interpreta el formato clave valor with data set "espacios alrededor del ="
+ ✔ Parsear interpreta el formato clave valor with data set "comentarios y líneas vacías"
+ ✔ Parsear interpreta el formato clave valor with data set "comillas dobles"
+ ✔ Parsear interpreta el formato clave valor with data set "comillas simples"
+ ✔ Parsear interpreta el formato clave valor with data set "comentario al final"
+ ✔ Parsear interpreta el formato clave valor with data set "almohadilla dentro de comillas"
+ ✔ Parsear interpreta el formato clave valor with data set "prefijo export"
+ ✔ Parsear interpreta el formato clave valor with data set "igual dentro del valor"
+ ✔ Parsear interpreta el formato clave valor with data set "valor vacío"
+ ✔ Parsear interpreta el formato clave valor with data set "fin de línea de Windows"
+ ✔ Parsear interpreta el formato clave valor with data set "nombre inválido se ignora"
+ ✔ Parsear interpreta el formato clave valor with data set "línea sin igual se ignora"
+ ✔ Cargar define las variables del archivo
+ ✔ Cargar un archivo inexistente no hace nada
+ ✔ Cargar no sobrescribe variables ya definidas en el servidor
+ ✔ La carpeta de cargas se configura por entorno
+ ✔ La carpeta de cargas relativa se resuelve desde la raiz
+ ✔ La carpeta de cargas por defecto es uploads
+Time: 00:00.008, Memory: 8.00 MB
+OK (19 tests, 21 assertions)
+--- phpcs (sin hallazgos si no hay salida)
+
+
+Time: 1.09 secs; Memory: 14MB
+
+--- phpmd
+sin hallazgos
+--- E2E
+[PASS] E2E-36 MR-008: los archivos subidos se guardan en UPLOAD_DIR y no ensucian uploads/ del repositorio
+Resultado E2E: 36 correctas, 0 con fallos.

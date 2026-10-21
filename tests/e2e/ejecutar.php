@@ -78,7 +78,17 @@ foreach (glob($limitadorTasa . '/*') ?: [] as $archivoTasa) {
     unlink($archivoTasa);
 }
 
+// MR-008: las cargas de la prueba van a una carpeta temporal (UPLOAD_DIR), no al uploads/ real.
+$carpetaCargasE2e = sys_get_temp_dir() . '/rubicam_e2e_cargas';
+if (!is_dir($carpetaCargasE2e)) {
+    mkdir($carpetaCargasE2e, 0775, true);
+}
+foreach (glob($carpetaCargasE2e . '/*') ?: [] as $cargaAnterior) {
+    unlink($cargaAnterior);
+}
+
 $entorno = array_merge(getenv(), [
+    'UPLOAD_DIR'       => $carpetaCargasE2e,
     'DB_HOST'          => $hostBd,
     'DB_PORT'          => $puertoBd,
     'DB_USER'          => $usuarioBd,
@@ -102,12 +112,12 @@ $iniciarServidor = static function (string $comando, array $entorno) use ($raizP
 $php = escapeshellarg(PHP_BINARY);
 $servidores = [
     $iniciarServidor(
-        $php . ' -d upload_max_filesize=64M -d post_max_size=64M -d sendmail_path=/bin/true -S 127.0.0.1:'
+        'exec ' . $php . ' -d upload_max_filesize=64M -d post_max_size=64M -d sendmail_path=/bin/true -S 127.0.0.1:'
             . PUERTO_APP . ' -t ' . escapeshellarg($raizProyecto),
         $entorno
     ),
     $iniciarServidor(
-        $php . ' -S 127.0.0.1:' . PUERTO_N8N . ' ' . escapeshellarg(__DIR__ . '/fake_n8n.php'),
+        'exec ' . $php . ' -S 127.0.0.1:' . PUERTO_N8N . ' ' . escapeshellarg(__DIR__ . '/fake_n8n.php'),
         $entorno
     ),
 ];
@@ -660,6 +670,19 @@ $verificar(
         && $formatoMalo === 422
         && $sinSesionExportar === 401,
     'json=' . $jsonConsulta['estado'] . ' formato=' . $formatoMalo . ' sinSesion=' . $sinSesionExportar
+);
+
+// --- MR-008: la carpeta de cargas se configura por entorno ---------------
+$cargasEnTemporal = glob($carpetaCargasE2e . '/*') ?: [];
+$cargasEnRepositorio = array_filter(
+    glob($raizProyecto . '/uploads/*') ?: [],
+    static fn (string $ruta): bool => is_file($ruta)
+);
+$verificar(
+    'E2E-36',
+    'MR-008: los archivos subidos se guardan en UPLOAD_DIR y no ensucian uploads/ del repositorio',
+    count($cargasEnTemporal) > 0 && count($cargasEnRepositorio) === 0,
+    'en UPLOAD_DIR=' . count($cargasEnTemporal) . ' en uploads/=' . count($cargasEnRepositorio)
 );
 
 echo "\nResultado E2E: {$resultados['ok']} correctas, {$resultados['fallos']} con fallos.\n";

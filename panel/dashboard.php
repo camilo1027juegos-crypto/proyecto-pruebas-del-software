@@ -25,7 +25,7 @@ use Rubicam\Panel\Ensamblador;
 use Rubicam\Seguridad\CabecerasSeguras;
 use Rubicam\Seguridad\SesionPanel;
 
-require_once dirname(__DIR__) . '/config/config_db.php';
+require_once dirname(__DIR__) . '/config/arranque.php';
 
 $solicitud = Solicitud::desdeGlobales();
 $accion    = $solicitud->consulta('action') ?? '';
