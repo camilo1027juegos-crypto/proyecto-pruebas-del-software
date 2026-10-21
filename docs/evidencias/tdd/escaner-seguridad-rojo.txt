@@ -1,0 +1,13 @@
+=== Escáner de seguridad RED — 2026-10-21 17:08 ===
+53) Rubicam\Tests\Unit\Herramientas\EscanerSeguridadTest::testElInformeDeTextoResumeLosHallazgos
+Error: Class "Rubicam\Herramientas\EscanerSeguridad" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Herramientas/EscanerSeguridadTest.php:197
+
+54) Rubicam\Tests\Unit\Herramientas\EscanerSeguridadTest::testElInformeSinHallazgosLoDice
+Error: Class "Rubicam\Herramientas\EscanerSeguridad" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Herramientas/EscanerSeguridadTest.php:209
+
+ERRORS!
+Tests: 54, Assertions: 0, Errors: 54.

@@ -84,6 +84,7 @@ final class LimitadorTasa
     {
         $cuboSeguro = preg_replace('/[^A-Za-z0-9_-]/', '', $cubo);
 
+        // seguridad:ignorar SEG-008 md5 solo da un nombre de archivo estable; no protege ningún secreto.
         return $this->directorio . '/' . ($cuboSeguro !== '' ? $cuboSeguro : 'cubo') . '_' . md5($clave) . '.json';
     }
 

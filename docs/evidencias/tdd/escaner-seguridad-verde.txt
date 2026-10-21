@@ -1,0 +1,8 @@
+=== Escáner de seguridad GREEN — 2026-10-21 17:09 ===
+......................................................            54 / 54 (100%)
+
+Time: 00:00.015, Memory: 6.00 MB
+
+OK (54 tests, 129 assertions)
+
+(phpcs y phpmd aún con hallazgos de estilo en tools/: se corrigen en el commit [REFACTOR] siguiente)
