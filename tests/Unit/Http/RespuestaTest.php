@@ -66,6 +66,18 @@ final class RespuestaTest extends TestCase
         $this->assertIsArray(json_decode($respuesta->cuerpo(), true));
     }
 
+    public function testDescargaEntregaElContenidoComoAdjuntoSinCache(): void
+    {
+        $respuesta = Respuesta::descarga("a;b\n1;2\n", 'text/csv; charset=utf-8', 'datos "x".csv');
+
+        $this->assertSame(200, $respuesta->codigoHttp());
+        $this->assertSame("a;b\n1;2\n", $respuesta->cuerpo());
+        $this->assertSame('text/csv; charset=utf-8', $respuesta->cabeceras()['Content-Type']);
+        $this->assertSame('attachment; filename="datos x.csv"', $respuesta->cabeceras()['Content-Disposition']);
+        $this->assertSame('no-store', $respuesta->cabeceras()['Cache-Control']);
+        $this->assertSame('nosniff', $respuesta->cabeceras()['X-Content-Type-Options']);
+    }
+
     public function testEjecutorConvierteErrorHttpEnRespuestaConSuCodigo(): void
     {
         $respuesta = (new Ejecutor())->resolver(static function (): Respuesta {

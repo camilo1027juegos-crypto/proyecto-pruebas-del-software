@@ -634,5 +634,33 @@ $verificar(
     'CSP=' . $cspPanel . ' enLinea=' . $scriptsEnLinea
 );
 
+// --- MR-010: exportar operaciones a CSV y JSON -------------------------
+$csvAdmin = $admin->get('/panel/dashboard.php?action=exportar&formato=csv');
+$jsonConsulta = $consulta->get('/panel/dashboard.php?action=exportar&formato=json');
+$formatoMalo = $admin->get('/panel/dashboard.php?action=exportar&formato=xls')['estado'];
+$sinSesionExportar = (new ClienteHttp($base))->get('/panel/dashboard.php?action=exportar&formato=csv')['estado'];
+$datosExportados = $jsonConsulta['json'] ?? [];
+$verificar(
+    'E2E-31',
+    'MR-010: el CSV se descarga como adjunto UTF-8 con BOM, encabezado y los DOs de la semilla',
+    $csvAdmin['estado'] === 200
+        && str_contains($csvAdmin['cabeceras']['content-type'] ?? '', 'text/csv')
+        && str_contains($csvAdmin['cabeceras']['content-disposition'] ?? '', 'attachment; filename="rubicam_dos_')
+        && str_starts_with($csvAdmin['cuerpo'], "\xEF\xBB\xBF")
+        && str_contains($csvAdmin['cuerpo'], 'do_codigo;cliente;nit')
+        && str_contains($csvAdmin['cuerpo'], 'CTG26IMP0841'),
+    'HTTP ' . $csvAdmin['estado']
+);
+$verificar(
+    'E2E-32',
+    'MR-010: el rol consulta puede exportar JSON (total correcto); formato inválido=422; sin sesión=401',
+    $jsonConsulta['estado'] === 200
+        && ($datosExportados['total'] ?? -1) === count($datosExportados['operaciones'] ?? [0])
+        && ($datosExportados['total'] ?? 0) >= 4
+        && $formatoMalo === 422
+        && $sinSesionExportar === 401,
+    'json=' . $jsonConsulta['estado'] . ' formato=' . $formatoMalo . ' sinSesion=' . $sinSesionExportar
+);
+
 echo "\nResultado E2E: {$resultados['ok']} correctas, {$resultados['fallos']} con fallos.\n";
 exit($resultados['fallos'] === 0 ? 0 : 1);
