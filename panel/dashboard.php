@@ -267,7 +267,11 @@ function validar_nuevo_do(array $in): array
     if ($datos['email'] !== '' && (!filter_var($datos['email'], FILTER_VALIDATE_EMAIL) || strlen($datos['email']) > 150)) {
         $errores['email'] = 'Correo electrónico inválido.';
     }
-    if ($datos['telefono'] !== '' && !preg_match('/^[0-9+\-\s()]{7,30}$/', $datos['telefono'])) {
+    // MR-002: además del juego de caracteres se exigen 7 dígitos reales ('-------' no es un teléfono).
+    if (
+        $datos['telefono'] !== ''
+        && (!preg_match('/^[0-9+\-\s()]{7,30}$/', $datos['telefono']) || preg_match_all('/\d/', $datos['telefono']) < 7)
+    ) {
         $errores['telefono'] = 'Teléfono inválido (7 a 30 dígitos).';
     }
     if (mb_strlen($datos['observacion']) > 1000) {
