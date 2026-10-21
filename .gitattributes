@@ -1,0 +1,8 @@
+# Finales de línea LF en el repositorio (PSR-12 lo exige) aunque se trabaje en Windows/XAMPP.
+* text=auto eol=lf
+*.php text eol=lf
+*.sql text eol=lf
+*.js text eol=lf
+*.png binary
+*.pdf binary
+*.docx binary

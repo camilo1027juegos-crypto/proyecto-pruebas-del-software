@@ -11,6 +11,11 @@
 
 declare(strict_types=1);
 
+namespace Rubicam\Tests\E2e;
+
+use CURLFile;
+use RuntimeException;
+
 final class ClienteHttp
 {
     private string $archivoCookies;

@@ -1,0 +1,72 @@
+# Integración continua: cada push / pull request ejecuta linter, análisis estático,
+# escáner de seguridad, pruebas unitarias con cobertura y pruebas E2E con MariaDB.
+# (Principio de despliegue: automatizar para evitar el error humano.)
+name: CI
+
+on:
+  push:
+    branches: [main, 'release/**']
+  pull_request:
+
+jobs:
+  calidad:
+    name: Calidad y pruebas (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.2', '8.3']
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Preparar PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: curl, fileinfo, mbstring, pdo_mysql, zip
+          coverage: pcov
+          tools: composer:v2
+
+      - name: Instalar dependencias de desarrollo
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Linter de estilo (PSR-12)
+        run: composer lint
+
+      - name: Análisis estático (PHPMD)
+        run: composer analizar
+
+      - name: Escáner de seguridad
+        run: composer seguridad
+
+      - name: Pruebas unitarias y de regresión (con cobertura)
+        run: composer test:cobertura
+
+  e2e:
+    name: Pruebas de extremo a extremo (MariaDB)
+    runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:10.11
+        env:
+          MARIADB_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=5s --health-timeout=5s --health-retries=12
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Preparar PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: curl, fileinfo, mbstring, pdo_mysql, zip
+
+      - name: Ejecutar la suite E2E
+        env:
+          DB_HOST: 127.0.0.1
+          DB_USER: root
+          DB_PASS: root
+        run: php tests/e2e/ejecutar.php
