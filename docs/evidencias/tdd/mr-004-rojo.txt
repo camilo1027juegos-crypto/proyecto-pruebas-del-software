@@ -1,0 +1,65 @@
+PHPUnit 9.6.17 by Sebastian Bergmann and contributors.
+
+Mr004Nit Defensivo (Rubicam\Tests\Regression\Mr004NitDefensivo)
+ ✘ Entrada no numerica lanza excepcion with data set "vacío"
+   │
+   │ Failed asserting that exception of type "InvalidArgumentException" is thrown.
+   │
+
+ ✘ Entrada no numerica lanza excepcion with data set "letras"
+   │
+   │ Failed asserting that exception of type "InvalidArgumentException" is thrown.
+   │
+
+ ✘ Entrada no numerica lanza excepcion with data set "con espacio"
+   │
+   │ Failed asserting that exception of type "InvalidArgumentException" is thrown.
+   │
+
+ ✘ Entrada no numerica lanza excepcion with data set "con guion"
+   │
+   │ Failed asserting that exception of type "InvalidArgumentException" is thrown.
+   │
+
+ ✘ Entrada no numerica lanza excepcion with data set "más de 15 dígitos"
+   │
+   │ Failed asserting that exception of type "InvalidArgumentException" is thrown.
+   │
+
+ ✔ Digito de nits conocidos with data set "Bancolombia"
+ ✔ Digito de nits conocidos with data set "DIAN"
+ ✔ Digito de nits conocidos with data set "Banco de Bogotá"
+ ✔ Digito de nits conocidos with data set "caso de prueba"
+
+Time: 00:00.008, Memory: 6.00 MB
+
+Summary of non-successful tests:
+
+Mr004Nit Defensivo (Rubicam\Tests\Regression\Mr004NitDefensivo)
+ ✘ Entrada no numerica lanza excepcion with data set "vacío"
+   │
+   │ Failed asserting that exception of type "InvalidArgumentException" is thrown.
+   │
+
+ ✘ Entrada no numerica lanza excepcion with data set "letras"
+   │
+   │ Failed asserting that exception of type "InvalidArgumentException" is thrown.
+   │
+
+ ✘ Entrada no numerica lanza excepcion with data set "con espacio"
+   │
+   │ Failed asserting that exception of type "InvalidArgumentException" is thrown.
+   │
+
+ ✘ Entrada no numerica lanza excepcion with data set "con guion"
+   │
+   │ Failed asserting that exception of type "InvalidArgumentException" is thrown.
+   │
+
+ ✘ Entrada no numerica lanza excepcion with data set "más de 15 dígitos"
+   │
+   │ Failed asserting that exception of type "InvalidArgumentException" is thrown.
+   │
+
+FAILURES!
+Tests: 9, Assertions: 9, Failures: 5.

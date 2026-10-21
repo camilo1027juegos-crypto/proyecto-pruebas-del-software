@@ -1,0 +1,45 @@
+PHPUnit 9.6.17 by Sebastian Bergmann and contributors.
+
+Mr001Importe Estricto (Rubicam\Tests\Regression\Mr001ImporteEstricto)
+ ✔ Importe invalido es rechazado with data set "notación científica"
+ ✔ Importe invalido es rechazado with data set "infinito por desbordamiento"
+ ✔ Importe invalido es rechazado with data set "hexadecimal"
+ ✔ Importe invalido es rechazado with data set "sin parte entera"
+ ✔ Importe invalido es rechazado with data set "tres decimales"
+ ✔ Importe invalido es rechazado with data set "coma decimal"
+ ✔ Importe invalido es rechazado with data set "negativo"
+ ✔ Importe invalido es rechazado with data set "no es número"
+ ✔ Importe invalido es rechazado with data set "vacío"
+ ✔ Importe invalido es rechazado with data set "sobre el máximo"
+ ✔ Importe valido se convierte a float with data set "con centavos"
+ ✔ Importe valido se convierte a float with data set "cero"
+ ✔ Importe valido se convierte a float with data set "con espacios"
+ ✔ Importe valido se convierte a float with data set "en el máximo"
+ ✔ Importe valido se convierte a float with data set "entero grande"
+
+Mr002Telefono Con Digitos (Rubicam\Tests\Regression\Mr002TelefonoConDigitos)
+ ✔ Telefono invalido es rechazado with data set "solo guiones"
+ ✔ Telefono invalido es rechazado with data set "solo paréntesis"
+ ✔ Telefono invalido es rechazado with data set "solo signos más"
+ ✔ Telefono invalido es rechazado with data set "solo espacios"
+ ✔ Telefono invalido es rechazado with data set "seis dígitos"
+ ✔ Telefono invalido es rechazado with data set "siete dígitos y letra"
+ ✔ Telefono invalido es rechazado with data set "más de 20 caracteres"
+ ✔ Telefono valido se conserva with data set "celular"
+ ✔ Telefono valido se conserva with data set "con indicativo y formato"
+ ✔ Telefono valido se conserva with data set "exactamente siete dígitos"
+
+Mr004Nit Defensivo (Rubicam\Tests\Regression\Mr004NitDefensivo)
+ ✔ Entrada no numerica lanza excepcion with data set "vacío"
+ ✔ Entrada no numerica lanza excepcion with data set "letras"
+ ✔ Entrada no numerica lanza excepcion with data set "con espacio"
+ ✔ Entrada no numerica lanza excepcion with data set "con guion"
+ ✔ Entrada no numerica lanza excepcion with data set "más de 15 dígitos"
+ ✔ Digito de nits conocidos with data set "Bancolombia"
+ ✔ Digito de nits conocidos with data set "DIAN"
+ ✔ Digito de nits conocidos with data set "Banco de Bogotá"
+ ✔ Digito de nits conocidos with data set "caso de prueba"
+
+Time: 00:00.006, Memory: 6.00 MB
+
+OK (34 tests, 34 assertions)

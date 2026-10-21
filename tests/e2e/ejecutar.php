@@ -464,6 +464,29 @@ if (PHP_OS_FAMILY === 'Windows') {
     $verificar('E2E-28', 'Límite de tasa: 5 envíos por ventana (5º=200) y el 6º responde 429', $quinta === 200 && $sexta === 429, "5º={$quinta} 6º={$sexta}");
 }
 
+// --- MR-001 / MR-003: límites del cotizador ------------------------------
+foreach (glob($limitadorTasa . '/*') ?: [] as $archivoTasa) {
+    unlink($archivoTasa);
+}
+$origenLargo = $anonimo->postFormulario(
+    $urlCotizador,
+    array_merge($cotizacion, ['csrf_token' => $csrfLanding, 'origin' => str_repeat('a', 201)])
+)['estado'];
+$destinoLargo = $anonimo->postFormulario(
+    $urlCotizador,
+    array_merge($cotizacion, ['csrf_token' => $csrfLanding, 'destination' => str_repeat('b', 201)])
+)['estado'];
+$cifInfinito = $anonimo->postFormulario(
+    $urlCotizador,
+    array_merge($cotizacion, ['csrf_token' => $csrfLanding, 'cif_value' => '1e999'])
+)['estado'];
+$verificar(
+    'E2E-34',
+    'MR-001/003: origen > 120 caracteres, destino > 120 y valor CIF 1e999 responden 422',
+    [$origenLargo, $destinoLargo, $cifInfinito] === [422, 422, 422],
+    implode(',', [$origenLargo, $destinoLargo, $cifInfinito])
+);
+
 // --- MR-002: teléfono sin dígitos en el alta de DO ---------------------
 $admin->postFormulario('/panel/index.php', ['usuario' => 'e2e_admin', 'password' => CLAVE_E2E]);
 $configuracionNueva = $extraerConfiguracion($admin->get('/panel/dashboard.php')['cuerpo']);
