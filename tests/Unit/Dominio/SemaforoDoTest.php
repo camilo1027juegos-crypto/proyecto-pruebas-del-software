@@ -26,7 +26,7 @@ final class SemaforoDoTest extends TestCase
 
     private function aperturaHaceDias(int $dias): string
     {
-        return $this->hoy()->modify("-{$dias} days")->format('Y-m-d');
+        return $this->hoy()->modify(sprintf('%+d days', -$dias))->format('Y-m-d');
     }
 
     /**

@@ -24,9 +24,18 @@ final class BitacoraTest extends TestCase
 
     public function testAgregarGeneraUnaLineaConFechaUsuarioYEstado(): void
     {
-        $resultado = Bitacora::agregar(null, 'Se presentó la declaración', 'Ana Gómez', 'Presentada DIAN', $this->ahora());
+        $resultado = Bitacora::agregar(
+            null,
+            'Se presentó la declaración',
+            'Ana Gómez',
+            'Presentada DIAN',
+            $this->ahora()
+        );
 
-        $this->assertSame('[21/10/2026 16:45 · Ana Gómez · Presentada DIAN] Se presentó la declaración', $resultado);
+        $this->assertSame(
+            '[21/10/2026 16:45 · Ana Gómez · Presentada DIAN] Se presentó la declaración',
+            $resultado
+        );
     }
 
     public function testLaEntradaMasRecienteVaPrimero(): void
@@ -63,7 +72,8 @@ final class BitacoraTest extends TestCase
     {
         $bitacora = null;
         for ($i = 1; $i <= 200; $i++) {
-            $bitacora = Bitacora::agregar($bitacora, str_repeat('x', 400) . " #{$i}", 'Ana', 'En trámite', $this->ahora());
+            $texto    = str_repeat('x', 400) . " #{$i}";
+            $bitacora = Bitacora::agregar($bitacora, $texto, 'Ana', 'En trámite', $this->ahora());
         }
 
         $this->assertLessThanOrEqual(Bitacora::MAX_BYTES, strlen((string) $bitacora));
@@ -86,7 +96,8 @@ final class BitacoraTest extends TestCase
         $entradas = Bitacora::entradas("Llegó la mercancía\n\n  Falta el BL  ");
 
         $this->assertCount(2, $entradas);
-        $this->assertSame(['fecha' => '', 'usuario' => '', 'estado' => '', 'texto' => 'Llegó la mercancía'], $entradas[0]);
+        $esperada = ['fecha' => '', 'usuario' => '', 'estado' => '', 'texto' => 'Llegó la mercancía'];
+        $this->assertSame($esperada, $entradas[0]);
         $this->assertSame('Falta el BL', $entradas[1]['texto']);
     }
 
