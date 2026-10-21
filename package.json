@@ -1,0 +1,11 @@
+{
+  "name": "rubicam-redesign",
+  "private": true,
+  "scripts": {
+    "build:css": "tailwindcss -i assets/css/tailwind-input.css -o assets/css/tailwind.build.css --minify",
+    "watch:css": "tailwindcss -i assets/css/tailwind-input.css -o assets/css/tailwind.build.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.19"
+  }
+}

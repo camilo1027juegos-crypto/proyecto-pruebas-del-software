@@ -1,0 +1,26 @@
+/* ==========================================================================
+   assets/css/custom.css — complementa Tailwind (utilidades no cubiertas)
+   ========================================================================== */
+
+.hero-grid {
+  background-image:
+    linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Foco accesible consistente en toda la interfaz */
+:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 2px;
+}
+
+/* Scrollbar del panel de mensajes del chat */
+#rubi-messages::-webkit-scrollbar { width: 6px; }
+#rubi-messages::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+/* Estado de error en campos del cotizador */
+.field-invalid {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 1px #dc2626;
+}
