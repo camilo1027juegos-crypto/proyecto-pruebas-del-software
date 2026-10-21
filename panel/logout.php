@@ -15,7 +15,7 @@ use Rubicam\Http\Respuesta;
 use Rubicam\Seguridad\CabecerasSeguras;
 use Rubicam\Seguridad\SesionPanel;
 
-require_once dirname(__DIR__) . '/config/config_db.php';
+require_once dirname(__DIR__) . '/config/arranque.php';
 
 SesionPanel::iniciar();
 SesionPanel::cerrar();

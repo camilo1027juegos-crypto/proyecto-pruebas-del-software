@@ -3,28 +3,18 @@
 /**
  * config/config.php
  * -----------------------------------------------------------------------
- * Configuración central del portal Rubicam (rediseño). Código propietario:
- * sin maquetadores, HTML5 semántico + Tailwind CSS + PHP 8.2+ nativo.
+ * Constantes del sitio público Rubicam (identidad, sedes, enlaces, límites).
+ * Solo declara constantes: no ejecuta nada. Requiere haber cargado antes
+ * config/arranque.php, que prepara el entorno y el autocargador.
  * -----------------------------------------------------------------------
  */
 
 declare(strict_types=1);
 
-date_default_timezone_set('America/Bogota');
+use Rubicam\Infraestructura\Configuracion;
 
-define('APP_ENV', getenv('APP_ENV') ?: 'production');
-if (APP_ENV === 'development') {
-    ini_set('display_errors', '1');
-    error_reporting(E_ALL);
-} else {
-    ini_set('display_errors', '0');
-    error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
-}
-ini_set('log_errors', '1');
-ini_set('error_log', __DIR__ . '/../logs/php-error.log');
-
-define('BASE_URL', getenv('APP_BASE_URL') ?: 'https://rubicam.co');
-define('ROOT_PATH', dirname(__DIR__));
+define('BASE_URL', Configuracion::valor('APP_BASE_URL'));
+define('ROOT_PATH', Configuracion::raizProyecto());
 define('ASSETS_URL', 'assets');
 
 // --- Identidad corporativa ---
@@ -44,9 +34,8 @@ define('EMAIL_CONTACT', 'contacto@rubicam.co');
 
 // --- Enlaces del ecosistema interno ---
 define('LOBBY_URL', '/lobby/'); // Panel privado (fuera de alcance de este entregable, ver README)
-define('CHAT_WEBHOOK_URL', getenv('RUBI_WEBHOOK_URL') ?: ''); // n8n webhook — configurar en el servidor
+define('CHAT_WEBHOOK_URL', Configuracion::valor('RUBI_WEBHOOK_URL')); // webhook de n8n: se define en el servidor
 
-// --- Seguridad del cotizador ---
-define('CSRF_SECRET', getenv('CSRF_SECRET') ?: 'cambia_esta_clave_en_produccion');
+// --- Límite de solicitudes del cotizador (por IP): 5 envíos cada 10 minutos ---
 define('QUOTE_RATE_LIMIT_MAX', 5);
 define('QUOTE_RATE_LIMIT_WINDOW', 600);

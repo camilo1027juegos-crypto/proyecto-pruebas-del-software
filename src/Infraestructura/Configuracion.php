@@ -25,6 +25,9 @@ final class Configuracion
         'N8N_WEBHOOK_SECRET' => '',
         'N8N_CA_BUNDLE'      => '',
         'APP_ENV'            => 'production',
+        'APP_BASE_URL'       => 'https://rubicam.co',
+        'RUBI_WEBHOOK_URL'   => '',
+        'UPLOAD_DIR'         => '',
     ];
 
     public static function valor(string $clave): string
@@ -39,10 +42,20 @@ final class Configuracion
         return dirname(__DIR__, 2);
     }
 
-    /** Carpeta de documentos del legajo (fuera del alcance web gracias a su .htaccess). */
+    /**
+     * Carpeta de documentos del legajo (fuera del alcance web gracias a su .htaccess).
+     * Se cambia con UPLOAD_DIR: ruta absoluta, o relativa a la raíz del proyecto.
+     */
     public static function carpetaCargas(): string
     {
-        return self::raizProyecto() . '/uploads';
+        $configurada = rtrim(self::valor('UPLOAD_DIR'), '/\\');
+        if ($configurada === '') {
+            return self::raizProyecto() . '/uploads';
+        }
+
+        $esAbsoluta = $configurada[0] === '/' || preg_match('/^[A-Za-z]:/', $configurada) === 1;
+
+        return $esAbsoluta ? $configurada : self::raizProyecto() . '/' . $configurada;
     }
 
     public static function esDesarrollo(): bool

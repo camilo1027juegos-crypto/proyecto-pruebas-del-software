@@ -18,6 +18,6 @@ declare(strict_types=1);
 use Rubicam\Http\Solicitud;
 use Rubicam\Panel\Despachador;
 
-require_once dirname(__DIR__) . '/config/config_db.php';
+require_once dirname(__DIR__) . '/config/arranque.php';
 
 (new Despachador())->subirDocumento(Solicitud::desdeGlobales());
