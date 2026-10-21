@@ -1,0 +1,125 @@
+PHPUnit 9.6.17 by Sebastian Bergmann and contributors.
+
+EEEEEEEEEEEEEEEEEEEEEEE                                           23 / 23 (100%)
+
+Time: 00:00.009, Memory: 8.00 MB
+
+There were 23 errors:
+
+1) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testElCsvTieneEncabezadoYUnaFilaPorOperacion
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:72
+
+2) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testLosValoresConSeparadorComillasOSaltosDeLineaSeEscapan
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:85
+
+3) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testLasFormulasSeNeutralizan with data set "igual" ('=HYPERLINK("http://malo","clic")')
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:99
+
+4) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testLasFormulasSeNeutralizan with data set "más" ('+cmd|' /C calc'!A0')
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:99
+
+5) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testLasFormulasSeNeutralizan with data set "menos" ('-2+3')
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:99
+
+6) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testLasFormulasSeNeutralizan with data set "arroba" ('@SUM(1+1)')
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:99
+
+7) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testLasFormulasSeNeutralizan with data set "tabulación" ('	=1+1')
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:99
+
+8) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testLasFormulasSeNeutralizan with data set "retorno" ('\r=1+1')
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:99
+
+9) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testUnTextoNormalNoSeAlteraNiSiContieneUnSignoALMedio
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:121
+
+10) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testElCsvIncluyeElSemaforo
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:128
+
+11) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testSinOperacionesElCsvSoloTraeElEncabezado
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:138
+
+12) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testElJsonTieneTotalFechaYOperacionesConTildes
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:143
+
+13) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testElJsonNoExponeCamposInternosComoLaBitacoraCompleta
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:154
+
+14) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testFiltrar with data set "sin criterios" (array(), array('A', 'B', 'C'))
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:184
+
+15) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testFiltrar with data set "criterios vacíos" (array('', ''), array('A', 'B', 'C'))
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:184
+
+16) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testFiltrar with data set "por sucursal" (array('Bogotá'), array('A', 'C'))
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:184
+
+17) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testFiltrar with data set "por régimen" (array('Exportación'), array('B', 'C'))
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:184
+
+18) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testFiltrar with data set "por nivel" (array('critico'), array('C'))
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:184
+
+19) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testFiltrar with data set "combinados" (array('Bogotá', 'Exportación'), array('C'))
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:184
+
+20) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testFiltrar with data set "criterio desconocido" (array('x'), array('A', 'B', 'C'))
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:184
+
+21) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testFiltrar with data set "sin coincidencias" (array('Cali'), array())
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:184
+
+22) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testNombreDeArchivoLlevaFechaYExtension
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:210
+
+23) Rubicam\Tests\Unit\Panel\ExportadorDoTest::testElCsvEmpiezaConBomUtf8ParaQueExcelRespeteLasTildes
+Error: Class "Rubicam\Panel\ExportadorDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Panel/ExportadorDoTest.php:64
+
+ERRORS!
+Tests: 23, Assertions: 0, Errors: 23.

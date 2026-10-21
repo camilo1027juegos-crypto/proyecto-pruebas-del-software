@@ -873,6 +873,17 @@
     $('#f-limpiar').addEventListener('click', limpiarFiltros);
     $('#btn-recargar').addEventListener('click', () => cargarDatos());
 
+    // Exportación (MR-010): descarga lo que el servidor filtre con sucursal, régimen y nivel actuales.
+    function exportar(formato) {
+        const parametros = new URLSearchParams({ action: 'exportar', formato });
+        ['sucursal', 'regimen', 'nivel'].forEach((clave) => {
+            if (estado.filtros[clave]) parametros.set(clave, estado.filtros[clave]);
+        });
+        window.location.href = `${URL_PANEL}?${parametros.toString()}`;
+    }
+    $('#btn-exportar-csv').addEventListener('click', () => exportar('csv'));
+    $('#btn-exportar-json').addEventListener('click', () => exportar('json'));
+
     $$('[data-kpi]').forEach((tarjeta) => tarjeta.addEventListener('click', () => {
         const clave = tarjeta.dataset.kpi;
         estado.filtros.nivel = estado.filtros.nivel === clave ? '' : clave;

@@ -1,0 +1,57 @@
+=== MR-010 GREEN — 2026-10-21 17:03 ===
+
+--- phpunit (todo)
+
+Time: 00:01.507, Memory: 8.00 MB
+
+OK (311 tests, 496 assertions)
+
+--- phpunit --group MR-010
+PHPUnit 9.6.17 by Sebastian Bergmann and contributors.
+
+Exportador Do (Rubicam\Tests\Unit\Panel\ExportadorDo)
+ ✔ El csv empieza con bom utf 8 para que excel respete las tildes
+ ✔ El csv tiene encabezado y una fila por operacion
+ ✔ Los valores con separador comillas o saltos de linea se escapan
+ ✔ Las formulas se neutralizan with data set "igual"
+ ✔ Las formulas se neutralizan with data set "más"
+ ✔ Las formulas se neutralizan with data set "menos"
+ ✔ Las formulas se neutralizan with data set "arroba"
+ ✔ Las formulas se neutralizan with data set "tabulación"
+ ✔ Las formulas se neutralizan with data set "retorno"
+ ✔ Un texto normal no se altera ni si contiene un signo a l medio
+ ✔ El csv incluye el semaforo
+ ✔ Sin operaciones el csv solo trae el encabezado
+ ✔ El json tiene total fecha y operaciones con tildes
+ ✔ El json no expone campos internos como la bitacora completa
+ ✔ Filtrar with data set "sin criterios"
+ ✔ Filtrar with data set "criterios vacíos"
+ ✔ Filtrar with data set "por sucursal"
+ ✔ Filtrar with data set "por régimen"
+ ✔ Filtrar with data set "por nivel"
+ ✔ Filtrar with data set "combinados"
+ ✔ Filtrar with data set "criterio desconocido"
+ ✔ Filtrar with data set "sin coincidencias"
+ ✔ Nombre de archivo lleva fecha y extension
+
+Time: 00:00.009, Memory: 8.00 MB
+
+OK (23 tests, 35 assertions)
+
+--- phpcs
+----------------------------------------------------------------------
+...aude/work/proj/rubicam-redesign/config/config.php  [31m0[0m       [33m1[0m
+----------------------------------------------------------------------
+[1mA TOTAL OF 0 ERRORS AND 1 WARNING WERE FOUND IN 1 FILE[0m
+----------------------------------------------------------------------
+
+Time: 1.01 secs; Memory: 14MB
+
+
+--- phpmd src
+sin hallazgos
+
+--- E2E
+[PASS] E2E-31 MR-010: el CSV se descarga como adjunto UTF-8 con BOM, encabezado y los DOs de la semilla
+[PASS] E2E-32 MR-010: el rol consulta puede exportar JSON (total correcto); formato inválido=422; sin sesión=401
+Resultado E2E: 35 correctas, 0 con fallos.

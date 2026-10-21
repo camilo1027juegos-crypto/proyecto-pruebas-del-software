@@ -40,6 +40,7 @@ final class Despachador
 
             return match ($accion) {
                 'listar'     => $this->ensamblador->controladorDo()->listar(),
+                'exportar'   => $this->ensamblador->controladorDo()->exportar($solicitud),
                 'crear'      => $this->ensamblador->controladorDo()->crear($solicitud),
                 'documentos' => $this->ensamblador->controladorDocumentos()->listar($solicitud),
                 'descargar'  => $this->ensamblador->controladorDocumentos()->descargar($solicitud),
