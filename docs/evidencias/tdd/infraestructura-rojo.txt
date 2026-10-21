@@ -1,0 +1,184 @@
+PHPUnit 9.6.17 by Sebastian Bergmann and contributors.
+
+...............................................................  63 / 193 ( 32%)
+.............................................................EE 126 / 193 ( 65%)
+EEEEEEEEEEEEEEEEEEEE.....................................EEEEEE 189 / 193 ( 97%)
+EEEE                                                            193 / 193 (100%)
+
+Time: 00:00.044, Memory: 8.00 MB
+
+There were 32 errors:
+
+1) Rubicam\Tests\Unit\Http\SolicitudTest::testConsultaSoloDevuelveTexto
+Error: Class "Rubicam\Http\Solicitud" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudTest.php:26
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudTest.php:38
+
+2) Rubicam\Tests\Unit\Http\SolicitudTest::testConsultaEnteroPositivo with data set "entero válido" ('12', 12)
+Error: Class "Rubicam\Http\Solicitud" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudTest.php:26
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudTest.php:51
+
+3) Rubicam\Tests\Unit\Http\SolicitudTest::testConsultaEnteroPositivo with data set "cero" ('0', null)
+Error: Class "Rubicam\Http\Solicitud" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudTest.php:26
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudTest.php:51
+
+4) Rubicam\Tests\Unit\Http\SolicitudTest::testConsultaEnteroPositivo with data set "negativo" ('-3', null)
+Error: Class "Rubicam\Http\Solicitud" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudTest.php:26
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudTest.php:51
+
+5) Rubicam\Tests\Unit\Http\SolicitudTest::testConsultaEnteroPositivo with data set "decimal" ('1.5', null)
+Error: Class "Rubicam\Http\Solicitud" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudTest.php:26
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudTest.php:51
+
+6) Rubicam\Tests\Unit\Http\SolicitudTest::testConsultaEnteroPositivo with data set "texto" ('abc', null)
+Error: Class "Rubicam\Http\Solicitud" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudTest.php:26
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudTest.php:51
+
+7) Rubicam\Tests\Unit\Http\SolicitudTest::testConsultaEnteroPositivo with data set "inyección SQL" ('1 OR 1=1', null)
+Error: Class "Rubicam\Http\Solicitud" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudTest.php:26
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudTest.php:51
+
+8) Rubicam\Tests\Unit\Http\SolicitudTest::testConsultaEnteroPositivo with data set "arreglo" (array('1'), null)
+Error: Class "Rubicam\Http\Solicitud" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudTest.php:26
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudTest.php:51
+
+9) Rubicam\Tests\Unit\Http\SolicitudTest::testCabeceraSeLeeDeLasVariablesHttpDelServidor
+Error: Class "Rubicam\Http\Solicitud" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudTest.php:26
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudTest.php:72
+
+10) Rubicam\Tests\Unit\Http\SolicitudTest::testJsonDecodificaElCuerpoYRechazaElInvalido
+Error: Class "Rubicam\Http\Solicitud" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudTest.php:26
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudTest.php:82
+
+11) Rubicam\Tests\Unit\Http\SolicitudTest::testMetodoSeNormalizaAMayusculasYTieneValorPorDefecto
+Error: Class "Rubicam\Http\Solicitud" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudTest.php:26
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudTest.php:31
+
+12) Rubicam\Tests\Unit\Infraestructura\ClienteN8nTest::testMensajeDeErrorDeCurl with data set "tiempo agotado" (28, 'no respondió a tiempo')
+Error: Class "Rubicam\Infraestructura\ClienteN8n" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Infraestructura/ClienteN8nTest.php:24
+
+13) Rubicam\Tests\Unit\Infraestructura\ClienteN8nTest::testMensajeDeErrorDeCurl with data set "sin conexión" (7, 'no hay conexión')
+Error: Class "Rubicam\Infraestructura\ClienteN8n" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Infraestructura/ClienteN8nTest.php:24
+
+14) Rubicam\Tests\Unit\Infraestructura\ClienteN8nTest::testMensajeDeErrorDeCurl with data set "DNS" (6, 'no hay conexión')
+Error: Class "Rubicam\Infraestructura\ClienteN8n" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Infraestructura/ClienteN8nTest.php:24
+
+15) Rubicam\Tests\Unit\Infraestructura\ClienteN8nTest::testMensajeDeErrorDeCurl with data set "certificado (60)" (60, 'verificación SSL')
+Error: Class "Rubicam\Infraestructura\ClienteN8n" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Infraestructura/ClienteN8nTest.php:24
+
+16) Rubicam\Tests\Unit\Infraestructura\ClienteN8nTest::testMensajeDeErrorDeCurl with data set "certificado (77)" (77, 'verificación SSL')
+Error: Class "Rubicam\Infraestructura\ClienteN8n" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Infraestructura/ClienteN8nTest.php:24
+
+17) Rubicam\Tests\Unit\Infraestructura\ClienteN8nTest::testMensajeDeErrorDeCurl with data set "error desconocido" (999, 'detalle técnico')
+Error: Class "Rubicam\Infraestructura\ClienteN8n" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Infraestructura/ClienteN8nTest.php:24
+
+18) Rubicam\Tests\Unit\Infraestructura\ClienteN8nTest::testMensajeDeErrorHttp with data set "404 workflow inactivo" (404, 'workflow está activo')
+Error: Class "Rubicam\Infraestructura\ClienteN8n" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Infraestructura/ClienteN8nTest.php:47
+
+19) Rubicam\Tests\Unit\Infraestructura\ClienteN8nTest::testMensajeDeErrorHttp with data set "401 autenticación" (401, 'rechazó la autenticación')
+Error: Class "Rubicam\Infraestructura\ClienteN8n" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Infraestructura/ClienteN8nTest.php:47
+
+20) Rubicam\Tests\Unit\Infraestructura\ClienteN8nTest::testMensajeDeErrorHttp with data set "403 autenticación" (403, 'rechazó la autenticación')
+Error: Class "Rubicam\Infraestructura\ClienteN8n" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Infraestructura/ClienteN8nTest.php:47
+
+21) Rubicam\Tests\Unit\Infraestructura\ClienteN8nTest::testMensajeDeErrorHttp with data set "500 genérico" (500, 'código HTTP 500')
+Error: Class "Rubicam\Infraestructura\ClienteN8n" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Infraestructura/ClienteN8nTest.php:47
+
+22) Rubicam\Tests\Unit\Infraestructura\ClienteN8nTest::testSinUrlValidaNoIntentaConectar
+Error: Class "Rubicam\Infraestructura\ClienteN8n" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Infraestructura/ClienteN8nTest.php:65
+
+23) Rubicam\Tests\Unit\Seguridad\SesionPanelTest::testSinSesionNoEstaAutenticado
+Error: Class "Rubicam\Seguridad\SesionPanel" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SesionPanelTest.php:31
+
+24) Rubicam\Tests\Unit\Seguridad\SesionPanelTest::testConIdentificadorDeUsuarioEstaAutenticado
+Error: Class "Rubicam\Seguridad\SesionPanel" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SesionPanelTest.php:38
+
+25) Rubicam\Tests\Unit\Seguridad\SesionPanelTest::testPuedeEditarSegunElRol with data set "admin" ('admin', true)
+Error: Class "Rubicam\Seguridad\SesionPanel" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SesionPanelTest.php:50
+
+26) Rubicam\Tests\Unit\Seguridad\SesionPanelTest::testPuedeEditarSegunElRol with data set "operador" ('operador', true)
+Error: Class "Rubicam\Seguridad\SesionPanel" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SesionPanelTest.php:50
+
+27) Rubicam\Tests\Unit\Seguridad\SesionPanelTest::testPuedeEditarSegunElRol with data set "consulta" ('consulta', false)
+Error: Class "Rubicam\Seguridad\SesionPanel" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SesionPanelTest.php:50
+
+28) Rubicam\Tests\Unit\Seguridad\SesionPanelTest::testPuedeEditarSegunElRol with data set "sin rol" (null, false)
+Error: Class "Rubicam\Seguridad\SesionPanel" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SesionPanelTest.php:50
+
+29) Rubicam\Tests\Unit\Seguridad\SesionPanelTest::testElNombreSeTomaDeLaSesionConAlternativasSeguras
+Error: Class "Rubicam\Seguridad\SesionPanel" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SesionPanelTest.php:68
+
+30) Rubicam\Tests\Unit\Seguridad\SesionPanelTest::testElTokenCsrfEsEstableDentroDeLaSesionYTiene64Hex
+Error: Class "Rubicam\Seguridad\SesionPanel" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SesionPanelTest.php:79
+
+31) Rubicam\Tests\Unit\Seguridad\SesionPanelTest::testSoloElTokenEmitidoEsValido
+Error: Class "Rubicam\Seguridad\SesionPanel" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SesionPanelTest.php:87
+
+32) Rubicam\Tests\Unit\Seguridad\SesionPanelTest::testSinTokenEmitidoNingunoEsValido
+Error: Class "Rubicam\Seguridad\SesionPanel" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SesionPanelTest.php:97
+
+ERRORS!
+Tests: 193, Assertions: 266, Errors: 32.
