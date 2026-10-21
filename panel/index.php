@@ -1,55 +1,60 @@
 <?php
+
 /**
  * panel/index.php
  * -----------------------------------------------------------------------
  * Pantalla de acceso al panel operativo RUBICAM.
  * -----------------------------------------------------------------------
  */
+
 declare(strict_types=1);
+
+use Rubicam\Http\Respuesta;
+use Rubicam\Http\Solicitud;
+use Rubicam\Infraestructura\Conexion;
+use Rubicam\Infraestructura\ConexionFallida;
+use Rubicam\Seguridad\SesionPanel;
+
 require_once dirname(__DIR__) . '/config/config_db.php';
-iniciar_sesion_panel();
+require_once dirname(__DIR__) . '/src/Vistas/ayudantes.php';
+
+SesionPanel::iniciar();
 
 // Si ya hay sesión activa, saltar directo al dashboard.
-if (!empty($_SESSION['user_id'])) {
-    header('Location: dashboard.php');
-    exit;
+if (SesionPanel::autenticado()) {
+    Respuesta::redireccion('dashboard.php')->enviar();
+
+    return;
 }
 
-$error = null;
+$solicitud = Solicitud::desdeGlobales();
+$error     = null;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $usuario  = trim((string)($_POST['usuario'] ?? ''));
-    $password = (string)($_POST['password'] ?? '');
+if ($solicitud->esPost()) {
+    $usuario  = trim($solicitud->formulario('usuario') ?? '');
+    $password = $solicitud->formulario('password') ?? '';
 
     if ($usuario === '' || $password === '') {
         $error = 'Por favor ingrese usuario y contraseña.';
     } else {
+        $fila = false;
         try {
-            $pdo = get_db_connection();
-            $stmt = $pdo->prepare(
+            $consulta = Conexion::obtener()->prepare(
                 'SELECT id, usuario, password_hash, rol, nombre_completo, sucursal
-                 FROM usuarios WHERE usuario = :usuario AND activo = 1 LIMIT 1'
+                   FROM usuarios WHERE usuario = :usuario AND activo = 1 LIMIT 1'
             );
-            $stmt->execute(['usuario' => $usuario]);
-            $row = $stmt->fetch();
-        } catch (RuntimeException | PDOException $e) {
+            $consulta->execute(['usuario' => $usuario]);
+            $fila = $consulta->fetch();
+        } catch (ConexionFallida | PDOException $e) {
             error_log('[rubicam-panel] Error en login: ' . $e->getMessage());
-            $row = false;
             $error = 'No fue posible conectar con la base de datos. Intente más tarde.';
         }
 
-        if ($row && password_verify($password, $row['password_hash'])) {
-            // Previene fijación de sesión.
-            session_regenerate_id(true);
+        if ($fila && password_verify($password, $fila['password_hash'])) {
+            SesionPanel::abrir($fila);
+            Respuesta::redireccion('dashboard.php')->enviar();
 
-            $_SESSION['user_id']         = (int)$row['id'];
-            $_SESSION['usuario']         = $row['usuario'];
-            $_SESSION['rol']             = $row['rol'];
-            $_SESSION['nombre_completo'] = $row['nombre_completo'];
-            $_SESSION['sucursal']        = $row['sucursal'];
-
-            header('Location: dashboard.php');
-            exit;
+            return;
         }
 
         // Mensaje genérico: no revelar si falló el usuario o la clave.
@@ -228,7 +233,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="login-title">Ingreso al sistema</div>
         <div class="login-sub">Acceda con sus credenciales corporativas para gestionar órdenes de operación.</div>
 
-        <?php if ($error): ?>
+        <?php if ($error) : ?>
             <div class="alert alert-danger alert-login" role="alert"><?= h($error) ?></div>
         <?php endif; ?>
 
@@ -236,7 +241,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="mb-3">
                 <label class="form-label" for="usuario">Usuario</label>
                 <input type="text" class="form-control" id="usuario" name="usuario" required autofocus
-                       value="<?= h(is_string($_POST['usuario'] ?? null) ? $_POST['usuario'] : '') ?>">
+                       value="<?= h($solicitud->formulario('usuario')) ?>">
             </div>
             <div class="mb-3">
                 <label class="form-label" for="password">Contraseña</label>

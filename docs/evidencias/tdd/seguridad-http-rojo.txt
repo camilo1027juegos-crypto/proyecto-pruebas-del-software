@@ -1,0 +1,494 @@
+PHPUnit 9.6.17 by Sebastian Bergmann and contributors.
+
+EEEEEEEEEEEEEEEEEEEEEEEEEE.....................................  63 / 156 ( 40%)
+........................EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE 126 / 156 ( 80%)
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE                                  156 / 156 (100%)
+
+Time: 00:00.022, Memory: 8.00 MB
+
+There were 95 errors:
+
+1) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testExtensionPermitida with data set "pdf" ('pdf', true)
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:63
+
+2) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testExtensionPermitida with data set "jpg" ('jpg', true)
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:63
+
+3) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testExtensionPermitida with data set "jpeg" ('jpeg', true)
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:63
+
+4) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testExtensionPermitida with data set "png" ('png', true)
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:63
+
+5) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testExtensionPermitida with data set "docx" ('docx', true)
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:63
+
+6) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testExtensionPermitida with data set "php no se permite" ('php', false)
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:63
+
+7) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testExtensionPermitida with data set "exe no se permite" ('exe', false)
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:63
+
+8) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testExtensionPermitida with data set "html no se permite" ('html', false)
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:63
+
+9) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testExtensionPermitida with data set "vacía" ('', false)
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:63
+
+10) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testFirmaDePdfPngYJpg
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:86
+
+11) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testUnPdfNoPuedePasarPorPng
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:105
+
+12) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testExtensionDesconocidaNuncaTieneFirmaValida
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:129
+
+13) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testLimpiarNombreOriginal with data set "nombre normal" ('Factura 123.pdf', 'Factura 123.pdf')
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:137
+
+14) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testLimpiarNombreOriginal with data set "ruta de Windows" ('C:\Users\ana\factura.pdf', 'factura.pdf')
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:137
+
+15) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testLimpiarNombreOriginal with data set "recorrido de directorios" ('../../etc/passwd', 'passwd')
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:137
+
+16) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testLimpiarNombreOriginal with data set "caracteres peligrosos" ('a"b<c>d|e:f*g?.pdf', 'abcdefg.pdf')
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:137
+
+17) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testLimpiarNombreOriginal with data set "caracteres de control" (Binary String: 0x6661630074757...e706466, 'factura.pdf')
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:137
+
+18) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testLimpiarNombreOriginal with data set "vacío cae a un nombre genérico" ('', 'documento')
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:137
+
+19) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testLimpiarNombreOriginal with data set "solo caracteres peligrosos" ('<>:"', 'documento')
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:137
+
+20) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testUnNombreMuyLargoSeRecortaConservandoLaExtension
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:158
+
+21) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testNombreSeguroNoDependeDelNombreOriginalDelUsuario
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:166
+
+22) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testNombreSeguroUsaDoSiElCodigoQuedaVacio
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:180
+
+23) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testRutaFisicaSiempreQuedaDentroDeLaCarpetaBase
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:189
+
+24) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testMensajeDeErrorDeSubidaEsEspecificoParaCadaCodigo
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:201
+
+25) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testUnArchivoConExtensionFalsaEsRechazado
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:99
+
+26) Rubicam\Tests\Unit\Archivos\PoliticaArchivosTest::testDocxDebeSerUnZipConDocumentXml
+Error: Class "Rubicam\Archivos\PoliticaArchivos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Archivos/PoliticaArchivosTest.php:122
+
+27) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testUnaEntradaCorrectaEsValidaYSeNormaliza
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:47
+
+28) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testSinVencimientoSeSugiereAperturaMasElPlazoDian
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:59
+
+29) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testCadaCampoInvalidoProduceSuPropioError with data set "código vacío" (array(''), 'do_codigo')
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:70
+
+30) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testCadaCampoInvalidoProduceSuPropioError with data set "código con formato incorrecto" (array('ABC-1'), 'do_codigo')
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:70
+
+31) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testCadaCampoInvalidoProduceSuPropioError with data set "cliente muy corto" (array('ab'), 'cliente')
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:70
+
+32) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testCadaCampoInvalidoProduceSuPropioError with data set "cliente muy largo" (array('aaaaaaaaaaaaaaaaaaaaaaaaaaaaa...aaaaaa'), 'cliente')
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:70
+
+33) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testCadaCampoInvalidoProduceSuPropioError with data set "cliente solo etiquetas" (array('<b></b>'), 'cliente')
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:70
+
+34) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testCadaCampoInvalidoProduceSuPropioError with data set "NIT con letras" (array('90012A456'), 'nit')
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:70
+
+35) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testCadaCampoInvalidoProduceSuPropioError with data set "NIT con dígito erróneo" (array('900123456-3'), 'nit')
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:70
+
+36) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testCadaCampoInvalidoProduceSuPropioError with data set "régimen fuera del catálogo" (array('Contrabando'), 'regimen')
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:70
+
+37) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testCadaCampoInvalidoProduceSuPropioError with data set "sucursal fuera del catálogo" (array('Cali'), 'sucursal')
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:70
+
+38) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testCadaCampoInvalidoProduceSuPropioError with data set "apertura inválida" (array('2026-02-30'), 'fecha_apertura')
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:70
+
+39) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testCadaCampoInvalidoProduceSuPropioError with data set "apertura futura" (array('2026-10-22'), 'fecha_apertura')
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:70
+
+40) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testCadaCampoInvalidoProduceSuPropioError with data set "vencimiento inválido" (array('mañana'), 'fecha_vencimiento')
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:70
+
+41) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testCadaCampoInvalidoProduceSuPropioError with data set "vencimiento antes de apertura" (array('2026-09-30'), 'fecha_vencimiento')
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:70
+
+42) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testCadaCampoInvalidoProduceSuPropioError with data set "correo inválido" (array('sin-arroba'), 'email')
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:70
+
+43) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testCadaCampoInvalidoProduceSuPropioError with data set "teléfono solo guiones (MR-002)" (array('-------'), 'telefono')
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:70
+
+44) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testCadaCampoInvalidoProduceSuPropioError with data set "teléfono con letras" (array('llamar ya'), 'telefono')
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:70
+
+45) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testCadaCampoInvalidoProduceSuPropioError with data set "observación de 1001 caracteres" (array('xxxxxxxxxxxxxxxxxxxxxxxxxxxxx...xxxxxx'), 'observacion')
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:70
+
+46) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testLosCamposOpcionalesPuedenVenirVacios
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:104
+
+47) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testElTextoLibreSeLimpiaDeEtiquetasHtml
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:114
+
+48) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testLosValoresQueNoSonTextoNoGeneranAvisosNiRompenLaValidacion
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:125
+
+49) Rubicam\Tests\Unit\Dominio\ValidadorNuevoDoTest::testUnaEntradaVaciaReportaTodosLosCamposObligatorios
+Error: Class "Rubicam\Dominio\ValidadorNuevoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/ValidadorNuevoDoTest.php:138
+
+50) Rubicam\Tests\Unit\Http\RespuestaTest::testJsonTieneEstadoMensajeYDatosExtra
+Error: Class "Rubicam\Http\Respuesta" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/RespuestaTest.php:24
+
+51) Rubicam\Tests\Unit\Http\RespuestaTest::testLasCabecerasEvitanCacheYSniffing
+Error: Class "Rubicam\Http\Respuesta" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/RespuestaTest.php:35
+
+52) Rubicam\Tests\Unit\Http\RespuestaTest::testConservaTildesYBarrasSinEscapar
+Error: Class "Rubicam\Http\Respuesta" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/RespuestaTest.php:44
+
+53) Rubicam\Tests\Unit\Http\RespuestaTest::testUtf8InvalidoNoRompeLaRespuesta
+Error: Class "Rubicam\Http\Respuesta" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/RespuestaTest.php:51
+
+54) Rubicam\Tests\Unit\Http\RespuestaTest::testEjecutorConvierteErrorHttpEnRespuestaConSuCodigo
+Error: Class "Rubicam\Http\Ejecutor" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/RespuestaTest.php:58
+
+55) Rubicam\Tests\Unit\Http\RespuestaTest::testEjecutorOcultaLosDetallesInternosDeUnaExcepcionInesperada
+Error: Class "Rubicam\Http\Ejecutor" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/RespuestaTest.php:71
+
+56) Rubicam\Tests\Unit\Http\RespuestaTest::testEjecutorDevuelveLaRespuestaDelControladorSiTodoSaleBien
+Error: Class "Rubicam\Http\Respuesta" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/RespuestaTest.php:82
+
+57) Rubicam\Tests\Unit\Http\SolicitudJsonTest::testDecodificaUnObjetoJson
+Error: Class "Rubicam\Http\SolicitudJson" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudJsonTest.php:22
+
+58) Error
+The data provider specified for Rubicam\Tests\Unit\Http\SolicitudJsonTest::testRechazaCuerposInvalidos is invalid.
+Error: Class "Rubicam\Http\SolicitudJson" not found
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Http/SolicitudJsonTest.php:48
+
+59) Rubicam\Tests\Unit\Seguridad\LimitadorTasaTest::testPermiteHastaElMaximoYLuegoBloquea
+Error: Class "Rubicam\Seguridad\LimitadorTasa" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/LimitadorTasaTest.php:39
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/LimitadorTasaTest.php:44
+
+60) Rubicam\Tests\Unit\Seguridad\LimitadorTasaTest::testLaVentanaSeReiniciaCuandoExpira
+Error: Class "Rubicam\Seguridad\LimitadorTasa" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/LimitadorTasaTest.php:39
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/LimitadorTasaTest.php:54
+
+61) Rubicam\Tests\Unit\Seguridad\LimitadorTasaTest::testLasClavesYLosCubosSonIndependientes
+Error: Class "Rubicam\Seguridad\LimitadorTasa" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/LimitadorTasaTest.php:39
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/LimitadorTasaTest.php:65
+
+62) Rubicam\Tests\Unit\Seguridad\LimitadorTasaTest::testEstaBloqueadoNoConsumeIntentos
+Error: Class "Rubicam\Seguridad\LimitadorTasa" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/LimitadorTasaTest.php:39
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/LimitadorTasaTest.php:74
+
+63) Rubicam\Tests\Unit\Seguridad\LimitadorTasaTest::testReiniciarLevantaElBloqueo
+Error: Class "Rubicam\Seguridad\LimitadorTasa" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/LimitadorTasaTest.php:39
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/LimitadorTasaTest.php:87
+
+64) Rubicam\Tests\Unit\Seguridad\LimitadorTasaTest::testUnArchivoCorruptoNoImpideElServicio
+Error: Class "Rubicam\Seguridad\LimitadorTasa" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/LimitadorTasaTest.php:39
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/LimitadorTasaTest.php:98
+
+65) Rubicam\Tests\Unit\Seguridad\LimitadorTasaTest::testElNombreDelCuboNoPuedeEscaparDelDirectorio
+Error: Class "Rubicam\Seguridad\LimitadorTasa" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/LimitadorTasaTest.php:39
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/LimitadorTasaTest.php:109
+
+66) Rubicam\Tests\Unit\Seguridad\LimitadorTasaTest::testSiNoPuedeEscribirDejaPasarLaSolicitud
+Error: Class "Rubicam\Seguridad\LimitadorTasa" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/LimitadorTasaTest.php:121
+
+67) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testTextoQuitaEtiquetasYCaracteresDeControl with data set "null" (null, '')
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:24
+
+68) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testTextoQuitaEtiquetasYCaracteresDeControl with data set "espacios en los bordes" ('  hola  ', 'hola')
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:24
+
+69) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testTextoQuitaEtiquetasYCaracteresDeControl with data set "etiquetas HTML" ('<b>Hola</b> <script>alert(1)</script>', 'Hola alert(1)')
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:24
+
+70) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testTextoQuitaEtiquetasYCaracteresDeControl with data set "caracteres de control" (Binary String: 0x61006207631f64, 'abcd')
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:24
+
+71) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testTextoQuitaEtiquetasYCaracteresDeControl with data set "tildes se conservan" ('Ñandú está aquí', 'Ñandú está aquí')
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:24
+
+72) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testCorreo with data set "válido" ('ana@rubicam.co', 'ana@rubicam.co')
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:46
+
+73) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testCorreo with data set "con espacios en bordes" ('  ana@rubicam.co ', 'ana@rubicam.co')
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:46
+
+74) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testCorreo with data set "sin arroba" ('ana.rubicam.co', null)
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:46
+
+75) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testCorreo with data set "vacío" ('', null)
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:46
+
+76) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testCorreo with data set "null" (null, null)
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:46
+
+77) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testCorreo with data set "inyección de cabecera CRLF" ('ana@rubicam.co\r\nBcc: victima@x.com', null)
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:46
+
+78) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testTelefono with data set "celular" ('300 595 9894', '300 595 9894')
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:69
+
+79) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testTelefono with data set "con indicativo" ('+57 (604) 622-1815', '+57 (604) 622-1815')
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:69
+
+80) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testTelefono with data set "solo guiones (MR-002)" ('-------', null)
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:69
+
+81) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testTelefono with data set "solo paréntesis y espacios" ('(   )   ', null)
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:69
+
+82) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testTelefono with data set "menos de 7 dígitos" ('12345 6', null)
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:69
+
+83) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testTelefono with data set "letras" ('300abc5959894', null)
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:69
+
+84) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testTelefono with data set "demasiado largo" ('111111111111111111111', null)
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:69
+
+85) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testImporte with data set "entero" ('1500', 1500.0)
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:93
+
+86) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testImporte with data set "con dos decimales" ('1500.25', 1500.25)
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:93
+
+87) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testImporte with data set "notación científica (MR-001)" ('1e999', null)
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:93
+
+88) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testImporte with data set "hexadecimal" ('0x1A', null)
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:93
+
+89) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testImporte with data set "negativo" ('-5', null)
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:93
+
+90) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testImporte with data set "tres decimales" ('1.234', null)
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:93
+
+91) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testImporte with data set "coma decimal" ('1,5', null)
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:93
+
+92) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testImporte with data set "sobre el máximo" ('1000000000000', null)
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:93
+
+93) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testImporte with data set "vacío" ('', null)
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:93
+
+94) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testImporte with data set "null" (null, null)
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:93
+
+95) Rubicam\Tests\Unit\Seguridad\SanitizadorTest::testHtmlEscapaComillasYEtiquetas
+Error: Class "Rubicam\Seguridad\Sanitizador" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Seguridad/SanitizadorTest.php:117
+
+ERRORS!
+Tests: 156, Assertions: 92, Errors: 95.

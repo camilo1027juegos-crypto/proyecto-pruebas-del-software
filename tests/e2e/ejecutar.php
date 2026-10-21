@@ -89,7 +89,8 @@ $entorno = array_merge(getenv(), [
 ]);
 
 $iniciarServidor = static function (string $comando, array $entorno) use ($raizProyecto): mixed {
-    $descriptores = [0 => ['pipe', 'r'], 1 => ['file', sys_get_temp_dir() . '/rubicam_e2e_server.log', 'a'], 2 => ['pipe', 'w']];
+    $registroServidor = sys_get_temp_dir() . '/rubicam_e2e_server.log';
+    $descriptores = [0 => ['pipe', 'r'], 1 => ['file', $registroServidor, 'a'], 2 => ['pipe', 'w']];
     $proceso = proc_open($comando, $descriptores, $tuberias, $raizProyecto, $entorno);
     if (!is_resource($proceso)) {
         throw new RuntimeException('No se pudo iniciar el servidor: ' . $comando);
@@ -139,7 +140,12 @@ foreach ([PUERTO_APP, PUERTO_N8N] as $puerto) {
 // 3) Casos de prueba
 // ---------------------------------------------------------------------
 $resultados = ['ok' => 0, 'fallos' => 0];
-$verificar = static function (string $id, string $descripcion, bool $condicion, string $detalle = '') use (&$resultados): void {
+$verificar = static function (
+    string $id,
+    string $descripcion,
+    bool $condicion,
+    string $detalle = ''
+) use (&$resultados): void {
     if ($condicion) {
         $resultados['ok']++;
         echo "[PASS] {$id} {$descripcion}\n";
@@ -169,19 +175,39 @@ $anonimo = new ClienteHttp($base);
 
 // --- Acceso y sesión --------------------------------------------------
 $r = $anonimo->get('/panel/dashboard.php');
-$verificar('E2E-01', 'Dashboard sin sesión redirige al login', $r['estado'] === 302 && str_contains($r['cabeceras']['location'] ?? '', 'index.php'));
+$verificar(
+    'E2E-01',
+    'Dashboard sin sesión redirige al login',
+    $r['estado'] === 302 && str_contains($r['cabeceras']['location'] ?? '', 'index.php')
+);
 
 $r = $anonimo->get('/panel/dashboard.php?action=listar');
-$verificar('E2E-02', 'Endpoint listar sin sesión responde 401 JSON', $r['estado'] === 401 && ($r['json']['status'] ?? '') === 'error');
+$verificar(
+    'E2E-02',
+    'Endpoint listar sin sesión responde 401 JSON',
+    $r['estado'] === 401 && ($r['json']['status'] ?? '') === 'error'
+);
 
 $r = $admin->postFormulario('/panel/index.php', ['usuario' => 'e2e_admin', 'password' => 'incorrecta']);
-$verificar('E2E-03', 'Login con clave incorrecta muestra mensaje genérico', $r['estado'] === 200 && str_contains($r['cuerpo'], 'Usuario o contraseña incorrectos'));
+$verificar(
+    'E2E-03',
+    'Login con clave incorrecta muestra mensaje genérico',
+    $r['estado'] === 200 && str_contains($r['cuerpo'], 'Usuario o contraseña incorrectos')
+);
 
 $r = $admin->postFormulario('/panel/index.php', ['usuario' => '', 'password' => '']);
-$verificar('E2E-04', 'Login vacío pide usuario y contraseña', $r['estado'] === 200 && str_contains($r['cuerpo'], 'ingrese usuario y contraseña'));
+$verificar(
+    'E2E-04',
+    'Login vacío pide usuario y contraseña',
+    $r['estado'] === 200 && str_contains($r['cuerpo'], 'ingrese usuario y contraseña')
+);
 
 $r = $admin->postFormulario('/panel/index.php', ['usuario' => 'e2e_admin', 'password' => CLAVE_E2E]);
-$verificar('E2E-05', 'Login correcto redirige al dashboard', $r['estado'] === 302 && str_contains($r['cabeceras']['location'] ?? '', 'dashboard.php'));
+$verificar(
+    'E2E-05',
+    'Login correcto redirige al dashboard',
+    $r['estado'] === 302 && str_contains($r['cabeceras']['location'] ?? '', 'dashboard.php')
+);
 
 $r = $admin->get('/panel/dashboard.php');
 $configuracion = $extraerConfiguracion($r['cuerpo']);
@@ -227,7 +253,8 @@ sort($claves);
 $verificar(
     'E2E-09',
     'Crear DO con datos inválidos responde 422 con un error por campo',
-    $r['estado'] === 422 && $claves === ['cliente', 'do_codigo', 'email', 'fecha_apertura', 'nit', 'regimen', 'sucursal', 'telefono'],
+    $r['estado'] === 422
+        && $claves === ['cliente', 'do_codigo', 'email', 'fecha_apertura', 'nit', 'regimen', 'sucursal', 'telefono'],
     'errores: ' . implode(',', $claves)
 );
 
@@ -250,7 +277,8 @@ $idSeguimiento = (int) ($r['json']['data']['do']['id'] ?? 0);
 $nivel40 = $r['json']['data']['do']['semaforo']['nivel'] ?? '';
 $r = $admin->postJson('/panel/dashboard.php?action=crear', $datosDo('CUC26IMP9103', $fechaHaceDias(80)), $cabeceraCsrf);
 $nivel80 = $r['json']['data']['do']['semaforo']['nivel'] ?? '';
-$r = $admin->postJson('/panel/dashboard.php?action=crear', $datosDo('CUC26IMP9104', $fechaHaceDias(20), ['fecha_vencimiento' => $fechaHaceDias(1)]), $cabeceraCsrf);
+$vencidoAyer = $datosDo('CUC26IMP9104', $fechaHaceDias(20), ['fecha_vencimiento' => $fechaHaceDias(1)]);
+$r = $admin->postJson('/panel/dashboard.php?action=crear', $vencidoAyer, $cabeceraCsrf);
 $etiquetaVencido = $r['json']['data']['do']['semaforo']['etiqueta'] ?? '';
 $verificar(
     'E2E-12',
@@ -267,7 +295,8 @@ $r = $admin->postJson($urlWebhook, ['do_id' => $idAlDia, 'nuevo_estado' => 'Inve
 $estadoInvalido = $r['estado'];
 $r = $admin->postJson($urlWebhook, ['do_id' => 999999, 'nuevo_estado' => 'Aceptada'], $cabeceraCsrf);
 $noExiste = $r['estado'];
-$r = $admin->postJson($urlWebhook, ['do_id' => $idAlDia, 'do_codigo' => 'OTRO00IMP0001', 'nuevo_estado' => 'Aceptada'], $cabeceraCsrf);
+$codigoDistinto = ['do_id' => $idAlDia, 'do_codigo' => 'OTRO00IMP0001', 'nuevo_estado' => 'Aceptada'];
+$r = $admin->postJson($urlWebhook, $codigoDistinto, $cabeceraCsrf);
 $codigoNoCoincide = $r['estado'];
 $r = $admin->postJson($urlWebhook, ['do_id' => $idAlDia, 'nuevo_estado' => 'En trámite'], $cabeceraCsrf);
 $sinCambios = $r['estado'];
@@ -278,7 +307,8 @@ $verificar(
     implode(',', [$sinCsrf, $estadoInvalido, $noExiste, $codigoNoCoincide, $sinCambios])
 );
 
-$r = $admin->postJson($urlWebhook, ['do_id' => $idAlDia, 'nuevo_estado' => 'Aceptada', 'observaciones' => 'Inspección previa OK'], $cabeceraCsrf);
+$cambioValido = ['do_id' => $idAlDia, 'nuevo_estado' => 'Aceptada', 'observaciones' => 'Inspección previa OK'];
+$r = $admin->postJson($urlWebhook, $cambioValido, $cabeceraCsrf);
 $eventoN8n = null;
 if (is_file($logN8n)) {
     $lineas = file($logN8n, FILE_IGNORE_NEW_LINES) ?: [];
@@ -356,8 +386,10 @@ $doInexistente = $subir($admin, $cabeceraCsrf, 999999, 'RUT', $rutaPdf)['estado'
 $sinToken = $subir($admin, [], $idAlDia, 'RUT', $rutaPdf)['estado'];
 $verificar(
     'E2E-16',
-    'Carga rechazada: sin archivo=422, .exe=415, PDF falso=415, >10 MB=413, tipo inválido=422, DO inexistente=404, sin CSRF=403',
-    [$sinArchivo, $conExe, $pdfFalso, $demasiadoGrande, $tipoInvalido, $doInexistente, $sinToken] === [422, 415, 415, 413, 422, 404, 403],
+    'Carga rechazada: sin archivo=422, .exe=415, PDF falso=415, >10 MB=413, '
+        . 'tipo inválido=422, DO inexistente=404, sin CSRF=403',
+    [$sinArchivo, $conExe, $pdfFalso, $demasiadoGrande, $tipoInvalido, $doInexistente, $sinToken]
+        === [422, 415, 415, 413, 422, 404, 403],
     implode(',', [$sinArchivo, $conExe, $pdfFalso, $demasiadoGrande, $tipoInvalido, $doInexistente, $sinToken])
 );
 
@@ -369,7 +401,10 @@ $verificar(
     'E2E-17',
     'Carga válida de PDF, PNG y DOCX responde 201 y renombra el archivo de forma segura',
     $estadoPdf === 201 && $r2['estado'] === 201 && $r3['estado'] === 201
-        && preg_match('/^CUC26IMP9101_FACTURA_\d{8}-\d{6}_[0-9a-f]{6}\.pdf$/', (string) ($r['json']['data']['documento']['archivo'] ?? '')) === 1,
+        && preg_match(
+            '/^CUC26IMP9101_FACTURA_\d{8}-\d{6}_[0-9a-f]{6}\.pdf$/',
+            (string) ($r['json']['data']['documento']['archivo'] ?? '')
+        ) === 1,
     (string) ($r['json']['data']['documento']['archivo'] ?? $r['cuerpo'])
 );
 
@@ -408,8 +443,10 @@ $verificar(
 $consulta->postFormulario('/panel/index.php', ['usuario' => 'e2e_consulta', 'password' => CLAVE_E2E]);
 $configuracionConsulta = $extraerConfiguracion($consulta->get('/panel/dashboard.php')['cuerpo']);
 $cabeceraConsulta = ['X-CSRF-Token: ' . (string) ($configuracionConsulta['csrf'] ?? '')];
-$crear = $consulta->postJson('/panel/dashboard.php?action=crear', $datosDo('CUC26IMP9105', $fechaHaceDias(1)), $cabeceraConsulta)['estado'];
-$estado = $consulta->postJson($urlWebhook, ['do_id' => $idAlDia, 'nuevo_estado' => 'Finalizada'], $cabeceraConsulta)['estado'];
+$nuevoDo = $datosDo('CUC26IMP9105', $fechaHaceDias(1));
+$crear = $consulta->postJson('/panel/dashboard.php?action=crear', $nuevoDo, $cabeceraConsulta)['estado'];
+$intentoFinalizar = ['do_id' => $idAlDia, 'nuevo_estado' => 'Finalizada'];
+$estado = $consulta->postJson($urlWebhook, $intentoFinalizar, $cabeceraConsulta)['estado'];
 $subida = $subir($consulta, $cabeceraConsulta, $idAlDia, 'RUT', $rutaPdf)['estado'];
 $lista = $consulta->get('/panel/dashboard.php?action=listar')['estado'];
 $bajar = $consulta->get('/panel/dashboard.php?action=descargar&doc_id=' . $idDocumentoPdf)['estado'];
@@ -422,7 +459,11 @@ $verificar(
 
 // --- Cierre de sesión ---------------------------------------------------
 $r = $admin->get('/panel/logout.php');
-$verificar('E2E-22', 'Logout redirige (303) al login', $r['estado'] === 303 && str_contains($r['cabeceras']['location'] ?? '', 'index.php'));
+$verificar(
+    'E2E-22',
+    'Logout redirige (303) al login',
+    $r['estado'] === 303 && str_contains($r['cabeceras']['location'] ?? '', 'index.php')
+);
 $r = $admin->get('/panel/dashboard.php?action=listar');
 $verificar('E2E-23', 'Tras el logout la sesión ya no es válida (401)', $r['estado'] === 401);
 
@@ -441,27 +482,51 @@ $cotizacion = [
 ];
 $urlCotizador = '/handlers/quote-handler.php';
 $sinToken = $anonimo->postFormulario($urlCotizador, $cotizacion)['estado'];
-$trampa = $anonimo->postFormulario($urlCotizador, array_merge($cotizacion, ['csrf_token' => $csrfLanding, 'website' => 'http://spam']));
+$trampa = $anonimo->postFormulario(
+    $urlCotizador,
+    array_merge($cotizacion, ['csrf_token' => $csrfLanding, 'website' => 'http://spam'])
+);
 $verificar(
     'E2E-25',
     'Cotizador: sin CSRF=419 y honeypot lleno = éxito falso (200) sin enviar nada',
     $sinToken === 419 && $trampa['estado'] === 200 && ($trampa['json']['ok'] ?? false) === true
 );
 
-$correoMalo = $anonimo->postFormulario($urlCotizador, array_merge($cotizacion, ['csrf_token' => $csrfLanding, 'email' => 'no-es-correo']))['estado'];
-$operacionMala = $anonimo->postFormulario($urlCotizador, array_merge($cotizacion, ['csrf_token' => $csrfLanding, 'operation' => 'hackeo']))['estado'];
-$verificar('E2E-26', 'Cotizador: correo inválido=422 y operación fuera de lista=422', [$correoMalo, $operacionMala] === [422, 422]);
+$correoMalo = $anonimo->postFormulario(
+    $urlCotizador,
+    array_merge($cotizacion, ['csrf_token' => $csrfLanding, 'email' => 'no-es-correo'])
+)['estado'];
+$operacionMala = $anonimo->postFormulario(
+    $urlCotizador,
+    array_merge($cotizacion, ['csrf_token' => $csrfLanding, 'operation' => 'hackeo'])
+)['estado'];
+$verificar(
+    'E2E-26',
+    'Cotizador: correo inválido=422 y operación fuera de lista=422',
+    [$correoMalo, $operacionMala] === [422, 422]
+);
 
 if (PHP_OS_FAMILY === 'Windows') {
     echo "[SKIP] E2E-27 Cotizador válido y límite de tasa (requiere sendmail_path=/bin/true)\n";
 } else {
     $valida = $anonimo->postFormulario($urlCotizador, array_merge($cotizacion, ['csrf_token' => $csrfLanding]));
-    $verificar('E2E-27', 'Cotizador válido responde 200 ok=true', $valida['estado'] === 200 && ($valida['json']['ok'] ?? false) === true, $valida['cuerpo']);
+    $verificar(
+        'E2E-27',
+        'Cotizador válido responde 200 ok=true',
+        $valida['estado'] === 200 && ($valida['json']['ok'] ?? false) === true,
+        $valida['cuerpo']
+    );
     // Ya se contaron 2 envíos inválidos (E2E-26) + 1 válido: el 4º y el 5º aún pasan; el 6º se bloquea.
     $anonimo->postFormulario($urlCotizador, array_merge($cotizacion, ['csrf_token' => $csrfLanding]));
-    $quinta =$anonimo->postFormulario($urlCotizador, array_merge($cotizacion, ['csrf_token' => $csrfLanding]))['estado'];
-    $sexta = $anonimo->postFormulario($urlCotizador, array_merge($cotizacion, ['csrf_token' => $csrfLanding]))['estado'];
-    $verificar('E2E-28', 'Límite de tasa: 5 envíos por ventana (5º=200) y el 6º responde 429', $quinta === 200 && $sexta === 429, "5º={$quinta} 6º={$sexta}");
+    $envioValido = array_merge($cotizacion, ['csrf_token' => $csrfLanding]);
+    $quinta = $anonimo->postFormulario($urlCotizador, $envioValido)['estado'];
+    $sexta = $anonimo->postFormulario($urlCotizador, $envioValido)['estado'];
+    $verificar(
+        'E2E-28',
+        'Límite de tasa: 5 envíos por ventana (5º=200) y el 6º responde 429',
+        $quinta === 200 && $sexta === 429,
+        "5º={$quinta} 6º={$sexta}"
+    );
 }
 
 // --- MR-001 / MR-003: límites del cotizador ------------------------------

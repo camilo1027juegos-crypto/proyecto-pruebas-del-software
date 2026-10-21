@@ -1,4 +1,5 @@
 <?php
+
 /**
  * config/config.php
  * -----------------------------------------------------------------------
@@ -6,6 +7,7 @@
  * sin maquetadores, HTML5 semántico + Tailwind CSS + PHP 8.2+ nativo.
  * -----------------------------------------------------------------------
  */
+
 declare(strict_types=1);
 
 date_default_timezone_set('America/Bogota');

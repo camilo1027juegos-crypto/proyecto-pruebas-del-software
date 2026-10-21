@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Rubicam\Tests\Regression;
 
 use PHPUnit\Framework\TestCase;
+use Rubicam\Seguridad\Sanitizador;
 
 /**
  * @group MR-002
@@ -17,17 +18,12 @@ use PHPUnit\Framework\TestCase;
  */
 final class Mr002TelefonoConDigitosTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        require_once dirname(__DIR__, 2) . '/config/security.php';
-    }
-
     /**
      * @dataProvider telefonosInvalidos
      */
     public function testTelefonoInvalidoEsRechazado(string $entrada): void
     {
-        $this->assertNull(clean_phone($entrada), "El teléfono '{$entrada}' debía rechazarse.");
+        $this->assertNull(Sanitizador::telefono($entrada), "El teléfono '{$entrada}' debía rechazarse.");
     }
 
     /**
@@ -51,7 +47,7 @@ final class Mr002TelefonoConDigitosTest extends TestCase
      */
     public function testTelefonoValidoSeConserva(string $entrada): void
     {
-        $this->assertSame($entrada, clean_phone($entrada));
+        $this->assertSame($entrada, Sanitizador::telefono($entrada));
     }
 
     /**
