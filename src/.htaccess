@@ -1,0 +1,4 @@
+# Carpeta interna: acceso web bloqueado (defensa en profundidad, MR-005).
+# La regla principal está en el .htaccess de la raíz; esta funciona aunque mod_rewrite esté apagado.
+Require all denied
+Options -Indexes

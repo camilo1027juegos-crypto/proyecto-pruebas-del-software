@@ -1,12 +1,19 @@
+# =====================================================================
+# Reglas de Apache del sitio Rubicam.
+# Principio: lo que no es público se niega por defecto (MR-005).
+# =====================================================================
 Options -Indexes
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteRule ^config/ - [F,L]
-    RewriteRule ^logs/ - [F,L]
+    # Carpetas internas: nunca se sirven por HTTP (contienen SQL con datos de clientes,
+    # código fuente, pruebas, documentación y dependencias).
+    # NC = sin distinguir mayúsculas: en XAMPP/Windows «/sql/» y «/SQL/» son la misma carpeta.
+    RewriteRule ^(config|logs|SQL|src|tests|tools|docs|vendor|node_modules|\.git|\.github|\.vscode)(/|$) - [F,NC,L]
 </IfModule>
 
-<FilesMatch "\.(env|log|json)$">
+# Archivos de configuración, datos y documentación, archivos ocultos (.env, .gitignore...) y config de build.
+<FilesMatch "(?i)(\.(env|log|json|lock|sql|md|xml|dist|yml|yaml|ini|sh|bak)$|^\.|^tailwind\.config\.js$)">
     Require all denied
 </FilesMatch>
 
