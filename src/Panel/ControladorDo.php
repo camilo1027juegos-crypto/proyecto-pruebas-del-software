@@ -36,6 +36,37 @@ final class ControladorDo
         ]);
     }
 
+    /**
+     * Descarga las DO en CSV o JSON (acción de solo lectura: la puede usar cualquier rol).
+     * Admite los filtros del panel: sucursal, regimen y nivel.
+     */
+    public function exportar(Solicitud $solicitud): Respuesta
+    {
+        $formato = $solicitud->consulta('formato') ?? '';
+        if (!in_array($formato, ['csv', 'json'], true)) {
+            throw new ErrorHttp('Formato no válido. Use csv o json.', 422);
+        }
+
+        $ahora   = new DateTimeImmutable();
+        $ordenes = ExportadorDo::filtrar($this->ordenes->todos(), [
+            'sucursal' => $solicitud->consulta('sucursal') ?? '',
+            'regimen'  => $solicitud->consulta('regimen') ?? '',
+            'nivel'    => $solicitud->consulta('nivel') ?? '',
+        ]);
+
+        return $formato === 'csv'
+            ? Respuesta::descarga(
+                ExportadorDo::aCsv($ordenes),
+                'text/csv; charset=utf-8',
+                ExportadorDo::nombreArchivo('csv', $ahora)
+            )
+            : Respuesta::descarga(
+                ExportadorDo::aJson($ordenes, $ahora),
+                'application/json; charset=utf-8',
+                ExportadorDo::nombreArchivo('json', $ahora)
+            );
+    }
+
     public function crear(Solicitud $solicitud): Respuesta
     {
         Guardia::escritura($solicitud, 'Su rol no tiene permiso para crear operaciones.');

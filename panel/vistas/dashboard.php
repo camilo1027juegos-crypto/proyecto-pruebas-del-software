@@ -111,6 +111,8 @@ $claseNav = 'flex items-center gap-3 rounded-lg px-3 py-2.5 transition-colors';
             </div>
             <div class="flex items-center gap-2 text-xs text-slate-500">
                 Actualizado: <span id="txt-actualizado" class="font-semibold text-slate-700"><?= h(date('d/m/Y H:i')) ?></span>
+                <button type="button" id="btn-exportar-csv" class="inline-flex items-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600 hover:text-rubi-emerald" title="Descargar las operaciones filtradas en CSV (Excel)">Exportar CSV</button>
+                <button type="button" id="btn-exportar-json" class="inline-flex items-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600 hover:text-rubi-emerald" title="Descargar las operaciones filtradas en JSON">JSON</button>
                 <button type="button" id="btn-recargar" class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-500 hover:text-rubi-emerald" title="Recargar datos" aria-label="Recargar datos"><?= icono('refresh') ?></button>
             </div>
         </div>

@@ -56,6 +56,25 @@ final class Respuesta
         );
     }
 
+    /**
+     * Contenido generado al vuelo (CSV, JSON...) que el navegador descarga como adjunto.
+     */
+    public static function descarga(string $contenido, string $tipoMime, string $nombreArchivo): self
+    {
+        $nombre = str_replace(['"', "\r", "\n", '\\', '/'], '', $nombreArchivo);
+
+        return new self(
+            200,
+            [
+                'Content-Type'           => $tipoMime,
+                'Content-Disposition'    => 'attachment; filename="' . $nombre . '"',
+                'Cache-Control'          => 'no-store',
+                'X-Content-Type-Options' => 'nosniff',
+            ],
+            $contenido
+        );
+    }
+
     public static function redireccion(string $url, int $codigoHttp = 302): self
     {
         return new self($codigoHttp, ['Location' => $url], '');
