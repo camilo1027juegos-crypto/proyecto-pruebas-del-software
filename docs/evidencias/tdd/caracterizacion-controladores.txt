@@ -1,0 +1,42 @@
+=== Pruebas de caracterización de controladores — 2026-10-21 17:14 ===
+(El comportamiento ya existía y estaba cubierto solo por E2E; estas pruebas son de CARACTERIZACIÓN, no TDD: se escribieron después del código y pasaron desde la primera ejecución.)
+PHPUnit 9.6.17 by Sebastian Bergmann and contributors.
+Controlador Cotizacion (Rubicam\Tests\Unit\Publico\ControladorCotizacion)
+ ✔ Solo acepta post
+ ✔ Sin token csrf responde 419
+ ✔ El honeypot simula exito y no envia nada
+ ✔ El cuarto envio dentro de la ventana responde 429
+ ✔ Una solicitud valida envia el correo con cabeceras seguras
+ ✔ El valor cif es opcional
+ ✔ Rechaza entradas invalidas con mensaje claro with data set "operación fuera de la lista"
+ ✔ Rechaza entradas invalidas con mensaje claro with data set "correo inválido"
+ ✔ Rechaza entradas invalidas con mensaje claro with data set "inyección de cabeceras en el correo"
+ ✔ Rechaza entradas invalidas con mensaje claro with data set "teléfono sin dígitos (MR-002)"
+ ✔ Rechaza entradas invalidas con mensaje claro with data set "nombre vacío"
+ ✔ Rechaza entradas invalidas con mensaje claro with data set "nombre de 201 caracteres"
+ ✔ Rechaza entradas invalidas con mensaje claro with data set "valor CIF en notación científica (MR-001)"
+ ✔ Rechaza entradas invalidas con mensaje claro with data set "origen de 121 caracteres (MR-003)"
+ ✔ Rechaza entradas invalidas con mensaje claro with data set "destino de 121 caracteres (MR-003)"
+ ✔ Origen y destino de exactamente 120 caracteres son validos
+ ✔ Un fallo del correo responde 500 con el correo de contacto
+Time: 00:00.014, Memory: 6.00 MB
+OK (17 tests, 53 assertions)
+PHPUnit 9.6.17 by Sebastian Bergmann and contributors.
+Guardia (Rubicam\Tests\Unit\Panel\Guardia)
+ ✔ Sin sesion responde 401
+ ✔ Con sesion permite
+ ✔ El metodo debe ser post
+ ✔ El token csrf debe llegar en la cabecera
+ ✔ Un formulario clasico puede llevar el token en el campo
+ ✔ Solo admin y operador pueden editar with data set "admin"
+ ✔ Solo admin y operador pueden editar with data set "operador"
+ ✔ Solo admin y operador pueden editar with data set "consulta"
+ ✔ Solo admin y operador pueden editar with data set "rol desconocido"
+ ✔ Solo admin y operador pueden editar with data set "sin rol"
+ ✔ Escritura aplica los tres controles en orden
+ ✔ El mensaje sin permiso llega al usuario
+Time: 00:00.005, Memory: 6.00 MB
+OK (12 tests, 21 assertions)
+Time: 00:00.004, Memory: 6.00 MB
+
+OK (5 tests, 10 assertions)
