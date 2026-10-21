@@ -18,6 +18,7 @@ use Rubicam\Dominio\Catalogos;
 use Rubicam\Dominio\SemaforoDo;
 use Rubicam\Archivos\PoliticaArchivos;
 use Rubicam\Seguridad\SesionPanel;
+use Rubicam\Seguridad\TokenCsrf;
 use Rubicam\Vistas\Iconos;
 use Throwable;
 
@@ -48,7 +49,8 @@ final class PaginaDashboard
                 . 'Verifique la conexión con la base de datos.';
         }
 
-        $sucursales = array_values(array_unique(array_merge(Catalogos::SUCURSALES, array_column($ordenes, 'sucursal'))));
+        $conocidas  = array_merge(Catalogos::SUCURSALES, array_column($ordenes, 'sucursal'));
+        $sucursales = array_values(array_unique($conocidas));
         sort($sucursales);
 
         $puedeEditar     = SesionPanel::puedeEditar();
@@ -59,7 +61,7 @@ final class PaginaDashboard
             'sucursalUsuario'  => $sucursalUsuario,
             'sucursalesFiltro' => $sucursales,
             'configJs'         => [
-                'csrf'             => SesionPanel::tokenCsrf(),
+                'csrf'             => TokenCsrf::panel()->emitir(),
                 'puedeEditar'      => $puedeEditar,
                 'hoy'              => $ahora->format('Y-m-d'),
                 'generado'         => $ahora->format('d/m/Y H:i'),

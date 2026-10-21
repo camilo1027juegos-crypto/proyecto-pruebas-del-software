@@ -3,14 +3,16 @@
 declare(strict_types=1);
 
 use Rubicam\Seguridad\CabecerasSeguras;
-use Rubicam\Seguridad\CsrfPublico;
+use Rubicam\Seguridad\SesionPanel;
+use Rubicam\Seguridad\TokenCsrf;
 
 require_once __DIR__ . '/config/config.php';
 require_once __DIR__ . '/src/bootstrap.php';
 require_once __DIR__ . '/src/Vistas/ayudantes.php';
 
 CabecerasSeguras::enviar(CabecerasSeguras::publico(CHAT_WEBHOOK_URL, !empty($_SERVER['HTTPS'])));
-$csrf = CsrfPublico::token();
+SesionPanel::iniciar();
+$csrf = TokenCsrf::publico()->emitir();
 ?>
 
 <!DOCTYPE html>

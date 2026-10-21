@@ -16,6 +16,7 @@ namespace Rubicam\Panel;
 use Rubicam\Http\ErrorHttp;
 use Rubicam\Http\Solicitud;
 use Rubicam\Seguridad\SesionPanel;
+use Rubicam\Seguridad\TokenCsrf;
 
 final class Guardia
 {
@@ -62,7 +63,7 @@ final class Guardia
 
     private static function validarToken(?string $token): void
     {
-        if (!SesionPanel::csrfValido($token)) {
+        if (!TokenCsrf::panel()->valido($token)) {
             throw new ErrorHttp('Token de seguridad inválido. Recargue la página e intente de nuevo.', 403);
         }
     }

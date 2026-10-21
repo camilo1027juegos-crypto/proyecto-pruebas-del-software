@@ -16,8 +16,6 @@ use Rubicam\Dominio\Catalogos;
 
 final class SesionPanel
 {
-    private const CLAVE_CSRF = 'csrf_panel';
-
     public static function iniciar(): void
     {
         if (session_status() === PHP_SESSION_ACTIVE) {
@@ -108,22 +106,5 @@ final class SesionPanel
     public static function sucursal(): string
     {
         return (string) ($_SESSION['sucursal'] ?? '');
-    }
-
-    public static function tokenCsrf(): string
-    {
-        if (empty($_SESSION[self::CLAVE_CSRF])) {
-            $_SESSION[self::CLAVE_CSRF] = bin2hex(random_bytes(32));
-        }
-
-        return (string) $_SESSION[self::CLAVE_CSRF];
-    }
-
-    public static function csrfValido(?string $token): bool
-    {
-        return !empty($_SESSION[self::CLAVE_CSRF])
-            && is_string($token)
-            && $token !== ''
-            && hash_equals((string) $_SESSION[self::CLAVE_CSRF], $token);
     }
 }

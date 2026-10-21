@@ -73,27 +73,4 @@ final class SesionPanelTest extends TestCase
         $_SESSION['nombre_completo'] = 'Ana Gómez';
         $this->assertSame('Ana Gómez', SesionPanel::nombreUsuario());
     }
-
-    public function testElTokenCsrfEsEstableDentroDeLaSesionYTiene64Hex(): void
-    {
-        $primero = SesionPanel::tokenCsrf();
-
-        $this->assertMatchesRegularExpression('/^[a-f0-9]{64}$/', $primero);
-        $this->assertSame($primero, SesionPanel::tokenCsrf());
-    }
-
-    public function testSoloElTokenEmitidoEsValido(): void
-    {
-        $token = SesionPanel::tokenCsrf();
-
-        $this->assertTrue(SesionPanel::csrfValido($token));
-        $this->assertFalse(SesionPanel::csrfValido($token . 'x'));
-        $this->assertFalse(SesionPanel::csrfValido(''));
-        $this->assertFalse(SesionPanel::csrfValido(null));
-    }
-
-    public function testSinTokenEmitidoNingunoEsValido(): void
-    {
-        $this->assertFalse(SesionPanel::csrfValido('cualquiera'));
-    }
 }

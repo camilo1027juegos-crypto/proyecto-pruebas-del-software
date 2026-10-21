@@ -20,9 +20,9 @@ use Closure;
 use DateTimeImmutable;
 use Rubicam\Http\Respuesta;
 use Rubicam\Http\Solicitud;
-use Rubicam\Seguridad\CsrfPublico;
 use Rubicam\Seguridad\LimitadorTasa;
 use Rubicam\Seguridad\Sanitizador;
+use Rubicam\Seguridad\TokenCsrf;
 
 final class ControladorCotizacion
 {
@@ -46,14 +46,18 @@ final class ControladorCotizacion
         if (!$solicitud->esPost()) {
             return self::respuesta(false, 'Método no permitido.', 405);
         }
-        if (!CsrfPublico::valido($solicitud->formulario('csrf_token'))) {
+        if (!TokenCsrf::publico()->valido($solicitud->formulario('csrf_token'))) {
             return self::respuesta(false, 'Tu sesión expiró, recarga la página e inténtalo de nuevo.', 419);
         }
         if (($solicitud->formulario('website') ?? '') !== '') {
             return self::respuesta(true, 'Gracias, hemos recibido tu solicitud.'); // honeypot: éxito falso
         }
         if (!$this->limitador->intentar('quote', $solicitud->direccionIp())) {
-            return self::respuesta(false, 'Has enviado demasiadas solicitudes. Intenta nuevamente en unos minutos.', 429);
+            return self::respuesta(
+                false,
+                'Has enviado demasiadas solicitudes. Intenta nuevamente en unos minutos.',
+                429
+            );
         }
 
         $datos   = $this->leerCampos($solicitud);
@@ -91,6 +95,19 @@ final class ControladorCotizacion
      */
     private function validar(array $datos): array
     {
+        return array_merge(
+            $this->erroresDeRuta($datos),
+            $this->erroresDeOperacion($datos),
+            $this->erroresDeContacto($datos)
+        );
+    }
+
+    /**
+     * @param array<string, mixed> $datos
+     * @return list<string>
+     */
+    private function erroresDeRuta(array $datos): array
+    {
         $errores = [];
         if (mb_strlen($datos['origen']) > self::MAX_RUTA) {
             $errores[] = 'El origen no puede superar ' . self::MAX_RUTA . ' caracteres.';
@@ -98,12 +115,34 @@ final class ControladorCotizacion
         if (mb_strlen($datos['destino']) > self::MAX_RUTA) {
             $errores[] = 'El destino no puede superar ' . self::MAX_RUTA . ' caracteres.';
         }
+
+        return $errores;
+    }
+
+    /**
+     * @param array<string, mixed> $datos
+     * @return list<string>
+     */
+    private function erroresDeOperacion(array $datos): array
+    {
+        $errores = [];
         if (!in_array($datos['operacion'], self::OPERACIONES_VALIDAS, true)) {
             $errores[] = 'Selecciona un tipo de operación válido.';
         }
         if ($datos['importeCrudo'] !== '' && $datos['importe'] === null) {
             $errores[] = 'El valor CIF debe ser numérico.';
         }
+
+        return $errores;
+    }
+
+    /**
+     * @param array<string, mixed> $datos
+     * @return list<string>
+     */
+    private function erroresDeContacto(array $datos): array
+    {
+        $errores = [];
         if ($datos['nombre'] === '' || mb_strlen($datos['nombre']) > self::MAX_NOMBRE) {
             $errores[] = 'El nombre es obligatorio.';
         }
@@ -120,15 +159,16 @@ final class ControladorCotizacion
     /**
      * @param array<string, mixed> $datos
      */
-    private function enviar(array $datos, string $ip): Respuesta
+    private function enviar(array $datos, string $direccionIp): Respuesta
     {
         $cuerpo = "Nueva solicitud de cotización — RUBICAM\n\n"
             . "Operación: {$datos['operacion']}\n"
-            . ($datos['importe'] !== null ? 'Valor CIF estimado: USD ' . number_format($datos['importe'], 2) . "\n" : '')
+            . ($datos['importe'] !== null ? 'Valor CIF estimado: USD '
+                . number_format($datos['importe'], 2) . "\n" : '')
             . ($datos['origen'] !== '' ? "Origen: {$datos['origen']}\n" : '')
             . ($datos['destino'] !== '' ? "Destino: {$datos['destino']}\n" : '')
             . "\nContacto:\nNombre: {$datos['nombre']}\nEmail: {$datos['correo']}\nTeléfono: {$datos['telefono']}\n"
-            . "\n---\nEnviado " . (new DateTimeImmutable())->format('Y-m-d H:i:s') . " desde IP {$ip}\n";
+            . "\n---\nEnviado " . (new DateTimeImmutable())->format('Y-m-d H:i:s') . " desde IP {$direccionIp}\n";
 
         $cabeceras = [
             'From: Cotizador Web Rubicam <no-responder@rubicam.co>',
@@ -151,8 +191,8 @@ final class ControladorCotizacion
         return self::respuesta(true, '¡Gracias! Un asesor especializado te contactará muy pronto con tu cotización.');
     }
 
-    private static function respuesta(bool $ok, string $mensaje, int $codigoHttp = 200): Respuesta
+    private static function respuesta(bool $exito, string $mensaje, int $codigoHttp = 200): Respuesta
     {
-        return Respuesta::datos(['ok' => $ok, 'message' => $mensaje], $codigoHttp);
+        return Respuesta::datos(['ok' => $exito, 'message' => $mensaje], $codigoHttp);
     }
 }

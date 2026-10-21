@@ -29,7 +29,11 @@ final class CabecerasSeguras
     {
         $origenChat = '';
         if ($urlWebhookChat !== '') {
-            $origenChat = ' ' . parse_url($urlWebhookChat, PHP_URL_SCHEME) . '://' . parse_url($urlWebhookChat, PHP_URL_HOST);
+            $origenChat = sprintf(
+                ' %s://%s',
+                parse_url($urlWebhookChat, PHP_URL_SCHEME),
+                parse_url($urlWebhookChat, PHP_URL_HOST)
+            );
         }
 
         $cabeceras = self::BASE + [
