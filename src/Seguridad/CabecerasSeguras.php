@@ -54,11 +54,47 @@ final class CabecerasSeguras
     }
 
     /**
-     * Panel privado: nada de caché (el botón «Atrás» no debe mostrar datos tras cerrar sesión).
+     * Panel privado: nada de caché (el botón «Atrás» no debe mostrar datos tras cerrar sesión) y CSP
+     * estricta (MR-009). El JavaScript es un archivo propio (assets/js/panel.js): sin 'unsafe-inline' en
+     * script-src, un XSS no puede ejecutar código. Los estilos conservan 'unsafe-inline' porque el
+     * JavaScript genera algunos atributos style.
      *
      * @return array<string, string>
      */
     public static function panel(): array
+    {
+        return self::sinCache() + [
+            'Content-Security-Policy' => "default-src 'self'; "
+                . "script-src 'self'; "
+                . "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+                . "font-src 'self' https://fonts.gstatic.com; "
+                . "img-src 'self' data:; "
+                . "connect-src 'self'; "
+                . "object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'",
+        ];
+    }
+
+    /**
+     * Pantalla de inicio de sesión: no ejecuta ningún script; solo carga Bootstrap (CDN) y la tipografía.
+     *
+     * @return array<string, string>
+     */
+    public static function acceso(): array
+    {
+        return self::sinCache() + [
+            'Content-Security-Policy' => "default-src 'self'; "
+                . "script-src 'none'; "
+                . "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; "
+                . "font-src 'self' https://fonts.gstatic.com; "
+                . "img-src 'self' data:; "
+                . "object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'",
+        ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private static function sinCache(): array
     {
         return self::BASE + [
             'Cache-Control'   => 'no-store, no-cache, must-revalidate, max-age=0',

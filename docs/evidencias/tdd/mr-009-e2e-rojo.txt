@@ -1,0 +1,2 @@
+[FAIL] E2E-33 MR-009: el panel envía CSP con script-src 'self' y no contiene scripts en línea; el acceso no permite scripts -> CSP= enLinea=0
+Resultado E2E: 32 correctas, 1 con fallos.
