@@ -11,8 +11,9 @@ declare(strict_types=1);
 
 use Rubicam\Http\Respuesta;
 use Rubicam\Http\Solicitud;
-use Rubicam\Infraestructura\Conexion;
 use Rubicam\Infraestructura\ConexionFallida;
+use Rubicam\Panel\Ensamblador;
+use Rubicam\Panel\ResultadoLogin;
 use Rubicam\Seguridad\SesionPanel;
 
 require_once dirname(__DIR__) . '/config/config_db.php';
@@ -31,34 +32,23 @@ $solicitud = Solicitud::desdeGlobales();
 $error     = null;
 
 if ($solicitud->esPost()) {
-    $usuario  = trim($solicitud->formulario('usuario') ?? '');
-    $password = $solicitud->formulario('password') ?? '';
+    try {
+        $resultado = (new Ensamblador())->autenticador()->autenticar(
+            $solicitud->formulario('usuario') ?? '',
+            $solicitud->formulario('password') ?? '',
+            $solicitud->direccionIp()
+        );
 
-    if ($usuario === '' || $password === '') {
-        $error = 'Por favor ingrese usuario y contraseña.';
-    } else {
-        $fila = false;
-        try {
-            $consulta = Conexion::obtener()->prepare(
-                'SELECT id, usuario, password_hash, rol, nombre_completo, sucursal
-                   FROM usuarios WHERE usuario = :usuario AND activo = 1 LIMIT 1'
-            );
-            $consulta->execute(['usuario' => $usuario]);
-            $fila = $consulta->fetch();
-        } catch (ConexionFallida | PDOException $e) {
-            error_log('[rubicam-panel] Error en login: ' . $e->getMessage());
-            $error = 'No fue posible conectar con la base de datos. Intente más tarde.';
-        }
-
-        if ($fila && password_verify($password, $fila['password_hash'])) {
-            SesionPanel::abrir($fila);
+        if ($resultado->estado() === ResultadoLogin::OK) {
+            SesionPanel::abrir($resultado->usuario());
             Respuesta::redireccion('dashboard.php')->enviar();
 
             return;
         }
-
-        // Mensaje genérico: no revelar si falló el usuario o la clave.
-        $error ??= 'Usuario o contraseña incorrectos.';
+        $error = $resultado->mensaje();
+    } catch (ConexionFallida | PDOException $e) {
+        error_log('[rubicam-panel] Error en login: ' . $e->getMessage());
+        $error = 'No fue posible conectar con la base de datos. Intente más tarde.';
     }
 }
 ?>

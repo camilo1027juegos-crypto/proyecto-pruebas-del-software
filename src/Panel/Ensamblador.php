@@ -16,6 +16,7 @@ namespace Rubicam\Panel;
 use Rubicam\Infraestructura\ClienteN8n;
 use Rubicam\Infraestructura\Conexion;
 use Rubicam\Infraestructura\Configuracion;
+use Rubicam\Seguridad\LimitadorTasa;
 
 final class Ensamblador
 {
@@ -33,6 +34,26 @@ final class Ensamblador
         );
 
         return new ControladorEstado(new RepositorioDo(Conexion::obtener()), $n8n);
+    }
+
+    /** El acceso a la base de datos es diferido: un intento con campos vacíos no abre conexión. */
+    public function autenticador(): Autenticador
+    {
+        $directorio = Configuracion::raizProyecto() . '/logs/ratelimit';
+
+        return new Autenticador(
+            static function (string $usuario): ?array {
+                $consulta = Conexion::obtener()->prepare(
+                    'SELECT id, usuario, password_hash, rol, nombre_completo, sucursal
+                       FROM usuarios WHERE usuario = :usuario AND activo = 1 LIMIT 1'
+                );
+                $consulta->execute(['usuario' => $usuario]);
+
+                return $consulta->fetch() ?: null;
+            },
+            new LimitadorTasa($directorio, Autenticador::FALLOS_POR_USUARIO, Autenticador::VENTANA_SEGUNDOS),
+            new LimitadorTasa($directorio, Autenticador::FALLOS_POR_IP, Autenticador::VENTANA_SEGUNDOS)
+        );
     }
 
     public function paginaDashboard(): PaginaDashboard
