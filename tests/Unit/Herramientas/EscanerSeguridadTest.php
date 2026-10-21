@@ -85,7 +85,7 @@ final class EscanerSeguridadTest extends TestCase
             'nombre que no es secreto'      => ['$nombre = "secreta";'],
             'SSL activado'                  => ['$o = [CURLOPT_SSL_VERIFYPEER => true];'],
             'include de ruta fija'          => ['require __DIR__ . \'/vistas/dashboard.php\';'],
-            'método llamado exec'           => ['$this->exec($x);'],
+            'método llamado exec'           => ['$this->exec(self::SENTENCIA);'],
             'método propio llamado system'  => ['$sistema->system($x);'],
             'sesión'                        => ['$usuario = $_SESSION[\'usuario\'];'],
             'servidor'                      => ['$ip = $_SERVER[\'REMOTE_ADDR\'];'],
@@ -142,17 +142,17 @@ final class EscanerSeguridadTest extends TestCase
     {
         $directorio = sys_get_temp_dir() . '/rubicam_escaner_' . bin2hex(random_bytes(4));
         mkdir($directorio . '/sub', 0775, true);
-        file_put_contents($directorio . '/uno.php', "<?php\neval(\$x);\n");
-        file_put_contents($directorio . '/sub/dos.php', "<?php\nmd5(\$x);\n");
+        file_put_contents($directorio . '/a.php', "<?php\neval(\$x);\n");
+        file_put_contents($directorio . '/sub/b.php', "<?php\nmd5(\$x);\n");
         file_put_contents($directorio . '/nota.txt', 'eval($x);');
 
         $hallazgos = EscanerSeguridad::escanearRuta($directorio);
 
         $this->assertSame(['SEG-001', 'SEG-008'], $this->reglasDe($hallazgos));
-        $this->assertStringEndsWith('/uno.php', $hallazgos[0]->archivo);
+        $this->assertStringEndsWith('/a.php', $hallazgos[0]->archivo);
 
-        unlink($directorio . '/uno.php');
-        unlink($directorio . '/sub/dos.php');
+        unlink($directorio . '/a.php');
+        unlink($directorio . '/sub/b.php');
         unlink($directorio . '/nota.txt');
         rmdir($directorio . '/sub');
         rmdir($directorio);
