@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Rubicam\Tests\Regression;
 
 use PHPUnit\Framework\TestCase;
+use Rubicam\Seguridad\Sanitizador;
 
 /**
  * @group MR-001
@@ -20,17 +21,12 @@ use PHPUnit\Framework\TestCase;
  */
 final class Mr001ImporteEstrictoTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        require_once dirname(__DIR__, 2) . '/config/security.php';
-    }
-
     /**
      * @dataProvider importesInvalidos
      */
     public function testImporteInvalidoEsRechazado(string $entrada): void
     {
-        $this->assertNull(clean_number($entrada), "El importe '{$entrada}' debía rechazarse.");
+        $this->assertNull(Sanitizador::importe($entrada), "El importe '{$entrada}' debía rechazarse.");
     }
 
     /**
@@ -57,7 +53,7 @@ final class Mr001ImporteEstrictoTest extends TestCase
      */
     public function testImporteValidoSeConvierteAFloat(string $entrada, float $esperado): void
     {
-        $this->assertSame($esperado, clean_number($entrada));
+        $this->assertSame($esperado, Sanitizador::importe($entrada));
     }
 
     /**

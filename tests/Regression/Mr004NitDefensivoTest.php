@@ -1,7 +1,7 @@
 <?php
 
 /**
- * MR-004 (mantenimiento preventivo, codificación defensiva) — calcular_dv_nit() devolvía un
+ * MR-004 (mantenimiento preventivo, codificación defensiva) — Nit::digitoVerificacion() devolvía un
  * dígito «inventado» con entradas no numéricas ('abc12' → 9). Una función que calcula un
  * identificador legal debe rechazar lo que no es un NIT en lugar de producir un dato corrupto.
  */
@@ -12,6 +12,7 @@ namespace Rubicam\Tests\Regression;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Rubicam\Dominio\Nit;
 
 /**
  * @group MR-004
@@ -19,18 +20,13 @@ use PHPUnit\Framework\TestCase;
  */
 final class Mr004NitDefensivoTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        require_once dirname(__DIR__, 2) . '/config/config_db.php';
-    }
-
     /**
      * @dataProvider entradasInvalidas
      */
     public function testEntradaNoNumericaLanzaExcepcion(string $entrada): void
     {
         $this->expectException(InvalidArgumentException::class);
-        calcular_dv_nit($entrada);
+        Nit::digitoVerificacion($entrada);
     }
 
     /**
@@ -52,7 +48,7 @@ final class Mr004NitDefensivoTest extends TestCase
      */
     public function testDigitoDeNitsConocidos(string $base, int $esperado): void
     {
-        $this->assertSame($esperado, calcular_dv_nit($base));
+        $this->assertSame($esperado, Nit::digitoVerificacion($base));
     }
 
     /**

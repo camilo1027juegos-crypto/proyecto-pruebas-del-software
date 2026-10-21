@@ -21,16 +21,21 @@ final class SolicitudTest extends TestCase
      * @param array<string, mixed> $consulta
      * @param array<string, mixed> $formulario
      */
-    private function solicitud(array $servidor = [], array $consulta = [], array $formulario = [], string $cuerpo = ''): Solicitud
-    {
+    private function solicitud(
+        array $servidor = [],
+        array $consulta = [],
+        array $formulario = [],
+        string $cuerpo = ''
+    ): Solicitud {
         return new Solicitud($servidor, $consulta, $formulario, [], static fn (): string => $cuerpo);
     }
 
-    public function testMetodoSeNormalizaAMayusculasYTieneValorPorDefecto(): void
+    public function testEsPostIgnoraMayusculasYPorDefectoEsGet(): void
     {
-        $this->assertSame('POST', $this->solicitud(['REQUEST_METHOD' => 'post'])->metodo());
-        $this->assertSame('GET', $this->solicitud()->metodo());
+        $this->assertTrue($this->solicitud(['REQUEST_METHOD' => 'post'])->esPost());
         $this->assertTrue($this->solicitud(['REQUEST_METHOD' => 'POST'])->esPost());
+        $this->assertFalse($this->solicitud(['REQUEST_METHOD' => 'GET'])->esPost());
+        $this->assertFalse($this->solicitud()->esPost());
     }
 
     public function testConsultaSoloDevuelveTexto(): void
@@ -43,38 +48,24 @@ final class SolicitudTest extends TestCase
         $this->assertNull($solicitud->consulta('inexistente'));
     }
 
-    /**
-     * @dataProvider enteros
-     */
-    public function testConsultaEnteroPositivo(mixed $valor, ?int $esperado): void
-    {
-        $this->assertSame($esperado, $this->solicitud([], ['do_id' => $valor])->consultaEnteroPositivo('do_id'));
-    }
-
-    /**
-     * @return array<string, array{mixed, ?int}>
-     */
-    public function enteros(): array
-    {
-        return [
-            'entero válido'     => ['12', 12],
-            'cero'              => ['0', null],
-            'negativo'          => ['-3', null],
-            'decimal'           => ['1.5', null],
-            'texto'             => ['abc', null],
-            'inyección SQL'     => ['1 OR 1=1', null],
-            'arreglo'           => [['1'], null],
-        ];
-    }
-
     public function testCabeceraSeLeeDeLasVariablesHttpDelServidor(): void
     {
         $solicitud = $this->solicitud(['HTTP_X_CSRF_TOKEN' => 'abc', 'REMOTE_ADDR' => '10.0.0.5']);
 
         $this->assertSame('abc', $solicitud->cabecera('X-CSRF-Token'));
         $this->assertNull($solicitud->cabecera('X-Otra'));
-        $this->assertSame('10.0.0.5', $solicitud->ip());
-        $this->assertSame('desconocida', $this->solicitud()->ip());
+        $this->assertSame('10.0.0.5', $solicitud->direccionIp());
+        $this->assertSame('desconocida', $this->solicitud()->direccionIp());
+    }
+
+    public function testDetectaElCuerpoDescartadoPorSuperarPostMaxSize(): void
+    {
+        $descartado = new Solicitud(['CONTENT_LENGTH' => '99999999'], [], [], [], static fn (): string => '');
+        $normal     = new Solicitud(['CONTENT_LENGTH' => '20'], [], ['a' => 'b'], [], static fn (): string => '');
+
+        $this->assertTrue($descartado->cuerpoDescartadoPorElServidor());
+        $this->assertFalse($normal->cuerpoDescartadoPorElServidor());
+        $this->assertFalse($this->solicitud()->cuerpoDescartadoPorElServidor());
     }
 
     public function testJsonDecodificaElCuerpoYRechazaElInvalido(): void

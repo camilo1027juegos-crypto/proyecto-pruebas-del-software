@@ -1,11 +1,16 @@
 <?php
 
 declare(strict_types=1);
+
+use Rubicam\Seguridad\CabecerasSeguras;
+use Rubicam\Seguridad\CsrfPublico;
+
 require_once __DIR__ . '/config/config.php';
-require_once __DIR__ . '/config/security.php';
-security_send_headers();
-security_start_session();
-$csrf = csrf_token();
+require_once __DIR__ . '/src/bootstrap.php';
+require_once __DIR__ . '/src/Vistas/ayudantes.php';
+
+CabecerasSeguras::enviar(CabecerasSeguras::publico(CHAT_WEBHOOK_URL, !empty($_SERVER['HTTPS'])));
+$csrf = CsrfPublico::token();
 ?>
 
 <!DOCTYPE html>
@@ -319,21 +324,21 @@ $csrf = csrf_token();
     </div>
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
       <?php
-      $sedes = [
+        $sedes = [
           ['city' => 'Cúcuta', 'tag' => 'Sede principal · Zona Franca', 'main' => true],
           ['city' => 'Envigado', 'tag' => 'Oficina regional'],
           ['city' => 'Bogotá', 'tag' => 'Operaciones'],
           ['city' => 'Cartagena', 'tag' => 'Operaciones portuarias'],
-      ];
-      foreach ($sedes as $s): ?>
+        ];
+        foreach ($sedes as $s) : ?>
         <div class="bg-white/5 ring-1 ring-white/10 rounded-xl p-6 hover:bg-white/10 transition-colors">
-          <?php if (!empty($s['main'])): ?>
+            <?php if (!empty($s['main'])) : ?>
             <span class="inline-block text-[10px] font-bold uppercase tracking-wider text-rubi-orange mb-2">Principal</span>
-          <?php endif; ?>
+            <?php endif; ?>
           <div class="text-lg font-bold text-white"><?= h($s['city']) ?></div>
           <div class="text-xs text-slate-300 mt-1"><?= h($s['tag']) ?></div>
         </div>
-      <?php endforeach; ?>
+        <?php endforeach; ?>
     </div>
     <p class="mt-8 text-sm text-slate-300 max-w-2xl">
       Operación fronteriza directa a través del Puente Internacional Tienditas y el paso Atanasio Girardot.

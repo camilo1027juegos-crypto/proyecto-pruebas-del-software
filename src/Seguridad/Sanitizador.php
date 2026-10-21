@@ -73,6 +73,14 @@ final class Sanitizador
         return $importe <= self::IMPORTE_MAXIMO ? $importe : null;
     }
 
+    /** Entero >= 1 o null (rechaza «0», «-3», «1.5», «1 OR 1=1» y cualquier texto). */
+    public static function enteroPositivo(?string $valor): ?int
+    {
+        $entero = filter_var($valor, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+
+        return $entero === false ? null : $entero;
+    }
+
     /** Escapa texto para insertarlo en HTML. */
     public static function html(?string $valor): string
     {

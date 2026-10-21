@@ -112,6 +112,30 @@ final class SanitizadorTest extends TestCase
         ];
     }
 
+    /**
+     * @dataProvider enteros
+     */
+    public function testEnteroPositivo(?string $entrada, ?int $esperado): void
+    {
+        $this->assertSame($esperado, Sanitizador::enteroPositivo($entrada));
+    }
+
+    /**
+     * @return array<string, array{?string, ?int}>
+     */
+    public function enteros(): array
+    {
+        return [
+            'entero válido' => ['12', 12],
+            'cero'          => ['0', null],
+            'negativo'      => ['-3', null],
+            'decimal'       => ['1.5', null],
+            'texto'         => ['abc', null],
+            'inyección SQL' => ['1 OR 1=1', null],
+            'null'          => [null, null],
+        ];
+    }
+
     public function testHtmlEscapaComillasYEtiquetas(): void
     {
         $escapado = Sanitizador::html('<a href="x">O\'Neil</a>');

@@ -35,6 +35,16 @@ final class Respuesta
      */
     public static function json(string $estado, string $mensaje, int $codigoHttp = 200, array $extra = []): self
     {
+        return self::datos(['status' => $estado, 'message' => $mensaje] + $extra, $codigoHttp);
+    }
+
+    /**
+     * Respuesta JSON con un cuerpo libre (el cotizador público responde {ok, message}).
+     *
+     * @param array<string, mixed> $cuerpo
+     */
+    public static function datos(array $cuerpo, int $codigoHttp = 200): self
+    {
         return new self(
             $codigoHttp,
             [
@@ -42,13 +52,13 @@ final class Respuesta
                 'Cache-Control'          => 'no-store',
                 'X-Content-Type-Options' => 'nosniff',
             ],
-            (string) json_encode(['status' => $estado, 'message' => $mensaje] + $extra, self::FLAGS_JSON)
+            (string) json_encode($cuerpo, self::FLAGS_JSON)
         );
     }
 
     public static function redireccion(string $url, int $codigoHttp = 302): self
     {
-        return new self($codigoHttp, ['Location' => $url, 'Cache-Control' => 'no-store'], '');
+        return new self($codigoHttp, ['Location' => $url], '');
     }
 
     /**
