@@ -85,7 +85,7 @@ Antes de implementar cualquier MR se responde por escrito:
 
 * **Una prueba por defecto**: toda corrección añade una prueba etiquetada `@group MR-nnn` que falla sin la corrección. `phpunit --group MR-006` ejecuta solo esa regresión.
 * **Caracterización antes de mover código**: antes de refactorizar (MR-007) se escribieron **28 pruebas E2E** que fijan el comportamiento visible; deben seguir en verde, **sin cambiar su resultado esperado**, tras cada paso. Si una se pone en rojo, se detiene el refactor.
-* **Suite completa en cada cambio**: 422 unitarias/regresión + 36 E2E + 21 comprobaciones contra Apache real (ver `docs/INFORME_TECNICO.md`).
+* **Suite completa en cada cambio**: 424 unitarias/regresión + 36 E2E + 21 comprobaciones contra Apache real (ver `docs/INFORME_TECNICO.md`).
 * **CI** (`.github/workflows/ci.yml`): cada *push* y *pull request* ejecuta linter, análisis estático, escáner de seguridad, pruebas con cobertura y E2E sobre MariaDB, en PHP 8.2 y 8.3. *(El flujo está escrito pero no pudo ejecutarse en el entorno de desarrollo; las mismas compuertas se ejecutaron a mano.)*
 
 ## 7. Trazabilidad: hallazgo → MR → prueba → commit

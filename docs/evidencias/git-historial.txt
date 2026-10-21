@@ -1,0 +1,61 @@
+$ git log --oneline --graph --decorate main   (extracto: cada solicitud de modificación es una rama con su commit [RED] y su commit [GREEN])
+*   f8c24b9 (main) Merge branch 'test/caracterizacion-controladores' into main
+|\  
+| * 6af6ea3 (test/caracterizacion-controladores) test(caracterizacion): fijar el comportamiento de ControladorCotizacion, Guardia y ValidadorCargaDocumento
+|/  
+*   c0befdc Merge branch 'feature/escaner-seguridad' into main
+|\  
+| * 195be23 (feature/escaner-seguridad) refactor(seguridad): escáner en clases pequeñas, sin falsos positivos y aplicado al proyecto [REFACTOR]
+| * 3247401 test(seguridad): casos de falsos positivos del escáner hallados al analizar el proyecto [RED]
+| * 103a2b6 feat(seguridad): escáner de seguridad estático por tokens, equivalente a bandit [GREEN]
+| * be97134 test(seguridad): especificar el escáner de seguridad estático (equivalente a bandit) [RED]
+|/  
+*   05d2ddd Merge branch 'feature/mr-008-entorno-env' into main
+|\  
+| * e9c1f7b (feature/mr-008-entorno-env) refactor(config): configuración por entorno con .env y UPLOAD_DIR; config.php solo declara constantes (MR-008) [GREEN]
+| * 00d1a01 test(adaptativo): especificar MR-008 configuración por entorno (.env y UPLOAD_DIR) [RED]
+|/  
+*   eb9e0f3 Merge branch 'feature/mr-010-exportar-dos' into main
+|\  
+| * dd01329 (feature/mr-010-exportar-dos) feat(exportacion): exportar DOs a CSV/JSON con protección contra inyección de fórmulas (MR-010) [GREEN]
+| * 9c3db8b test(evolutivo): especificar MR-010 exportación de DOs a CSV/JSON [RED]
+|/  
+*   dccfc0c Merge branch 'fix/mr-009-csp-estricta-panel' into main
+|\  
+| * 8727b38 (fix/mr-009-csp-estricta-panel) fix(seguridad): CSP estricta en el panel y en el acceso (MR-009) [GREEN]
+| * 2180f49 test(regresion): reproducir MR-009 (panel sin CSP estricta) [RED]
+|/  
+*   3e59f20 Merge branch 'fix/mr-006-login-fuerza-bruta' into main
+|\  
+| * 7b5f8e6 (fix/mr-006-login-fuerza-bruta) fix(seguridad): limitar intentos fallidos de login y evitar la enumeración de usuarios (MR-006) [GREEN]
+| * 4a102f0 test(regresion): reproducir MR-006 (fuerza bruta en el login y enumeración por tiempo) [RED]
+* | 4a32675 Merge branch 'refactor/capa-dominio' into main
+|\| 
+| * b88913e (refactor/capa-dominio) refactor(seguridad): unificar tokens CSRF en TokenCsrf y dividir validaciones del cotizador
+| * 15d699c refactor: conectar panel, handlers y landing a las clases de src/ y extraer vista y JavaScript del dashboard
+| * 4719b53 test(infraestructura): especificar Solicitud, SesionPanel y ClienteN8n antes de implementarlos [RED]
+| * 08358ed feat(seguridad,http,archivos): implementar Sanitizador, LimitadorTasa, Respuesta/Ejecutor, SolicitudJson, ValidadorNuevoDo y PoliticaArchivos [GREEN]
+| * 8b9a2d8 test(seguridad,http,archivos): especificar Sanitizador, LimitadorTasa, Respuesta, SolicitudJson, ValidadorNuevoDo y PoliticaArchivos [RED]
+| * 75a66e2 feat(dominio): implementar Catalogos, Nit, SemaforoDo y Bitacora como clases puras [GREEN]
+| * 661c2a5 test(dominio): especificar Catalogos, Nit, SemaforoDo y Bitacora antes de implementarlos [RED]
+* | 430efd8 chore: normalizar finales de línea a LF en panel/index.php
+|/  
+*   6cb7801 Merge branch 'fix/mr-005-archivos-internos-expuestos' into main
+|\  
+| * 6ff565b (fix/mr-005-archivos-internos-expuestos) fix(seguridad): bloquear archivos internos en Apache (MR-005) [GREEN]
+| * adda409 test(regresion): reproducir MR-005 (archivos internos descargables en Apache) [RED]
+|/  
+*   5c72ee6 Merge branch 'fix/mr-003-longitud-cotizador' into main
+|\  
+| * 63ccada (fix/mr-003-longitud-cotizador) fix(cotizador,dominio): limitar origen/destino a 120 caracteres y rechazar NIT no numérico (MR-003, MR-004) [GREEN]
+| * 56daa51 test(regresion): reproducir MR-003 (longitud del cotizador) y MR-004 (NIT defensivo) [RED]
+|/  
+*   5047d7b Merge branch 'fix/mr-001-002-validacion-importe-telefono' into main
+|\  
+| * 517fda6 (fix/mr-001-002-validacion-importe-telefono) fix(validacion): exigir importe decimal estricto y teléfonos con 7 dígitos reales (MR-001, MR-002) [GREEN]
+| * e81ad2c test(e2e): agregar E2E-35 que reproduce MR-002 en el alta de DO [RED]
+| * 4379e67 test(regresion): reproducir MR-001 y MR-002 (importe CIF y teléfono) [RED]
+|/  
+*   2f920b1 Merge branch 'docs/documentacion-previa' into main
+|\  
+| * 284ab71 (docs/documentacion-previa) docs: documentación y pruebas previas (especificación, casos de prueba, auditoría del código heredado)

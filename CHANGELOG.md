@@ -9,7 +9,7 @@ Cada entrada indica la solicitud de modificación (MR) y su tipo según ISO/IEC/
 - **MR-010 (aditivo):** exportación de las Órdenes de Operación a **CSV** (UTF-8 con BOM, separador `;`) y **JSON**, respetando los filtros del panel y neutralizando la inyección de fórmulas de Excel (`= + - @`). Botones «Exportar CSV» y «JSON» en el panel.
 - **MR-008 (adaptativo):** configuración por archivo `.env` (`.env.example`) y variable `UPLOAD_DIR`; el servidor tiene prioridad sobre el archivo.
 - Escáner de seguridad estático `tools/escanear_seguridad.php` (`composer seguridad`) con 9 reglas y supresión con motivo.
-- Pruebas: 422 unitarias y de regresión (PHPUnit), 36 E2E, verificación de reglas de Apache (`tests/apache/verificar_htaccess.sh`).
+- Pruebas: 424 unitarias y de regresión (PHPUnit), 36 E2E, verificación de reglas de Apache (`tests/apache/verificar_htaccess.sh`).
 - Herramientas de calidad: PHPCS (PSR-12), PHPMD, PHPUnit, integración continua (`.github/workflows/ci.yml`), configuración de depuración.
 - Documentación: especificación, casos de prueba, auditoría del código, plan de mantenimiento, despliegue e informe técnico (`docs/`).
 

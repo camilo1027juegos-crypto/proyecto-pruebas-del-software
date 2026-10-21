@@ -1,0 +1,32 @@
+$ php tools/escanear_seguridad.php --umbral=bajo config handlers panel index.php    # el escáner de main aplicado al código de la línea base v2.0.0
+config/security.php:85  [BAJO] SEG-008  md5() no sirve para claves ni tokens: use random_bytes.
+handlers/quote-handler.php:28  [MEDIO] SEG-009  Lectura directa de $_POST: use Solicitud.
+handlers/quote-handler.php:31  [MEDIO] SEG-009  Lectura directa de $_POST: use Solicitud.
+handlers/quote-handler.php:38  [MEDIO] SEG-009  Lectura directa de $_POST: use Solicitud.
+handlers/quote-handler.php:39  [MEDIO] SEG-009  Lectura directa de $_POST: use Solicitud.
+handlers/quote-handler.php:41  [MEDIO] SEG-009  Lectura directa de $_POST: use Solicitud.
+handlers/quote-handler.php:42  [MEDIO] SEG-009  Lectura directa de $_POST: use Solicitud.
+handlers/quote-handler.php:43  [MEDIO] SEG-009  Lectura directa de $_POST: use Solicitud.
+handlers/quote-handler.php:44  [MEDIO] SEG-009  Lectura directa de $_POST: use Solicitud.
+handlers/quote-handler.php:45  [MEDIO] SEG-009  Lectura directa de $_POST: use Solicitud.
+handlers/upload_documento.php:91  [MEDIO] SEG-009  Lectura directa de $_POST: use Solicitud.
+handlers/upload_documento.php:91  [MEDIO] SEG-009  Lectura directa de $_FILES: use Solicitud.
+handlers/upload_documento.php:95  [MEDIO] SEG-009  Lectura directa de $_POST: use Solicitud.
+handlers/upload_documento.php:105  [MEDIO] SEG-009  Lectura directa de $_POST: use Solicitud.
+handlers/upload_documento.php:106  [MEDIO] SEG-009  Lectura directa de $_POST: use Solicitud.
+handlers/upload_documento.php:115  [MEDIO] SEG-009  Lectura directa de $_FILES: use Solicitud.
+panel/dashboard.php:130  [MEDIO] SEG-004  SQL armado con variables: use consultas preparadas con parámetros.
+panel/dashboard.php:133  [MEDIO] SEG-004  SQL armado con variables: use consultas preparadas con parámetros.
+panel/dashboard.php:360  [MEDIO] SEG-009  Lectura directa de $_GET: use Solicitud.
+panel/dashboard.php:425  [MEDIO] SEG-009  Lectura directa de $_GET: use Solicitud.
+panel/dashboard.php:452  [MEDIO] SEG-009  Lectura directa de $_GET: use Solicitud.
+panel/dashboard.php:479  [MEDIO] SEG-009  Lectura directa de $_GET: use Solicitud.
+panel/dashboard.php:479  [MEDIO] SEG-009  Lectura directa de $_GET: use Solicitud.
+panel/dashboard.php:479  [MEDIO] SEG-009  Lectura directa de $_GET: use Solicitud.
+panel/index.php:21  [MEDIO] SEG-009  Lectura directa de $_POST: use Solicitud.
+panel/index.php:22  [MEDIO] SEG-009  Lectura directa de $_POST: use Solicitud.
+panel/index.php:239  [MEDIO] SEG-009  Lectura directa de $_POST: use Solicitud.
+panel/index.php:239  [MEDIO] SEG-009  Lectura directa de $_POST: use Solicitud.
+
+Total: 28 hallazgo(s) — alto: 0, medio: 27, bajo: 1
+(código de salida: 1 → falla la compuerta)

@@ -117,4 +117,4 @@ git push origin --all                         # sube también las ramas de traba
 `.vscode/launch.json` trae tres configuraciones para **Xdebug** (puerto 9003): escuchar el panel en `php -S`, depurar el script
 abierto y depurar la prueba PHPUnit abierta. Pasos: instalar Xdebug (`xdebug.mode=debug`, `xdebug.start_with_request=yes`), poner un
 punto de interrupción en la línea sospechosa, ejecutar la prueba y examinar variables / pila de llamadas. Ver el caso de estudio
-en `docs/INFORME_TECNICO.md` §10.
+en `docs/INFORME_TECNICO.md` §9.

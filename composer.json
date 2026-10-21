@@ -32,7 +32,7 @@
     },
     "scripts": {
         "test": "phpunit --colors=always",
-        "test:cobertura": "phpunit --colors=always --coverage-text",
+        "test:cobertura": "php -d pcov.directory=. -d pcov.exclude=\"~(vendor|tests)~\" vendor/bin/phpunit --colors=always --coverage-text",
         "lint": "phpcs",
         "lint:corregir": "phpcbf",
         "analizar": "phpmd src,config,handlers,panel/dashboard.php,panel/index.php,panel/logout.php,tools text phpmd.xml",
