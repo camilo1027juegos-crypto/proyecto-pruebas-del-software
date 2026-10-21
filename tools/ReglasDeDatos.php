@@ -41,12 +41,14 @@ final class ReglasDeDatos
             return null;
         }
 
-        $argumentos = AyudantesTokens::argumentos($tokens, $posicion + 1);
-        $concatena  = in_array('.', array_map(static fn (PhpToken $token): string => $token->text, $argumentos), true);
-        $variables  = array_filter($argumentos, static fn (PhpToken $token): bool => $token->id === T_VARIABLE);
+        // Unir literales o constantes es seguro; lo peligroso es meter VARIABLES (también las interpoladas).
+        $variables = array_filter(
+            AyudantesTokens::argumentos($tokens, $posicion + 1),
+            static fn (PhpToken $token): bool => $token->id === T_VARIABLE
+        );
 
-        return ($concatena || $variables !== [])
-            ? ['SEG-004', 'medio', 'SQL armado con variables o concatenación: use consultas preparadas.']
+        return $variables !== []
+            ? ['SEG-004', 'medio', 'SQL armado con variables: use consultas preparadas con parámetros.']
             : null;
     }
 
@@ -106,7 +108,10 @@ final class ReglasDeDatos
     /** @param list<PhpToken> $tokens */
     private static function esLiteralNoVacio(array $tokens, int $posicion): bool
     {
-        return AyudantesTokens::idEn($tokens, $posicion) === T_CONSTANT_ENCAPSED_STRING
+        $terminaElValor = in_array(AyudantesTokens::textoEn($tokens, $posicion + 1), [';', ',', ')', ']'], true);
+
+        return $terminaElValor
+            && AyudantesTokens::idEn($tokens, $posicion) === T_CONSTANT_ENCAPSED_STRING
             && AyudantesTokens::sinComillas(AyudantesTokens::textoEn($tokens, $posicion)) !== '';
     }
 }

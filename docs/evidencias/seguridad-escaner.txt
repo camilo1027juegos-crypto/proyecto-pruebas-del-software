@@ -1,0 +1,27 @@
+=== Escáner de seguridad — 2026-10-21 17:11 ===
+
+$ php tools/escanear_seguridad.php --umbral=bajo        # el proyecto
+Sin hallazgos de seguridad.
+(código de salida: 0)
+
+$ php tools/escanear_seguridad.php /tmp/demo_escaner/malo.php   # archivo con fallas a propósito
+--- contenido de malo.php ---
+<?php
+$password = "admin123";
+eval($_GET["x"]);
+$pdo->query("SELECT * FROM u WHERE id=" . $_GET["id"]);
+--- resultado ---
+/tmp/demo_escaner/malo.php:2  [ALTO] SEG-005  Credencial escrita en el código («password»): léala del entorno (.env).
+/tmp/demo_escaner/malo.php:3  [ALTO] SEG-001  Ejecución de código dinámico (eval / create_function).
+/tmp/demo_escaner/malo.php:3  [MEDIO] SEG-009  Lectura directa de $_GET: use Solicitud.
+/tmp/demo_escaner/malo.php:4  [MEDIO] SEG-004  SQL armado con variables: use consultas preparadas con parámetros.
+/tmp/demo_escaner/malo.php:4  [MEDIO] SEG-009  Lectura directa de $_GET: use Solicitud.
+
+Total: 5 hallazgo(s) — alto: 2, medio: 3, bajo: 0
+(código de salida: 1)
+
+$ phpunit tests/Unit/Herramientas
+
+Time: 00:00.014, Memory: 6.00 MB
+
+OK (58 tests, 133 assertions)

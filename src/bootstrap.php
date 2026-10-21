@@ -21,6 +21,7 @@ spl_autoload_register(static function (string $clase): void {
 
     $ruta = __DIR__ . '/' . str_replace('\\', '/', substr($clase, strlen($prefijo))) . '.php';
     if (is_file($ruta)) {
+        // seguridad:ignorar SEG-007 la ruta sale de un nombre de clase con prefijo Rubicam\ y se valida con is_file().
         require $ruta;
     }
 });

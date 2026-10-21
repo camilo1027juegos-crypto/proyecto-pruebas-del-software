@@ -38,7 +38,10 @@ foreach (array_slice($argv, 1) as $argumento) {
 }
 
 if (!in_array($umbral, ['bajo', 'medio', 'alto'], true) || !in_array($formato, ['texto', 'json'], true)) {
-    fwrite(STDERR, "Uso: php tools/escanear_seguridad.php [--umbral=bajo|medio|alto] [--formato=texto|json] [rutas...]\n");
+    fwrite(
+        STDERR,
+        "Uso: php tools/escanear_seguridad.php [--umbral=bajo|medio|alto] [--formato=texto|json] [rutas...]\n"
+    );
     exit(2);
 }
 
