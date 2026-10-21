@@ -1,0 +1,304 @@
+PHPUnit 9.6.17 by Sebastian Bergmann and contributors.
+
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEFFFFFEEEEEEEEEEEEEEE        58 / 58 (100%)
+
+Time: 00:00.006, Memory: 6.00 MB
+
+There were 53 errors:
+
+1) Rubicam\Tests\Unit\Dominio\BitacoraTest::testLaEntradaMasRecienteVaPrimero
+Error: Class "Rubicam\Dominio\Bitacora" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/BitacoraTest.php:34
+
+2) Rubicam\Tests\Unit\Dominio\BitacoraTest::testElTextoSeNormalizaSinSaltosDeLineaNiEspaciosRepetidos
+Error: Class "Rubicam\Dominio\Bitacora" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/BitacoraTest.php:45
+
+3) Rubicam\Tests\Unit\Dominio\BitacoraTest::testCuandoSeLlenaSeDescartanLasEntradasMasAntiguas
+Error: Class "Rubicam\Dominio\Bitacora" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/BitacoraTest.php:66
+
+4) Rubicam\Tests\Unit\Dominio\BitacoraTest::testEntradasRespetaElLimite
+Error: Class "Rubicam\Dominio\Bitacora" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/BitacoraTest.php:78
+
+5) Rubicam\Tests\Unit\Dominio\BitacoraTest::testLasObservacionesAntiguasSinFormatoSeDevuelvenComoTextoPlano
+Error: Class "Rubicam\Dominio\Bitacora" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/BitacoraTest.php:86
+
+6) Rubicam\Tests\Unit\Dominio\BitacoraTest::testUnaBitacoraVaciaNoGeneraEntradas with data set "null" (null)
+Error: Class "Rubicam\Dominio\Bitacora" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/BitacoraTest.php:98
+
+7) Rubicam\Tests\Unit\Dominio\BitacoraTest::testUnaBitacoraVaciaNoGeneraEntradas with data set "cadena vacía" ('')
+Error: Class "Rubicam\Dominio\Bitacora" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/BitacoraTest.php:98
+
+8) Rubicam\Tests\Unit\Dominio\BitacoraTest::testUnaBitacoraVaciaNoGeneraEntradas with data set "solo espacios" ('  \n \n')
+Error: Class "Rubicam\Dominio\Bitacora" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/BitacoraTest.php:98
+
+9) Rubicam\Tests\Unit\Dominio\BitacoraTest::testAgregarGeneraUnaLineaConFechaUsuarioYEstado
+Error: Class "Rubicam\Dominio\Bitacora" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/BitacoraTest.php:27
+
+10) Rubicam\Tests\Unit\Dominio\BitacoraTest::testUnUsuarioMaliciosoNoPuedeRomperElFormatoDeLaLinea
+Error: Class "Rubicam\Dominio\Bitacora" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/BitacoraTest.php:53
+
+11) Rubicam\Tests\Unit\Dominio\CatalogosTest::testElEstadoInicialPerteneceAlCatalogoDeEstados
+Error: Class "Rubicam\Dominio\Catalogos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/CatalogosTest.php:21
+
+12) Rubicam\Tests\Unit\Dominio\CatalogosTest::testLosEstadosFinalesSonUnSubconjuntoDeLosEstados
+Error: Class "Rubicam\Dominio\Catalogos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/CatalogosTest.php:26
+
+13) Rubicam\Tests\Unit\Dominio\CatalogosTest::testCadaSucursalYCadaRegimenTienenPrefijoDeTresLetras
+Error: Class "Rubicam\Dominio\Catalogos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/CatalogosTest.php:31
+
+14) Rubicam\Tests\Unit\Dominio\CatalogosTest::testEsEstadoFinal with data set "en trámite no es final" ('En trámite', false)
+Error: Class "Rubicam\Dominio\Catalogos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/CatalogosTest.php:44
+
+15) Rubicam\Tests\Unit\Dominio\CatalogosTest::testEsEstadoFinal with data set "presentada no es final" ('Presentada DIAN', false)
+Error: Class "Rubicam\Dominio\Catalogos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/CatalogosTest.php:44
+
+16) Rubicam\Tests\Unit\Dominio\CatalogosTest::testEsEstadoFinal with data set "finalizada es final" ('Finalizada', true)
+Error: Class "Rubicam\Dominio\Catalogos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/CatalogosTest.php:44
+
+17) Rubicam\Tests\Unit\Dominio\CatalogosTest::testEsEstadoFinal with data set "nacionalizado es final" ('Nacionalizado', true)
+Error: Class "Rubicam\Dominio\Catalogos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/CatalogosTest.php:44
+
+18) Rubicam\Tests\Unit\Dominio\CatalogosTest::testEsEstadoFinal with data set "cerrado sin facturar es final" ('Cerrado sin facturar', true)
+Error: Class "Rubicam\Dominio\Catalogos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/CatalogosTest.php:44
+
+19) Rubicam\Tests\Unit\Dominio\CatalogosTest::testEsEstadoFinal with data set "estado inventado no es final" ('Archivado', false)
+Error: Class "Rubicam\Dominio\Catalogos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/CatalogosTest.php:44
+
+20) Rubicam\Tests\Unit\Dominio\CatalogosTest::testEsEstadoFinal with data set "cadena vacía no es final" ('', false)
+Error: Class "Rubicam\Dominio\Catalogos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/CatalogosTest.php:44
+
+21) Rubicam\Tests\Unit\Dominio\CatalogosTest::testPuedeEditar with data set "admin edita" ('admin', true)
+Error: Class "Rubicam\Dominio\Catalogos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/CatalogosTest.php:68
+
+22) Rubicam\Tests\Unit\Dominio\CatalogosTest::testPuedeEditar with data set "operador edita" ('operador', true)
+Error: Class "Rubicam\Dominio\Catalogos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/CatalogosTest.php:68
+
+23) Rubicam\Tests\Unit\Dominio\CatalogosTest::testPuedeEditar with data set "consulta solo lee" ('consulta', false)
+Error: Class "Rubicam\Dominio\Catalogos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/CatalogosTest.php:68
+
+24) Rubicam\Tests\Unit\Dominio\CatalogosTest::testPuedeEditar with data set "rol desconocido" ('invitado', false)
+Error: Class "Rubicam\Dominio\Catalogos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/CatalogosTest.php:68
+
+25) Rubicam\Tests\Unit\Dominio\CatalogosTest::testPuedeEditar with data set "mayúsculas no coinciden" ('ADMIN', false)
+Error: Class "Rubicam\Dominio\Catalogos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/CatalogosTest.php:68
+
+26) Rubicam\Tests\Unit\Dominio\CatalogosTest::testPuedeEditar with data set "vacío" ('', false)
+Error: Class "Rubicam\Dominio\Catalogos" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/CatalogosTest.php:68
+
+27) Rubicam\Tests\Unit\Dominio\NitTest::testDigitoDeVerificacionDeNitsReales with data set "Ecopetrol" ('899999068', 1)
+Error: Class "Rubicam\Dominio\Nit" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/NitTest.php:26
+
+28) Rubicam\Tests\Unit\Dominio\NitTest::testDigitoDeVerificacionDeNitsReales with data set "Banco de Bogotá" ('860002964', 4)
+Error: Class "Rubicam\Dominio\Nit" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/NitTest.php:26
+
+29) Rubicam\Tests\Unit\Dominio\NitTest::testDigitoDeVerificacionDeNitsReales with data set "Bancolombia" ('890903938', 8)
+Error: Class "Rubicam\Dominio\Nit" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/NitTest.php:26
+
+30) Rubicam\Tests\Unit\Dominio\NitTest::testDigitoDeVerificacionDeNitsReales with data set "Rubicam" ('901742681', 8)
+Error: Class "Rubicam\Dominio\Nit" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/NitTest.php:26
+
+31) Rubicam\Tests\Unit\Dominio\NitTest::testDigitoDeVerificacionDeNitsReales with data set "un solo dígito" ('1', 8)
+Error: Class "Rubicam\Dominio\Nit" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/NitTest.php:26
+
+32) Rubicam\Tests\Unit\Dominio\NitTest::testNormalizarRechazaEntradasInvalidas with data set "vacío" ('', 'NIT inválido')
+Error: Class "Rubicam\Dominio\Nit" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/NitTest.php:93
+
+33) Rubicam\Tests\Unit\Dominio\NitTest::testNormalizarRechazaEntradasInvalidas with data set "letras" ('ABC123456', 'NIT inválido')
+Error: Class "Rubicam\Dominio\Nit" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/NitTest.php:93
+
+34) Rubicam\Tests\Unit\Dominio\NitTest::testNormalizarRechazaEntradasInvalidas with data set "muy corto (4 dígitos)" ('1234', 'NIT inválido')
+Error: Class "Rubicam\Dominio\Nit" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/NitTest.php:93
+
+35) Rubicam\Tests\Unit\Dominio\NitTest::testNormalizarRechazaEntradasInvalidas with data set "muy largo (16 dígitos)" ('1234567890123456', 'NIT inválido')
+Error: Class "Rubicam\Dominio\Nit" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/NitTest.php:93
+
+36) Rubicam\Tests\Unit\Dominio\NitTest::testNormalizarRechazaEntradasInvalidas with data set "dos dígitos de verificación" ('900123456-88', 'NIT inválido')
+Error: Class "Rubicam\Dominio\Nit" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/NitTest.php:93
+
+37) Rubicam\Tests\Unit\Dominio\NitTest::testNormalizarRechazaEntradasInvalidas with data set "dígito de verificación erróneo" ('900123456-3', 'dígito de verificación no corresponde')
+Error: Class "Rubicam\Dominio\Nit" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/NitTest.php:93
+
+38) Rubicam\Tests\Unit\Dominio\NitTest::testElMensajeDelDigitoErroneoIndicaElValorCorrecto
+Error: Class "Rubicam\Dominio\Nit" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/NitTest.php:118
+
+39) Error
+The data provider specified for Rubicam\Tests\Unit\Dominio\NitTest::testNormalizarAgregaOCompletaElDigito is invalid.
+Error: Class "Rubicam\Dominio\Nit" not found
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/NitTest.php:83
+
+40) Rubicam\Tests\Unit\Dominio\SemaforoDoTest::testNivelSegunDiasTranscurridos with data set "día 0" (0, 'al_dia')
+Error: Class "Rubicam\Dominio\SemaforoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/SemaforoDoTest.php:37
+
+41) Rubicam\Tests\Unit\Dominio\SemaforoDoTest::testNivelSegunDiasTranscurridos with data set "día 29 (último verde)" (29, 'al_dia')
+Error: Class "Rubicam\Dominio\SemaforoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/SemaforoDoTest.php:37
+
+42) Rubicam\Tests\Unit\Dominio\SemaforoDoTest::testNivelSegunDiasTranscurridos with data set "día 30 (primer naranja)" (30, 'seguimiento')
+Error: Class "Rubicam\Dominio\SemaforoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/SemaforoDoTest.php:37
+
+43) Rubicam\Tests\Unit\Dominio\SemaforoDoTest::testNivelSegunDiasTranscurridos with data set "día 75 (último naranja)" (75, 'seguimiento')
+Error: Class "Rubicam\Dominio\SemaforoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/SemaforoDoTest.php:37
+
+44) Rubicam\Tests\Unit\Dominio\SemaforoDoTest::testNivelSegunDiasTranscurridos with data set "día 76 (primer rojo)" (76, 'critico')
+Error: Class "Rubicam\Dominio\SemaforoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/SemaforoDoTest.php:37
+
+45) Rubicam\Tests\Unit\Dominio\SemaforoDoTest::testNivelSegunDiasTranscurridos with data set "día 200" (200, 'critico')
+Error: Class "Rubicam\Dominio\SemaforoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/SemaforoDoTest.php:37
+
+46) Rubicam\Tests\Unit\Dominio\SemaforoDoTest::testLosEstadosFinalesNoGeneranAlerta with data set "Finalizada" ('Finalizada')
+Error: Class "Rubicam\Dominio\SemaforoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/SemaforoDoTest.php:78
+
+47) Rubicam\Tests\Unit\Dominio\SemaforoDoTest::testLosEstadosFinalesNoGeneranAlerta with data set "Nacionalizado" ('Nacionalizado')
+Error: Class "Rubicam\Dominio\SemaforoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/SemaforoDoTest.php:78
+
+48) Rubicam\Tests\Unit\Dominio\SemaforoDoTest::testLosEstadosFinalesNoGeneranAlerta with data set "Cerrado sin facturar" ('Cerrado sin facturar')
+Error: Class "Rubicam\Dominio\SemaforoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/SemaforoDoTest.php:78
+
+49) Rubicam\Tests\Unit\Dominio\SemaforoDoTest::testElProgresoSeAcotaEntreCeroYCien
+Error: Class "Rubicam\Dominio\SemaforoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/SemaforoDoTest.php:98
+
+50) Rubicam\Tests\Unit\Dominio\SemaforoDoTest::testElProgresoUsaElPlazoRealCuandoHayVencimiento
+Error: Class "Rubicam\Dominio\SemaforoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/SemaforoDoTest.php:107
+
+51) Rubicam\Tests\Unit\Dominio\SemaforoDoTest::testUnaFechaDeAperturaInvalidaSeTrataComoHoy
+Error: Class "Rubicam\Dominio\SemaforoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/SemaforoDoTest.php:120
+
+52) Rubicam\Tests\Unit\Dominio\SemaforoDoTest::testElResultadoTieneTodasLasClavesQueConsumeElPanel
+Error: Class "Rubicam\Dominio\SemaforoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/SemaforoDoTest.php:128
+
+53) Rubicam\Tests\Unit\Dominio\SemaforoDoTest::testUnDoConVencimientoPasadoEstaVencidoAunqueSeaReciente
+Error: Class "Rubicam\Dominio\SemaforoDo" not found
+
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/SemaforoDoTest.php:60
+
+--
+
+There were 5 failures:
+
+1) Rubicam\Tests\Unit\Dominio\NitTest::testBaseNoNumericaLanzaExcepcion with data set "vacío" ('')
+Failed asserting that exception of type "Error" matches expected exception "InvalidArgumentException". Message was: "Class "Rubicam\Dominio\Nit" not found" at
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/NitTest.php:49
+.
+
+2) Rubicam\Tests\Unit\Dominio\NitTest::testBaseNoNumericaLanzaExcepcion with data set "letras" ('abc12')
+Failed asserting that exception of type "Error" matches expected exception "InvalidArgumentException". Message was: "Class "Rubicam\Dominio\Nit" not found" at
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/NitTest.php:49
+.
+
+3) Rubicam\Tests\Unit\Dominio\NitTest::testBaseNoNumericaLanzaExcepcion with data set "con espacio" ('12 345')
+Failed asserting that exception of type "Error" matches expected exception "InvalidArgumentException". Message was: "Class "Rubicam\Dominio\Nit" not found" at
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/NitTest.php:49
+.
+
+4) Rubicam\Tests\Unit\Dominio\NitTest::testBaseNoNumericaLanzaExcepcion with data set "con guion" ('900123456-8')
+Failed asserting that exception of type "Error" matches expected exception "InvalidArgumentException". Message was: "Class "Rubicam\Dominio\Nit" not found" at
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/NitTest.php:49
+.
+
+5) Rubicam\Tests\Unit\Dominio\NitTest::testBaseNoNumericaLanzaExcepcion with data set "más de 15 dígitos" ('1234567890123456')
+Failed asserting that exception of type "Error" matches expected exception "InvalidArgumentException". Message was: "Class "Rubicam\Dominio\Nit" not found" at
+/home/claude/work/proj/rubicam-redesign/tests/Unit/Dominio/NitTest.php:49
+.
+
+ERRORS!
+Tests: 58, Assertions: 5, Errors: 53, Failures: 5.
