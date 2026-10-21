@@ -17,7 +17,7 @@
 | **Elementos a probar** | Clases de `src/` y `tools/` (unitarias); defectos corregidos (regresión); aplicación completa sobre MySQL (E2E); configuración de Apache (manual/automatizada). |
 | **Enfoque** | **TDD** (Red → Green → Refactor) para código nuevo; **prueba de regresión** (una prueba por defecto corregido, etiquetada con su `MR-xxx`); **caracterización** (fijar el comportamiento existente antes de moverlo); E2E de humo. |
 | **Herramientas** | PHPUnit 9.6 (xUnit), PCOV (cobertura), suite E2E propia (`tests/e2e`), PHPCS/PHPMD como compuertas estáticas. |
-| **Criterios de aprobación** | 100 % de casos en verde · 0 errores PHPCS (PSR-12) · 0 incumplimientos PHPMD · cobertura de líneas de `src/` ≥ 90 % · 28 casos E2E originales en verde sin modificar su resultado esperado. |
+| **Criterios de aprobación** | 100 % de casos en verde · 0 errores y 0 advertencias PHPCS (PSR-12) · 0 hallazgos PHPMD con `phpmd.xml` · 0 hallazgos del escáner de seguridad · cobertura de líneas ≥ 90 % en las capas de lógica pura (`Dominio`, `Publico`) y verificación del resto (acceso a BD y HTTP) mediante E2E · los 28 casos E2E originales en verde sin modificar su resultado esperado. |
 | **Criterios de suspensión** | Cualquier caso E2E original en rojo tras un cambio: se detiene el refactor y se corrige antes de continuar. |
 | **Entorno** | PHP 8.2/8.3, MySQL/MariaDB 10.4+, base desechable `rubicam_e2e`. |
 | **Entregables** | Este documento · código de pruebas en `tests/` · registros de ejecución en `docs/evidencias/` · `docs/INFORME_TECNICO.md`. |
@@ -137,21 +137,26 @@ Entrada base válida: código `cuc26imp0001`, cliente `Textiles del Norte S.A.S.
 | CP-TAS-07 | directorio de almacenamiento imposible de crear | `true` (falla abierta) y se registra el error |
 | CP-TAS-08 | archivo de contador corrupto | se trata como contador nuevo |
 
-### 2.7 `Respuesta`, `ErrorHttp`, `SolicitudJson` (CP-HTTP)
+### 2.7 `Respuesta`, `Ejecutor`, `SolicitudJson`, `Solicitud` (CP-HTTP)
 
 | ID | Entrada | Resultado esperado |
 |---|---|---|
-| CP-HTTP-01 | `Respuesta::estado('success','Listo',201,['data'=>[1]])` | código 201; JSON `{"status":"success","message":"Listo","data":[1]}` |
-| CP-HTTP-02 | cualquier `Respuesta::estado/json` | cabeceras `Content-Type: application/json; charset=utf-8`, `Cache-Control: no-store`, `X-Content-Type-Options: nosniff` |
-| CP-HTTP-03 | `Respuesta::redirigir('index.php', 303)` | código 303; cabecera `Location: index.php`; sin cuerpo |
-| CP-HTTP-04 | JSON con tildes y barras | no se escapan (`JSON_UNESCAPED_UNICODE`, `JSON_UNESCAPED_SLASHES`) |
-| CP-HTTP-05 | `new ErrorHttp('Prohibido', 403)->aRespuesta()` | JSON `status=error`, código 403 |
-| CP-HTTP-06 | `ErrorHttp` con datos extra (`errors`) | el JSON los incluye |
-| CP-HTTP-07 | `SolicitudJson::leer('{"a":1}')` | `['a'=>1]` |
-| CP-HTTP-08 | `leer('')` | `ErrorHttp` 400 |
-| CP-HTTP-09 | cuerpo de 65 537 bytes | `ErrorHttp` 413 |
-| CP-HTTP-10 | `leer('{no es json')` · `leer('"texto"')` · `leer('5')` | `ErrorHttp` 400 |
-| CP-HTTP-11 | JSON con más de 16 niveles de anidamiento | `ErrorHttp` 400 |
+| CP-HTTP-01 | `Respuesta::json(...)` con estado, mensaje y datos extra | JSON `{"status":…,"message":…,…extra}` y código HTTP indicado |
+| CP-HTTP-02 | cualquier respuesta JSON | cabeceras `Content-Type: application/json; charset=utf-8`, `Cache-Control: no-store`, `X-Content-Type-Options: nosniff` |
+| CP-HTTP-03 | tildes y barras en el mensaje | no se escapan (`JSON_UNESCAPED_UNICODE`, `JSON_UNESCAPED_SLASHES`) |
+| CP-HTTP-04 | texto con UTF-8 inválido | la respuesta no se rompe (se sustituye el byte inválido) |
+| CP-HTTP-05 | `Respuesta::descarga($csv, 'text/csv', 'a.csv')` · **MR-010** | `Content-Disposition: attachment; filename="a.csv"`, sin caché, `nosniff` |
+| CP-HTTP-06 | `Ejecutor` y un controlador que lanza `ErrorHttp(…, 403)` | respuesta JSON con código 403 y el mensaje |
+| CP-HTTP-07 | `Ejecutor` y una excepción inesperada (p. ej. `RuntimeException('clave de BD')`) | respuesta 500 **genérica**: no filtra detalles internos |
+| CP-HTTP-08 | `Ejecutor` y un controlador que devuelve `Respuesta` | se entrega tal cual |
+| CP-HTTP-09 | `SolicitudJson::leer('{"a":1}')` | `['a'=>1]` |
+| CP-HTTP-10 | cuerpo vacío · `{no es json` · `"texto"` · `5` | `ErrorHttp` 400 |
+| CP-HTTP-11 | cuerpo de 65 537 bytes | `ErrorHttp` 413 |
+| CP-HTTP-12 | JSON con más de 16 niveles de anidamiento | `ErrorHttp` 400 |
+| CP-HTTP-13 | `Solicitud::consulta('action')` con `?action[]=x` | `null` (solo se acepta texto) |
+| CP-HTTP-14 | `Solicitud::cabecera('X-CSRF-Token')` | lee `HTTP_X_CSRF_TOKEN` del servidor |
+| CP-HTTP-15 | `esPost()` con método `post` en minúsculas · sin método | `true` · `false` (por defecto GET) |
+| CP-HTTP-16 | POST que superó `post_max_size` (cuerpo descartado por PHP) | se detecta con `cuerpoDescartadoPorElServidor()` |
 
 ### 2.8 `PoliticaArchivos` (CP-ARC)
 
@@ -185,62 +190,114 @@ Entrada base válida: código `cuc26imp0001`, cliente `Textiles del Norte S.A.S.
 | CP-N8N-07 | HTTP 500 | «respondió con código HTTP 500» |
 | CP-N8N-08 | URL inválida / sin cURL | `enviado=false` con el motivo |
 
-### 2.10 `ExportadorDo` (CP-EXP) — mantenimiento evolutivo
+### 2.10 `ExportadorDo` (CP-EXP) — mantenimiento evolutivo **MR-010**
 
 | ID | Entrada | Resultado esperado |
 |---|---|---|
-| CP-EXP-01 | 2 DOs → `aJson` | JSON válido con `generado`, `total=2` y `operaciones` con semáforo |
-| CP-EXP-02 | lista vacía → `aJson` | `total=0`, `operaciones=[]` |
-| CP-EXP-03 | `aCsv` | empieza con BOM UTF-8; encabezados en español; separador `;`; fin de línea `\r\n` |
-| CP-EXP-04 | cliente `Textiles "El Norte"; S.A.S.` | comillas dobles duplicadas y campo entre comillas |
-| CP-EXP-05 | cliente `=HYPERLINK("http://x")` · `+1` · `-2` · `@SUM(A1)` | prefijo `'` (inyección de fórmulas) |
-| CP-EXP-06 | tildes y eñes | se conservan en UTF-8 |
-| CP-EXP-07 | lista vacía → `aCsv` | solo la fila de encabezados |
+| CP-EXP-01 | `aCsv([...])` | empieza con BOM UTF-8 (`EF BB BF`) para que Excel respete las tildes |
+| CP-EXP-02 | 1 operación | fila de encabezado (`do_codigo;cliente;nit;…`) + una fila por operación; separador `;` |
+| CP-EXP-03 | cliente con `;`, comillas o salto de línea | el campo va entre comillas y las comillas se duplican |
+| CP-EXP-04 | cliente que empieza por `=`, `+`, `-`, `@`, tabulación o retorno | se antepone `'` (**inyección de fórmulas en Excel**) |
+| CP-EXP-05 | texto normal con `-` o `=` en medio | no se altera |
+| CP-EXP-06 | semáforo | el CSV incluye `nivel_alerta` y `dias_transcurridos` |
+| CP-EXP-07 | lista vacía | solo la fila de encabezados |
+| CP-EXP-08 | `aJson([...], $ahora)` | `{"generado":…,"total":N,"operaciones":[…]}` con tildes sin escapar |
+| CP-EXP-09 | operación con bitácora completa | el JSON **no** expone campos internos (solo una lista fija de columnas) |
+| CP-EXP-10 | `filtrar` sin criterios · con criterios vacíos | devuelve todo |
+| CP-EXP-11 | `filtrar` por sucursal · régimen · nivel · combinados | solo las que cumplen **todos** los criterios |
+| CP-EXP-12 | `filtrar` con un criterio desconocido · sin coincidencias | el criterio desconocido se ignora · lista vacía |
+| CP-EXP-13 | `nombreArchivo('csv', 2026-10-21 16:30)` | `rubicam_dos_20261021-1630.csv` |
 
-### 2.11 `EscanerSeguridad` (CP-ESC) — herramienta tipo *Bandit* para PHP
+### 2.11 `EscanerSeguridad` (CP-ESC) — herramienta estilo *Bandit* para PHP
+
+El escáner analiza **tokens** (no texto): una palabra dentro de un comentario o de una cadena no genera falsos positivos.
 
 | ID | Código analizado | Hallazgo esperado |
 |---|---|---|
-| CP-ESC-01 | `eval($x);` | `S101 eval_usado`, severidad ALTA |
-| CP-ESC-02 | `exec($c);` · `shell_exec` · `system` · `passthru` · `proc_open` · `popen` | `S102 ejecucion_de_comandos`, ALTA |
-| CP-ESC-03 | `unserialize($d);` | `S103 deserializacion_insegura`, ALTA |
-| CP-ESC-04 | `$pdo->query("SELECT … '" . $n . "'");` | `S201 sql_concatenado`, ALTA |
-| CP-ESC-05 | `$pdo->prepare('SELECT … = :n');` | sin hallazgos |
-| CP-ESC-06 | `md5($clave)` · `sha1($clave)` | `S301 hash_debil`, MEDIA |
-| CP-ESC-07 | `CURLOPT_SSL_VERIFYPEER => false` | `S302 tls_sin_verificar`, ALTA |
-| CP-ESC-08 | `ini_set('display_errors', '1');` | `S401 errores_visibles`, MEDIA |
-| CP-ESC-09 | `include $_GET['p'];` | `S501 inclusion_dinamica`, ALTA |
-| CP-ESC-10 | `echo $_GET['x'];` | `S601 salida_sin_escapar`, MEDIA |
-| CP-ESC-11 | `// eval(` en comentario o `'eval('` en una cadena | **no** reporta (analiza *tokens*, no texto) |
-| CP-ESC-12 | línea con `// nosec: S101` | se omite el hallazgo (excepción documentada) |
-| CP-ESC-13 | código limpio | `0` hallazgos |
+| CP-ESC-01 | `eval($x);` · `create_function(...)` | `SEG-001`, severidad **alto** |
+| CP-ESC-02 | `exec` · `shell_exec` · `system` · `proc_open` · comillas invertidas | `SEG-002`, **alto** |
+| CP-ESC-03 | `unserialize($d);` | `SEG-003`, **medio** |
+| CP-ESC-04 | `$pdo->query("… " . $id)` · `"… $id"` · `$pdo->exec($sql)` · `prepare('… ' . $col)` | `SEG-004`, **medio** (SQL con variables) |
+| CP-ESC-05 | `$password = "x123";` · `['db_pass' => 'x123']` · `define('API_TOKEN','abc')` | `SEG-005`, **alto** (credencial en el código) |
+| CP-ESC-06 | `CURLOPT_SSL_VERIFYPEER => false` · `CURLOPT_SSL_VERIFYHOST, 0` | `SEG-006`, **alto** |
+| CP-ESC-07 | `include $pagina;` · `require_once __DIR__ . '/' . $m . '.php';` | `SEG-007`, **medio** |
+| CP-ESC-08 | `md5` · `sha1` · `mt_rand` | `SEG-008`, **bajo** |
+| CP-ESC-09 | `$_POST['x']` · `$_GET['x']` fuera de `Solicitud` | `SEG-009`, **medio** |
+| CP-ESC-10 | `prepare('… :id')` · `query(self::SQL)` · `DB_PASS => ''` · `getenv('DB_PASS')` · `$this->exec(self::X)` · `$_SESSION[..]` · `$_SERVER[..]` · `password_hash` · `random_bytes` | **sin** hallazgos |
+| CP-ESC-11 | `// eval($x)` en un comentario · `"no use eval"` en una cadena | **sin** hallazgos (tokens, no texto) |
+| CP-ESC-12 | `$pdo->exec('A' . 'B')` · `query(self::X . ' ORDER BY id')` · `$clave = 'HTTP_' . $n` | **sin** hallazgos (falsos positivos hallados al analizar el proyecto; ver `docs/evidencias/tdd/escaner-seguridad-*.txt`) |
+| CP-ESC-13 | `// seguridad:ignorar SEG-004 motivo` en la misma línea o en la anterior | se omite **solo** esa regla en esa línea |
+| CP-ESC-14 | `escanearRuta(carpeta)` | recorre `.php` en subcarpetas, ordenado; ignora otros archivos; ruta inexistente → vacío |
+| CP-ESC-15 | `superaUmbral` con severidad × umbral (5 combinaciones) | alto/medio superan «medio»; bajo no; sin hallazgos nunca falla |
+| CP-ESC-16 | `formatearTexto` | `archivo:línea [ALTO] SEG-001 mensaje` y «Total: N hallazgo(s) — alto: a, medio: m, bajo: b» |
+
+### 2.12 `CargadorEntorno` y `Configuracion` (CP-ENT) — mantenimiento adaptativo **MR-008**
+
+| ID | Entrada | Resultado esperado |
+|---|---|---|
+| CP-ENT-01 | `parsear("DB_HOST=localhost")` · con espacios alrededor de `=` | `['DB_HOST'=>'localhost']` |
+| CP-ENT-02 | comentarios `#`, líneas vacías | se ignoran |
+| CP-ENT-03 | `A="hola mundo"` · `A='hola mundo'` | comillas retiradas; el espacio se conserva |
+| CP-ENT-04 | `A=valor # nota` · `A="no # comentario"` | `valor` · `no # comentario` |
+| CP-ENT-05 | `export A=1` · `CLAVE=a=b=c` · `A=` · fin de línea Windows | `A=1` · `a=b=c` · vacío · sin `\r` |
+| CP-ENT-06 | `1ABC=x` · `A-B=y` · línea sin `=` | se ignoran (nombre inválido) |
+| CP-ENT-07 | `cargar($ruta)` | define las variables y devuelve cuántas definió |
+| CP-ENT-08 | variable ya definida en el servidor | **no** se sobrescribe (el servidor manda) |
+| CP-ENT-09 | archivo inexistente | devuelve 0, sin error |
+| CP-ENT-10 | `UPLOAD_DIR=/var/rubicam/cargas` · `UPLOAD_DIR=datos/cargas` · sin definir | ruta absoluta · relativa a la raíz del proyecto · `uploads/` |
+
+### 2.13 Controladores y guardias — pruebas de **caracterización** (CP-COT, CP-GUA, CP-CAR)
+
+Esta lógica ya existía y solo la cubría el E2E. Se fija ahora con pruebas unitarias rápidas, sin servidor web ni correo real (el envío de correo se inyecta como `Closure`). **No son TDD** (se escribieron después del código y pasaron en la primera ejecución): protegen futuras refactorizaciones.
+
+| ID | Escenario | Resultado esperado |
+|---|---|---|
+| CP-COT-01 | cotizador con GET · sin token CSRF | 405 · 419; no se envía correo |
+| CP-COT-02 | honeypot `website` lleno | 200 «éxito» falso, sin correo |
+| CP-COT-03 | límite 3 envíos por ventana | el 4.º responde 429 |
+| CP-COT-04 | solicitud válida | 200; correo con `Reply-To` del cliente, `From` fijo, asunto codificado, «USD 1,500.50» |
+| CP-COT-05 | operación fuera de la lista · correo inválido · correo con `\nBcc:` · teléfono `-------` · nombre vacío o de 201 · CIF `1e999` · origen/destino de 121 | 422 con mensaje claro; **nunca** se envía correo |
+| CP-COT-06 | origen y destino de exactamente 120 | 200 (frontera) |
+| CP-COT-07 | el correo falla | 500 con el correo de contacto como alternativa |
+| CP-GUA-01 | sin sesión · método GET · token ausente/falso/en el cuerpo · rol consulta/desconocido/vacío | 401 · 405 · 403 · 403 · 403 |
+| CP-GUA-02 | `escritura()` | aplica método → CSRF → rol, en ese orden |
+| CP-GUA-03 | formulario clásico con `csrf_token` | aceptado por `csrfEnCabeceraOFormulario` |
+| CP-CAR-01 | sin archivo · sin campo `error` · varios archivos · `UPLOAD_ERR_INI_SIZE` · ruta temporal inventada (`/etc/passwd`) | 422 · 422 · 422 · 422 · 400 |
 
 ## 3. Pruebas de regresión por solicitud de modificación
 
-Cada defecto corregido tiene una prueba en `tests/Regression/` con `@group MR-nnn`. Primero se escribe la prueba y **debe fallar** (rojo, evidencia en `docs/evidencias/tdd/`); después se corrige.
+Cada defecto corregido tiene una prueba **que primero falla** (rojo, evidencia en `docs/evidencias/tdd/mr-0xx-rojo.txt`) y luego pasa (verde). Las clases de `tests/Regression/` y los demás casos llevan `@group MR-nnn`: `phpunit --group MR-001` ejecuta solo esa regresión.
 
-| MR | Prueba | Casos que cubre |
-|---|---|---|
-| MR-001 | `Mr001ImporteEstrictoTest` | CP-SAN-09…12 |
-| MR-002 | `Mr002TelefonoConDigitosTest` | CP-SAN-06…08, CP-VAL-14…16 |
-| MR-003 | `Mr003LongitudMaximaTest` | CP-SAN-14 + E2E de cotizador con origen de 201 caracteres |
-| MR-004 | `Mr004NitDefensivoTest` | CP-NIT-05…08 |
-| MR-005 | `Mr005ArchivosInternosTest` (lee y evalúa las reglas de `.htaccess`) + CP-SEG-01…10 en Apache | todo archivo interno denegado |
-| MR-006 | `LimitadorTasaTest` + E2E-29/30 | CP-TAS-01…08 |
+| MR | Tipo (ISO/IEC/IEEE 14764) | Pruebas | Casos |
+|---|---|---|---|
+| MR-001 | Correctivo | `Mr001ImporteEstrictoTest` · `ControladorCotizacionTest` · E2E-34 | CP-SAN-09…12, CP-COT-05 |
+| MR-002 | Correctivo | `Mr002TelefonoConDigitosTest` · E2E-35 | CP-SAN-06…08, CP-VAL-14…16 |
+| MR-003 | Correctivo | `ControladorCotizacionTest` · E2E-34 | CP-COT-05/06, CP-SAN-14 |
+| MR-004 | Correctivo | `Mr004NitDefensivoTest` | CP-NIT-05…08 |
+| MR-005 | Correctivo (seguridad) | `Mr005ArchivosInternosTest` (lee y evalúa las reglas de `.htaccess`) + CP-SEG-01…10 en Apache | todo archivo interno denegado |
+| MR-006 | Correctivo (seguridad) | `LimitadorTasaTest` · `AutenticadorTest` · E2E-29/30 | CP-TAS-01…08 |
+| MR-007 | Preventivo / perfectivo (refactor) | las 28 E2E originales (sin cambios) + todas las unitarias de `src/` | CP-NIT, CP-SEM, CP-BIT, CP-VAL… |
+| MR-008 | Adaptativo | `CargadorEntornoTest` · E2E-36 | CP-ENT-01…10 |
+| MR-009 | Preventivo (seguridad) | `CabecerasSegurasTest` · E2E-33 | CSP estricta en panel y acceso |
+| MR-010 | Perfectivo / aditivo (nueva función) | `ExportadorDoTest` · `RespuestaTest` · E2E-31/32 | CP-EXP-01…13, CP-HTTP-05 |
 
-## 4. Casos E2E (`php tests/e2e/ejecutar.php`)
+## 4. Casos E2E (`php tests/e2e/ejecutar.php`) — 36 casos
 
-* **E2E-01…28** (línea base): sesión y roles, CRUD de DO, semáforo, bitácora, webhook a n8n, cargas seguras, descarga, logout y cotizador. **Deben seguir en verde, sin modificar su resultado esperado, antes y después del refactor.**
-* **E2E-29** Login: 5 intentos fallidos permitidos y el 6.º responde **429** con mensaje de espera; un login correcto reinicia el contador. **(MR-006)**
-* **E2E-30** Login con usuario inexistente y con usuario real responden con el **mismo** mensaje y código. **(MR-006)**
-* **E2E-31** `?action=exportar&formato=json` con sesión → 200, `Content-Disposition: attachment`, JSON con `total`. **(MR-010)**
-* **E2E-32** `?action=exportar&formato=csv` → 200, BOM + `;`; sin sesión → 401; formato desconocido → 422. **(MR-010)**
-* **E2E-33** El dashboard envía `Content-Security-Policy` con `script-src 'self'` (sin `'unsafe-inline'`). **(MR-009)**
-* **E2E-34** Cotizador con origen de 201 caracteres → 422; con valor CIF `1e999` → 422. **(MR-001, MR-003)**
+* **E2E-01…28** (línea base, escritos **antes** de refactorizar): sesión y roles, CRUD de DO, semáforo, bitácora, webhook a n8n, cargas seguras, descarga, logout y cotizador. **Siguen en verde, sin modificar su resultado esperado, tras cada cambio.**
+* **E2E-29** **MR-006** Tras 5 fallos seguidos, ni la clave correcta entra (responde 200 con aviso, sin redirigir).
+* **E2E-30** **MR-006** Un inicio de sesión correcto reinicia el contador (4 fallos + éxito + 1 fallo no bloquea).
+* **E2E-31** **MR-010** `?action=exportar&formato=csv` → 200, adjunto UTF-8 con BOM, encabezado y los DOs de la semilla.
+* **E2E-32** **MR-010** El rol *consulta* puede exportar JSON (total correcto); formato inválido → 422; sin sesión → 401.
+* **E2E-33** **MR-009** El panel envía CSP con `script-src 'self'` y no contiene scripts en línea; la pantalla de acceso no permite scripts.
+* **E2E-34** **MR-001/003** Cotizador: origen > 120, destino > 120 y valor CIF `1e999` → 422.
+* **E2E-35** **MR-002** Alta de DO con teléfono sin dígitos → 422 con error en `telefono`.
+* **E2E-36** **MR-008** Los archivos subidos se guardan en `UPLOAD_DIR` y no ensucian `uploads/` del repositorio.
 
 ## 5. Verificación de despliegue en Apache (CP-SEG)
 
-El servidor embebido de PHP ignora `.htaccess`; estos casos se ejecutan contra Apache 2.4 con `mod_rewrite` (instrucciones en `docs/05_DESPLIEGUE.md`).
+El servidor embebido de PHP ignora `.htaccess`, así que estos casos **no pueden hacerse con PHPUnit**. Se ejecutan contra un Apache 2.4 real con el script `tests/apache/verificar_htaccess.sh` (levanta un Apache temporal en el puerto 8081 con la copia del proyecto, hace los `GET` de la tabla y lo apaga). Además, `Mr005ArchivosInternosTest` evalúa las reglas del `.htaccess` en PHP (39 casos) para que el CI también las vigile.
+
+**Resultado registrado:** en la línea base `v2.0.0` el script **falla** (`/SQL/rubicam_db.sql` y `/README.md` responden **200**: el volcado SQL con datos de clientes y el hash de contraseña se podía descargar; ver `docs/evidencias/antes-06-apache.txt`). En `main` todas las comprobaciones dan el código esperado (`docs/evidencias/despues-08-apache.txt`). En XAMPP/Windows se repiten a mano los mismos `GET`.
 
 | ID | Petición | Esperado |
 |---|---|---|

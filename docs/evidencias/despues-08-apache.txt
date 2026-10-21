@@ -1,0 +1,24 @@
+=== DESPUÉS (main) — Apache 2.4 real ===
+[PASS] CP-SEG-01 GET /SQL/rubicam_db.sql -> 403
+[PASS] CP-SEG-01 GET /sql/rubicam_db.sql -> 403
+[PASS] CP-SEG-02 GET /README.md -> 403
+[PASS] CP-SEG-02 GET /docs/02_CASOS_DE_PRUEBA.md -> 403
+[PASS] CP-SEG-03 GET /composer.json -> 403
+[PASS] CP-SEG-03 GET /package-lock.json -> 403
+[PASS] CP-SEG-04 GET /src/Dominio/Nit.php -> 403
+[PASS] CP-SEG-04 GET /tests/bootstrap.php -> 403
+[PASS] CP-SEG-04 GET /tools/escanear_seguridad.php -> 403
+[PASS] CP-SEG-05 GET /.git/config -> 403
+[PASS] CP-SEG-06 GET /config/config.php -> 403
+[PASS] CP-SEG-06 GET /config/arranque.php -> 403
+[PASS] CP-SEG-06 GET /logs/php-error.log -> 403
+[PASS] CP-SEG-07 GET /uploads/CUC26IMP0001_FACTURA_prueba.pdf -> 403
+[PASS] CP-SEG-08 GET /phpunit.xml.dist -> 403
+[PASS] CP-SEG-08 GET /phpcs.xml -> 403
+[PASS] CP-SEG-08 GET /.github/workflows/ci.yml -> 403
+[PASS] CP-SEG-08 GET /.env.example -> 403
+[PASS] CP-SEG-08 GET /tailwind.config.js -> 403
+[PASS] CP-SEG-09 GET /assets/css/tailwind.build.css -> 200
+[PASS] CP-SEG-09 GET /assets/js/panel.js -> 200
+
+Resultado Apache: todas las comprobaciones correctas.
